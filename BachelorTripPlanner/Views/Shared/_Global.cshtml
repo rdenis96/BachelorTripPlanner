@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BachelorTripPlanner</title>
+
+    <script rel="stylesheet" src="~/js/vendors.min.js" crossorigin="anonymous"></script>
+    <script rel="stylesheet" src="~/css/style.min.css" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        @Html.Partial("_Header")
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer">
+        <div class="container">
+            @Html.Partial("_Footer")
+        </div>
+    </footer>
+</body>
+</html>

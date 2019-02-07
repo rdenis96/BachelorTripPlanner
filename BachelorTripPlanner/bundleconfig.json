@@ -1,0 +1,30 @@
+[
+  //JS files
+  {
+    "outputFileName": "wwwroot/js/vendors.min.js",
+    "inputFiles": [
+      "Scripts/Vendors/JQuery/jquery-ui-full.min.js",
+      "Scripts/Angular/angularjs.min.js",
+      "Scripts/Vendors/bootstrap/js/bootstrap.bundle.js",
+      "Scripts/Vendors/bootstrap/js/bootstrap.min.js",
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/css/style.min.css",
+    "inputFiles": [
+      "Scripts/Vendors/bootstrap/css/bootstrap.min.css",
+      "Scripts/Vendors/bootstrap/css/bootstrap-grid.min.css",
+      "Scripts/Vendors/bootstrap/css/bootstrap-reboot.min.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  }
+]
