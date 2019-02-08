@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BachelorTripPlanner</title>
 
-    <script rel="stylesheet" src="~/js/vendors.min.js" crossorigin="anonymous"></script>
-    <script rel="stylesheet" src="~/css/style.min.css" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/css/style.min.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -23,5 +22,7 @@
             @Html.Partial("_Footer")
         </div>
     </footer>
+
+    <script src="~/js/vendors.min.js" asp-append-version="true"></script>
 </body>
 </html>

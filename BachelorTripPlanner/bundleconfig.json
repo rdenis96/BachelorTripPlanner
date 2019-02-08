@@ -6,12 +6,8 @@
       "Scripts/Vendors/JQuery/jquery-ui-full.min.js",
       "Scripts/Angular/angularjs.min.js",
       "Scripts/Vendors/bootstrap/js/bootstrap.bundle.js",
-      "Scripts/Vendors/bootstrap/js/bootstrap.min.js",
+      "Scripts/Vendors/bootstrap/js/bootstrap.min.js"
     ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
     "sourceMap": true
   },
   {
@@ -21,10 +17,6 @@
       "Scripts/Vendors/bootstrap/css/bootstrap-grid.min.css",
       "Scripts/Vendors/bootstrap/css/bootstrap-reboot.min.css"
     ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
     "sourceMap": true
   }
 ]
