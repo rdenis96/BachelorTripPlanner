@@ -18,5 +18,15 @@
       "Scripts/Vendors/bootstrap/css/bootstrap-reboot.min.css"
     ],
     "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/main.js",
+    "inputFiles": [
+      "App/Global/modules.js",
+      "App/Global/directives.js",
+      "App/Home/home-repository",
+      "App/Home/home-controller"
+    ],
+    "sourceMap": true
   }
 ]

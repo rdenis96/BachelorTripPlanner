@@ -8,14 +8,11 @@ using BachelorTripPlanner.Models;
 
 namespace BachelorTripPlanner.Controllers
 {
+    [Route("api/[controller]")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Get()
         {
             return View();
         }
