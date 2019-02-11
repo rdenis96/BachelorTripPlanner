@@ -5,15 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BachelorTripPlanner.Models;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace BachelorTripPlanner.Controllers
 {
-    [Route("api/[controller]")]
     public class HomeController : Controller
     {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{*url}")]
+        public IActionResult Index()
         {
+            var currentRequest = Request.GetDisplayUrl();
+            if (currentRequest.Contains("/api/"))
+            {
+                return NotFound();
+            }
             return View();
         }
 

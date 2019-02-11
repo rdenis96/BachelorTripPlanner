@@ -4,7 +4,13 @@
     "outputFileName": "wwwroot/js/vendors.min.js",
     "inputFiles": [
       "Scripts/Vendors/JQuery/jquery-ui-full.min.js",
-      "Scripts/Angular/angularjs.min.js",
+      "Scripts/Angular/angular.min.js",
+      "Scripts/Angular/angular-animate.min.js",
+      "Scripts/Angular/angular-cookies.min.js",
+      "Scripts/Angular/angular-route.min.js",
+      "Scripts/Angular/angular-resource.min.js",
+      "Scripts/Angular/angular-sanitize.min.js",
+      "Scripts/Angular/angular-touch.min.js",
       "Scripts/Vendors/bootstrap/js/bootstrap.bundle.js",
       "Scripts/Vendors/bootstrap/js/bootstrap.min.js"
     ],
@@ -24,8 +30,8 @@
     "inputFiles": [
       "App/Global/modules.js",
       "App/Global/directives.js",
-      "App/Home/home-repository",
-      "App/Home/home-controller"
+      "App/Home/home-repository.js",
+      "App/Home/home-controller.js"
     ],
     "sourceMap": true
   }

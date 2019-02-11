@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace BachelorTripPlanner
 {
@@ -49,29 +50,21 @@ namespace BachelorTripPlanner
                 app.UseHsts();
             }
 
-            DefaultFilesOptions options = new DefaultFilesOptions();
-            options.DefaultFileNames.Clear();
-            options.DefaultFileNames.Add("/Main.html");
-            app.UseDefaultFiles(options);
-
-            app.Use(async (context, next) =>
-            {
-                await next();
-                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
-                {
-                    context.Request.Path = "/Main.html";
-                    context.Response.StatusCode = 200;
-                    await next();
-                }
-            });
-
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "AppViews")),
+                RequestPath = "/AppViews"
+            });
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}");
+                  name: "default",
+                  template: "{*url}",
+                  defaults: new { controller = "Home", action = "Index" }
+                );
             });
         }
     }
