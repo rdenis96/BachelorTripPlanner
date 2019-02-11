@@ -1,16 +1,17 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="globalModule">
 <head>
     <base href="/">
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BachelorTripPlanner</title>
+    <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/style.min.css" asp-append-version="true" />
 </head>
-<body ng-app="globalModule">
-    <header class="bg-dark">
-       @await Html.PartialAsync("_Header")
+<body>
+    <header class="bg-dark ">
+        @await Html.PartialAsync("_Header")
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -19,7 +20,7 @@
     </div>
 
     <footer class="border-top footer">
-            @await Html.PartialAsync("_Footer")
+        @await Html.PartialAsync("_Footer")
     </footer>
 
     <script src="~/js/vendors.min.js" asp-append-version="true"></script>
