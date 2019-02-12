@@ -29,4 +29,8 @@
     <Folder Include="Scripts\Angular\" />
     <Folder Include="Scripts\Vendors\jQuery\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+  </ItemGroup>
 </Project>
