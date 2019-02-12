@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="AppViews\Home\home.html">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Content>

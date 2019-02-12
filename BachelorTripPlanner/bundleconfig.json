@@ -3,7 +3,9 @@
   {
     "outputFileName": "wwwroot/js/vendors.min.js",
     "inputFiles": [
-      "Scripts/Vendors/JQuery/jquery-ui-full.min.js",
+      "Scripts/Vendors/jQuery/jquery.min.js",
+      "Scripts/Vendors/jQuery/jquery-ui.min.js",
+      "Scripts/Vendors/bootstrap/js/bootstrap-tooltip.min.js",
       "Scripts/Angular/angular.min.js",
       "Scripts/Angular/angular-animate.min.js",
       "Scripts/Angular/angular-cookies.min.js",
@@ -11,19 +13,26 @@
       "Scripts/Angular/angular-resource.min.js",
       "Scripts/Angular/angular-sanitize.min.js",
       "Scripts/Angular/angular-touch.min.js",
-      "Scripts/Vendors/bootstrap/js/bootstrap.bundle.js",
-      "Scripts/Vendors/bootstrap/js/bootstrap.min.js"
+      "Scripts/Vendors/bootstrap/js/ui-bootstrap-tpls.min.js"
+
     ],
+    "minify": {
+      "enabled": false
+    },
     "sourceMap": true
   },
   {
     "outputFileName": "wwwroot/css/style.min.css",
     "inputFiles": [
       "Scripts/Vendors/bootstrap/css/bootstrap.min.css",
-      "Scripts/Vendors/bootstrap/css/bootstrap-grid.min.css",
-      "Scripts/Vendors/bootstrap/css/bootstrap-reboot.min.css"
-    ],
-    "sourceMap": true
+      "AppStyle/Common/global.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/bootstrap.css",
+    "inputFiles": [
+      "Scripts/Vendors/bootstrap/css/bootstrap.css"
+    ]
   },
   {
     "outputFileName": "wwwroot/js/main.js",
@@ -32,7 +41,6 @@
       "App/Global/directives.js",
       "App/Home/home-repository.js",
       "App/Home/home-controller.js"
-    ],
-    "sourceMap": true
+    ]
   }
 ]
