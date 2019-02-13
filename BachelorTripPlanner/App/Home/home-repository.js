@@ -3,9 +3,9 @@
     function ($resource) {
         return $resource("api/home",
             {
-                'query': {
+                getAll: {
                     method: 'GET',
-                    url: 'api/home/'
+                    url: 'api/home/getAll'
                 }
             });
     }
