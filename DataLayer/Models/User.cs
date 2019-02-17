@@ -7,6 +7,8 @@ namespace DataLayer.Models
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Ip { get; set; }
+        public string Phone { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -21,9 +23,11 @@ namespace DataLayer.Models
             if (obj == null)
                 return false;
 
-            var result = (Id == obj.Id) &&
-                         (Email.Equals(obj.Email)) &&
-                         (Password.Equals(obj.Password));
+            var result = Id == obj.Id &&
+                         Email == obj.Email &&
+                         Password == obj.Password &&
+                         Ip == obj.Ip &&
+                         Phone == obj.Phone;
             return result;
         }
 

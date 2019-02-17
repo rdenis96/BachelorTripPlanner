@@ -12,11 +12,10 @@
     <header>
         @await Html.PartialAsync("_Header")
     </header>
-    <div class="container margin-top-30 margin-bottom-30 ">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="container-fluid">
+
+        @RenderBody()
+    </main>
 
     <footer class="border-top">
         @await Html.PartialAsync("_Footer")

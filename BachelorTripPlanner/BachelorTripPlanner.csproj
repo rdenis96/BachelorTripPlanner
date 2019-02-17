@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="AppStyle\Common\global.css" />
+    <None Remove="AppStyle\Common\landingPage.css" />
     <None Remove="AppViews\Home\home.html" />
+    <None Remove="App\Home\home-controller.js" />
+    <None Remove="App\Home\home-repository.js" />
+    <None Remove="Images\LandingPage\landingPageWallpaper.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,8 +18,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="AppStyle\Common\global.css" />
+    <Content Include="AppStyle\Common\landingPage.css">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Content Include="AppViews\Home\home.html">
       <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Home\home-controller.js" />
+    <Content Include="App\Home\home-repository.js" />
+    <Content Include="Images\LandingPage\landingPageWallpaper.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

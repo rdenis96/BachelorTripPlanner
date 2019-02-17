@@ -31,6 +31,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet]
+        [Route("api/home/[action]")]
         public IActionResult GetAll()
         {
             return Ok(_userWorker.GetAll());

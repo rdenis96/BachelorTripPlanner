@@ -32,6 +32,11 @@ namespace BachelorTripPlanner.Workers
             return userRepository.GetByEmail(email);
         }
 
+        public User GetByEmailAndPassword(string email, string password)
+        {
+            return userRepository.GetByEmailAndPassword(email, password);
+        }
+
         public User GetById(int id)
         {
             return userRepository.GetById(id);

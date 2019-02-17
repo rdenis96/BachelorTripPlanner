@@ -51,6 +51,14 @@ namespace DataLayer.Repository.Implementation
             }
         }
 
+        public User GetByEmailAndPassword(string email, string password)
+        {
+            using (TripPlanner context = new TripPlanner())
+            {
+                return context.Users.Where(c => c.Email == email && c.Password == password).FirstOrDefault();
+            }
+        }
+
         //public ICollection<User> GetByFirstname(string firstname)
         //{
         //    using (TripPlanner context = new TripPlanner())
