@@ -1,5 +1,6 @@
 ﻿:root {
-    --main-bg-color: #111016;
+    --main-bg-color: #fcf3e7;
+    --main-bg-color-hover: #e1d3c1;
 }
 
 html {
@@ -21,11 +22,11 @@ nav.navbar-findcond {
 }
 
     nav.navbar-findcond a {
-        color: #f14444;
+        color: black;
     }
 
     nav.navbar-findcond ul.navbar-nav a {
-        color: #f14444;
+        color: black;
         border-style: solid;
         border-width: 0 0 2px 0;
         border-color: #fff;
@@ -36,12 +37,12 @@ nav.navbar-findcond {
         nav.navbar-findcond ul.navbar-nav a:visited,
         nav.navbar-findcond ul.navbar-nav a:focus,
         nav.navbar-findcond ul.navbar-nav a:active {
-            background: #fff;
+            background: var(--main-bg-color-hover);
             border-radius: 5px !important;
         }
 
         nav.navbar-findcond ul.navbar-nav a:hover {
-            border-color: #f14444;
+            border-color: black;
         }
 
     nav.navbar-findcond li.divider {
@@ -49,7 +50,7 @@ nav.navbar-findcond {
     }
 
     nav.navbar-findcond button.navbar-toggle {
-        background: #f14444;
+        background-color:black;
         border-radius: 2px;
     }
 
@@ -74,12 +75,12 @@ nav.navbar-findcond {
         }
 
             nav.navbar-findcond ul.dropdown-menu > li > a:hover {
-                background: #f14444;
+                background-color: black;
                 color: #fff;
             }
 
     nav.navbar-findcond span.badge {
-        background: #f14444;
+        background-color: black;
         font-weight: normal;
         font-size: 11px;
         margin: 0 4px;
@@ -198,4 +199,31 @@ footer {
 
 .margin-bottom-50 {
     margin-bottom: 50px;
+}
+
+.padding-right-0 {
+    padding-right: 0px;
+}
+
+.padding-left-0 {
+    padding-left: 0px;
+}
+
+.padding-bottom-0 {
+    padding-bottom: 0px;
+}
+
+.padding-top-0 {
+    padding-top: 0px;
+}
+
+.padding-top--25percent{
+    padding-top: -25%;
+}
+
+.image-sidebar {
+    background-image: url(https://i.pinimg.com/originals/78/dc/7f/78dc7f5a467a3730419f65365082ddb1.jpg);
+    background-size: cover;
+    background-position: center;
+    height: -webkit-fill-available;
 }

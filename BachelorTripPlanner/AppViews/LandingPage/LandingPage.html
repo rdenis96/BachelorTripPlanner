@@ -5,7 +5,63 @@
         <button class="btn btn-default btn-lg" ng-click="changeTab(landingPageTabsEnum.Register)">Get Started!</button>
     </div>
     <div id="content" ng-show="selectedTab == landingPageTabsEnum.Register">
-        <h1>REGISTER TAB</h1>
+        <div class="container">
+            <div class="row center-block">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="form-horizontal" method="post" action="#">
+                                <div class="form-group">
+                                    <label for="name" class="cols-sm-2 control-label">Your Name</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your Name" ng-model="registerName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your Email" ng-model="registerEmail" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="cols-sm-2 control-label">Password</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" ng-model="registerPassword" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                            <input type="password" class="form-control" name="confirm" id="confirm" placeholder="Confirm your Password" ng-model="registerConfPassword" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-primary btn-lg btn-block login-button" ng-click="register()">Register</button>
+                                    </div>
+                                    <div class="col-md-3"></div>
+
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
     </div>
     <div id="content" ng-show="selectedTab == landingPageTabsEnum.Login">
         <h1>LOGIN TAB</h1>

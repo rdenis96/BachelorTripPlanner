@@ -23,7 +23,7 @@ namespace BachelorTripPlanner.Controllers
             _userWorker = new UserWorker();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
         public IActionResult Register([FromBody]UserRegisterModel userRegister)
         {

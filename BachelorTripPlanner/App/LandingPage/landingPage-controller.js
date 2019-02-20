@@ -1,6 +1,6 @@
 ﻿globalModule.controller("LandingPageController",
-    ['$scope', 'homeRepository',
-        function ($scope, homeRepository) {
+    ['$scope', 'landingPageRepository',
+        function ($scope, landingPageRepository) {
             $scope.landingPage = true;
             $scope.landingPageTabsEnum = landingPageTabsEnum;
             $scope.selectedTab = landingPageTabsEnum.Welcome;
@@ -20,7 +20,21 @@
                         break;
                     }
                 }
-            }
+            };
+
+            $scope.register = function () {
+                var registerParamModel = {
+                    email: $scope.registerEmail,
+                    password: $scope.registerPassword,
+                    ip: '127.0.0.1',
+                    phone: '1242424'
+                };
+
+                var registerUserPromise = landingPageRepository.register(registerParamModel).$promise;
+                registerUserPromise.then(function (result) {
+                    alert("Register Successfull");
+                });
+            };
         }
 
     ]);
