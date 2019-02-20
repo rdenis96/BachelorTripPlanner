@@ -6,52 +6,124 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
+
 /*NAVBAR START*/
 
-.navbar-inverse {
-    background: #055b5b;
-    border-color: #023a3a;
+nav.navbar-findcond {
+    background: #fff;
+    border-color: #ccc;
+    box-shadow: 0 0 2px 0 #ccc;
 }
 
-    .navbar-inverse .navbar-nav > li > a,
-    .navbar-inverse .navbar-brand {
-        color: #fff;
+    nav.navbar-findcond a {
+        color: #f14444;
     }
 
-        .navbar-inverse .navbar-nav > li > a:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-    .navbar-inverse .navbar-nav > .active > a {
-        background-color: rgba(0, 0, 0, 0.3);
+    nav.navbar-findcond ul.navbar-nav a {
+        color: #f14444;
+        border-style: solid;
+        border-width: 0 0 2px 0;
+        border-color: #fff;
     }
 
-        .navbar-inverse .navbar-nav > .active > a:hover {
-            background-color: rgba(0, 0, 0, 0.4);
+        nav.navbar-findcond ul.navbar-nav a:hover,
+        nav.navbar-findcond ul.navbar-nav a:visited,
+        nav.navbar-findcond ul.navbar-nav a:focus,
+        nav.navbar-findcond ul.navbar-nav a:active {
+            background: #fff;
         }
 
-main {
-    height: 100vh;
-    padding-top: 30vh;
-    background: #999;
-    background-image: url("https://source.unsplash.com/FHl79chXS6s");
-    background-size: cover;
-    color: #fff;
-    text-align: center;
-}
+        nav.navbar-findcond ul.navbar-nav a:hover {
+            border-color: #f14444;
+        }
 
-h1, p {
-    text-shadow: 1px 1px 2px #555;
-}
+    nav.navbar-findcond li.divider {
+        background: #ccc;
+    }
 
-h1 {
-    font-size: 5em;
-}
+    nav.navbar-findcond button.navbar-toggle {
+        background: #f14444;
+        border-radius: 2px;
+    }
 
-p {
-    font-size: 2em;
-}
+        nav.navbar-findcond button.navbar-toggle:hover {
+            background: #999;
+        }
+
+        nav.navbar-findcond button.navbar-toggle > span.icon-bar {
+            background: #fff;
+        }
+
+    nav.navbar-findcond ul.dropdown-menu {
+        border: 0;
+        background: #fff;
+        border-radius: 4px;
+        margin: 4px 0;
+        box-shadow: 0 0 4px 0 #ccc;
+    }
+
+        nav.navbar-findcond ul.dropdown-menu > li > a {
+            color: #444;
+        }
+
+            nav.navbar-findcond ul.dropdown-menu > li > a:hover {
+                background: #f14444;
+                color: #fff;
+            }
+
+    nav.navbar-findcond span.badge {
+        background: #f14444;
+        font-weight: normal;
+        font-size: 11px;
+        margin: 0 4px;
+    }
+
+        nav.navbar-findcond span.badge.new {
+            background: rgba(255, 0, 0, 0.8);
+            color: #fff;
+        }
+
 /*NAVBAR END*/
+
+/*FOOTER START*/
+
+footer .icon {
+    font-size: 60px;
+    color: black;
+}
+
+footer .red {
+    color: red;
+}
+
+footer .blue {
+    color: #008CBA;
+}
+
+footer .ltBlue {
+    color: #9BEBE9;
+}
+
+footer .dkBlue {
+    color: #0A057B
+}
+
+footer h4 {
+    font-family: 'Lobster', cursive;
+    font-weight: 400;
+}
+
+footer p {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+}
+
+/*FOOTER END*/
+footer {
+    bottom: 0;
+    position: sticky;
+    width: 100%;
+}
 
 .border-top {
     border-top: 1px ridge gray;

@@ -9,17 +9,12 @@
     <link rel="stylesheet" href="~/css/style.min.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        @await Html.PartialAsync("_Header")
-    </header>
-    <main role="main" class="container-fluid">
-
+    @await Html.PartialAsync("_Header")
+    <main role="main">
         @RenderBody()
     </main>
 
-    <footer class="border-top">
-        @await Html.PartialAsync("_Footer")
-    </footer>
+    @await Html.PartialAsync("_Footer")
 
     <script src="~/js/vendors.min.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
