@@ -39,6 +39,7 @@
     "outputFileName": "wwwroot/js/main.js",
     "inputFiles": [
       "App/Global/modules.js",
+      "App/Global/enums.js",
       "App/Global/directives.js",
       "App/Home/home-repository.js",
       "App/Home/home-controller.js",
