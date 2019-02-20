@@ -1,67 +1,75 @@
-﻿/*NAVBAR START*/
-.navbar-brand {
-    padding: 0px;
+﻿html {
+    height: 100%;
 }
 
-    .navbar-brand > img {
-        height: 100%;
-        padding: 15px;
-        width: auto;
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+/*NAVBAR START*/
+
+.navbar-inverse {
+    background: #055b5b;
+    border-color: #023a3a;
+}
+
+    .navbar-inverse .navbar-nav > li > a,
+    .navbar-inverse .navbar-brand {
+        color: #fff;
     }
 
-.customNavbar .navbar-brand {
-    height: 80px;
+        .navbar-inverse .navbar-nav > li > a:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+    .navbar-inverse .navbar-nav > .active > a {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+        .navbar-inverse .navbar-nav > .active > a:hover {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+main {
+    height: 100vh;
+    padding-top: 30vh;
+    background: #999;
+    background-image: url("https://source.unsplash.com/FHl79chXS6s");
+    background-size: cover;
+    color: #fff;
+    text-align: center;
 }
 
-.customNavbar .nav > li > a {
-    padding-top: 30px;
-    padding-bottom: 30px;
+h1, p {
+    text-shadow: 1px 1px 2px #555;
 }
 
-.customNavbar .navbar-toggle {
-    padding: 10px;
-    margin: 25px 15px 25px 0;
+h1 {
+    font-size: 5em;
 }
 
-.navbar-alignit .navbar-header {
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    height: 50px;
-}
-
-.navbar-alignit .navbar-brand {
-    top: 50%;
-    display: block;
-    position: relative;
-    height: auto;
-    transform: translate(0,-50%);
-    margin-right: 15px;
-    margin-left: 15px;
-}
-
-.navbar-nav > li > .dropdown-menu {
-    z-index: 9999;
+p {
+    font-size: 2em;
 }
 /*NAVBAR END*/
 
-.border-top{
+.border-top {
     border-top: 1px ridge gray;
 }
 
-.margin-top-5{
+.margin-top-5 {
     margin-top: 5px;
 }
 
-.margin-top-10{
+.margin-top-10 {
     margin-top: 10px;
 }
 
-.margin-top-20{
+.margin-top-20 {
     margin-top: 20px;
 }
 
-.margin-top-30{
+.margin-top-30 {
     margin-top: 30px;
 }
 
@@ -69,7 +77,7 @@
     margin-top: 40px;
 }
 
-.margin-top-50{
+.margin-top-50 {
     margin-top: 50px;
 }
 

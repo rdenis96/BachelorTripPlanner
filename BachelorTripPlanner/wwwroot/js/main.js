@@ -13,6 +13,10 @@ globalModule.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'AppViews/Home/home.html',
             controller: 'HomeController'
         })
+        .when('/welcome', {
+            templateUrl: 'AppViews/LandingPage/landingPage.html',
+            controller: 'LandingPageController'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -22,11 +26,12 @@ globalModule.config(function ($routeProvider, $locationProvider) {
 globalModule.factory('homeRepository', [
     '$resource',
     function ($resource) {
-        return $resource("api/home",
+        return $resource("api/home", {},
             {
-                'query': {
+                getAll: {
                     method: 'GET',
-                    url: 'api/home/'
+                    url: 'api/home/getAll',
+                    isArray: true
                 }
             });
     }
@@ -36,6 +41,21 @@ globalModule.controller("HomeController",
     ['$scope', 'homeRepository',
         function ($scope, homeRepository) {
             $scope.testScope = 5;
+
+            $scope.getAllUsers = function () {
+                console.log(homeRepository);
+                var getAllUsersPromise = homeRepository.getAll().$promise;
+                getAllUsersPromise.then(function (result) {
+                    console.log(result);
+                });
+            };
+        }
+
+    ]);
+globalModule.controller("LandingPageController",
+    ['$scope', 'homeRepository',
+        function ($scope, homeRepository) {
+            $scope.landingPage = true;
         }
 
     ]);

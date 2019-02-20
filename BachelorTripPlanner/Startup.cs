@@ -58,6 +58,12 @@ namespace BachelorTripPlanner
                 RequestPath = "/AppViews"
             });
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+                RequestPath = "/Images"
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

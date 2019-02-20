@@ -13,6 +13,10 @@ globalModule.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'AppViews/Home/home.html',
             controller: 'HomeController'
         })
+        .when('/welcome', {
+            templateUrl: 'AppViews/LandingPage/landingPage.html',
+            controller: 'LandingPageController'
+        })
         .otherwise({
             redirectTo: '/'
         });
