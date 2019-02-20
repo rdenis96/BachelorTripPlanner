@@ -1,5 +1,10 @@
-﻿html {
+﻿:root {
+    --main-bg-color: #111016;
+}
+
+html {
     height: 100%;
+    background-color: var(--main-bg-color);
 }
 
 body {
@@ -10,7 +15,7 @@ body {
 /*NAVBAR START*/
 
 nav.navbar-findcond {
-    background: #fff;
+    background-color: var(--main-bg-color);
     border-color: #ccc;
     box-shadow: 0 0 2px 0 #ccc;
 }
@@ -24,6 +29,7 @@ nav.navbar-findcond {
         border-style: solid;
         border-width: 0 0 2px 0;
         border-color: #fff;
+        border-radius: 5px 5px 0px 0px !important;
     }
 
         nav.navbar-findcond ul.navbar-nav a:hover,
@@ -31,6 +37,7 @@ nav.navbar-findcond {
         nav.navbar-findcond ul.navbar-nav a:focus,
         nav.navbar-findcond ul.navbar-nav a:active {
             background: #fff;
+            border-radius: 5px !important;
         }
 
         nav.navbar-findcond ul.navbar-nav a:hover {
@@ -87,46 +94,58 @@ nav.navbar-findcond {
 
 /*FOOTER START*/
 
-footer .icon {
-    font-size: 60px;
-    color: black;
-}
-
-footer .red {
-    color: red;
-}
-
-footer .blue {
-    color: #008CBA;
-}
-
-footer .ltBlue {
-    color: #9BEBE9;
-}
-
-footer .dkBlue {
-    color: #0A057B
-}
-
-footer h4 {
-    font-family: 'Lobster', cursive;
-    font-weight: 400;
-}
-
-footer p {
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-}
-
-/*FOOTER END*/
 footer {
     bottom: 0;
     position: sticky;
     width: 100%;
+    background-color: black !important;
 }
 
+    footer .icon {
+        font-size: 60px;
+        color: black;
+    }
+
+    footer .red {
+        color: red;
+    }
+
+    footer .blue {
+        color: #008CBA;
+    }
+
+    footer .ltBlue {
+        color: #9BEBE9;
+    }
+
+    footer .dkBlue {
+        color: #0A057B
+    }
+
+    footer h4 {
+        font-family: 'Lobster', cursive;
+        font-weight: 400;
+    }
+
+    footer p {
+        font-family: 'Lato', sans-serif;
+        font-weight: 400;
+    }
+
+/*FOOTER END*/
+
+/*MAIN CONTENT VIEW START*/
+
+.mainContentView {
+    height: -webkit-fill-available;
+}
+/*MAIN CONTENT VIEW END*/
 .border-top {
     border-top: 1px ridge gray;
+}
+
+.margin-top-0 {
+    margin-top: 0px;
 }
 
 .margin-top-5 {
@@ -151,6 +170,10 @@ footer {
 
 .margin-top-50 {
     margin-top: 50px;
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0px;
 }
 
 .margin-bottom-5 {
