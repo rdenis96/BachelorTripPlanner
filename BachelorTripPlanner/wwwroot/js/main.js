@@ -1,27 +1,43 @@
 var globalModule = angular.module('globalModule', [
     // Angular modules
-    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ui.bootstrap'
+    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ui.bootstrap', 'toastr'
 ]);
 
-globalModule.config(function ($routeProvider, $locationProvider) {
-    $routeProvider
-        .when('/', {
-            templateUrl: 'AppViews/Home/home.html',
-            controller: 'HomeController'
-        })
-        .when('/home', {
-            templateUrl: 'AppViews/Home/home.html',
-            controller: 'HomeController'
-        })
-        .when('/welcome', {
-            templateUrl: 'AppViews/LandingPage/landingPage.html',
-            controller: 'LandingPageController'
-        })
-        .otherwise({
-            redirectTo: '/'
+globalModule.config([
+    '$routeProvider', '$locationProvider', 'toastrConfig',
+    function ($routeProvider, $locationProvider, toastrConfig) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'AppViews/Home/home.html',
+                controller: 'HomeController'
+            })
+            .when('/home', {
+                templateUrl: 'AppViews/Home/home.html',
+                controller: 'HomeController'
+            })
+            .when('/welcome', {
+                templateUrl: 'AppViews/LandingPage/landingPage.html',
+                controller: 'LandingPageController'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+
+        angular.extend(toastrConfig, {
+            autoDismiss: false,
+            maxOpened: 1,
+            newestOnTop: true,
+            positionClass: 'toast-top-center',
+            preventDuplicates: false,
+            preventOpenDuplicates: false,
+            target: 'body',
+            closeButton: true,
+            extendedTimeOut: 5000,
+            timeOut: 5000
         });
-    $locationProvider.html5Mode(true);
-});
+
+        $locationProvider.html5Mode(true);
+    }]);
 var landingPageTabsEnum = {
     Welcome: 'Welcome',
     Register: 'Register',
@@ -58,8 +74,8 @@ globalModule.controller("HomeController",
 
     ]);
 globalModule.controller("LandingPageController",
-    ['$scope', 'landingPageRepository',
-        function ($scope, landingPageRepository) {
+    ['$scope', 'landingPageRepository', 'toastr',
+        function ($scope, landingPageRepository, toastr) {
             $scope.landingPage = true;
             $scope.landingPageTabsEnum = landingPageTabsEnum;
             $scope.selectedTab = landingPageTabsEnum.Welcome;
@@ -86,12 +102,30 @@ globalModule.controller("LandingPageController",
                     email: $scope.registerEmail,
                     password: $scope.registerPassword,
                     ip: '127.0.0.1',
-                    phone: '1242424'
+                    phone: $scope.registerPhoneNumber != undefined && $scope.registerPhoneNumber.length > 0 ? $scope.registerPhoneNumber : null
                 };
 
                 var registerUserPromise = landingPageRepository.register(registerParamModel).$promise;
                 registerUserPromise.then(function (result) {
-                    alert("Register Successfull");
+                    toastr.success(result.message);
+                    $scope.changeTab(landingPageTabsEnum.Login);
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.login = function () {
+                var loginParamModel = {
+                    email: $scope.loginEmail,
+                    password: $scope.loginPassword
+                };
+
+                var loginUserPromise = landingPageRepository.login(loginParamModel).$promise;
+                loginUserPromise.then(function (result) {
+                    toastr.success(result.message);
+                }).catch(function (result) {
+                    console.log(result);
+                    toastr.warning(result.data);
                 });
             };
         }
@@ -105,6 +139,10 @@ globalModule.factory('landingPageRepository', [
                 register: {
                     method: 'POST',
                     url: 'api/landingpage/register'
+                },
+                login: {
+                    method: 'GET',
+                    url: 'api/landingpage/login'
                 }
             });
     }

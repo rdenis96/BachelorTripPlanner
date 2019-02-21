@@ -55,7 +55,8 @@ namespace DataLayer.Repository.Implementation
         {
             using (TripPlanner context = new TripPlanner())
             {
-                return context.Users.Where(c => c.Email == email && c.Password == password).FirstOrDefault();
+                var passwordHash = Helpers.UserHelper.MD5Hash(password);
+                return context.Users.Where(c => c.Email == email && c.Password == passwordHash).FirstOrDefault();
             }
         }
 

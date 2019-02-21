@@ -52,12 +52,17 @@ namespace BachelorTripPlanner.Controllers
                 return BadRequest("The user could not be created, please try again later!");
             }
 
-            return Ok("The account was successfuly registered, please login!");
+            var result = new
+            {
+                message = "The account was successfuly registered, please login!"
+            };
+
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult Login([FromBody]UserLoginModel userLogin)
+        public IActionResult Login([FromQuery]UserLoginModel userLogin)
         {
             var user = _userWorker.GetByEmailAndPassword(userLogin.Email, userLogin.Password);
             if (user == null)
@@ -65,7 +70,12 @@ namespace BachelorTripPlanner.Controllers
                 return BadRequest("User does not exist or the credentials are wrong, please register or try again!");
             }
 
-            return Ok(user.Id);
+            var result = new
+            {
+                userId = user.Id,
+                message = "Login successful, you will be redirected!"
+            };
+            return Ok(result);
         }
     }
 }
