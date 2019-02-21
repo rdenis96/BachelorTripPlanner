@@ -74,8 +74,8 @@ globalModule.controller("HomeController",
 
     ]);
 globalModule.controller("LandingPageController",
-    ['$scope', 'landingPageRepository', 'toastr',
-        function ($scope, landingPageRepository, toastr) {
+    ['$scope', '$http', 'landingPageRepository', 'toastr',
+        function ($scope, $http, landingPageRepository, toastr) {
             $scope.landingPage = true;
             $scope.landingPageTabsEnum = landingPageTabsEnum;
             $scope.selectedTab = landingPageTabsEnum.Welcome;
@@ -98,19 +98,26 @@ globalModule.controller("LandingPageController",
             };
 
             $scope.register = function () {
-                var registerParamModel = {
-                    email: $scope.registerEmail,
-                    password: $scope.registerPassword,
-                    ip: '127.0.0.1',
-                    phone: $scope.registerPhoneNumber != undefined && $scope.registerPhoneNumber.length > 0 ? $scope.registerPhoneNumber : null
-                };
+                 $http.get('https://ipapi.co/json/').success(function (response) {
+                     $scope.registerIp = response.ip;
 
-                var registerUserPromise = landingPageRepository.register(registerParamModel).$promise;
-                registerUserPromise.then(function (result) {
-                    toastr.success(result.message);
-                    $scope.changeTab(landingPageTabsEnum.Login);
-                }).catch(function (result) {
-                    toastr.warning(result.data);
+                    var registerParamModel = {
+                        email: $scope.registerEmail,
+                        password: $scope.registerPassword,
+                        registerDate: new Date(),
+                        lastOnline: null,
+                        ip: $scope.registerIp,
+                        phone: $scope.registerPhoneNumber != undefined && $scope.registerPhoneNumber.length > 0 ? $scope.registerPhoneNumber : null
+                    };
+
+                    var registerUserPromise = landingPageRepository.register(registerParamModel).$promise;
+                    registerUserPromise.then(function (result) {
+                        toastr.success(result.message);
+                        $scope.changeTab(landingPageTabsEnum.Login);
+                    }).catch(function (result) {
+                        toastr.warning(result.data);
+                         });
+
                 });
             };
 

@@ -9,6 +9,8 @@ namespace BachelorTripPlanner.Models
     {
         public string Email { get; set; }
         public string Password { get; set; }
+        public DateTime RegisterDate { get; set; }
+        public DateTime? LastOnline { get; set; }
         public string Ip { get; set; }
         public string Phone { get; set; }
     }

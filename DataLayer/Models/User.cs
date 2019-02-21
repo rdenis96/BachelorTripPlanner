@@ -7,6 +7,8 @@ namespace DataLayer.Models
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public DateTime RegisterDate { get; set; }
+        public DateTime? LastOnline { get; set; }
         public string Ip { get; set; }
         public string Phone { get; set; }
 
@@ -26,6 +28,8 @@ namespace DataLayer.Models
             var result = Id == obj.Id &&
                          Email == obj.Email &&
                          Password == obj.Password &&
+                         RegisterDate == obj.RegisterDate &&
+                         LastOnline == obj.LastOnline &&
                          Ip == obj.Ip &&
                          Phone == obj.Phone;
             return result;
