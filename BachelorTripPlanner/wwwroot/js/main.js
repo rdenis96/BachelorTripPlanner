@@ -1,6 +1,6 @@
 var globalModule = angular.module('globalModule', [
     // Angular modules
-    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ui.bootstrap', 'toastr'
+    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ngStorage', 'ui.bootstrap', 'toastr'
 ]);
 
 globalModule.config([
@@ -73,9 +73,20 @@ globalModule.controller("HomeController",
         }
 
     ]);
+globalModule.controller("HeaderController",
+    ['$scope', '$localStorage', 'homeRepository',
+        function ($scope, $localStorage, homeRepository) {
+            $scope.isLogged = $localStorage.TPUserId !== null && $localStorage.TPUserId !== undefined;
+            $scope.init = function () {
+                if ($scope.isLogged == true)
+                    $scope.userId = $localStorage.TPUserId;
+            };
+        }
+
+    ]);
 globalModule.controller("LandingPageController",
-    ['$scope', '$http', 'landingPageRepository', 'toastr',
-        function ($scope, $http, landingPageRepository, toastr) {
+    ['$scope', '$http', '$localStorage', 'landingPageRepository', 'toastr',
+        function ($scope, $http, $localStorage, landingPageRepository, toastr) {
             $scope.landingPage = true;
             $scope.landingPageTabsEnum = landingPageTabsEnum;
             $scope.selectedTab = landingPageTabsEnum.Welcome;
@@ -98,8 +109,8 @@ globalModule.controller("LandingPageController",
             };
 
             $scope.register = function () {
-                 $http.get('https://ipapi.co/json/').success(function (response) {
-                     $scope.registerIp = response.ip;
+                $http.get('https://ipapi.co/json/').success(function (response) {
+                    $scope.registerIp = response.ip;
 
                     var registerParamModel = {
                         email: $scope.registerEmail,
@@ -116,8 +127,7 @@ globalModule.controller("LandingPageController",
                         $scope.changeTab(landingPageTabsEnum.Login);
                     }).catch(function (result) {
                         toastr.warning(result.data);
-                         });
-
+                    });
                 });
             };
 
@@ -129,7 +139,9 @@ globalModule.controller("LandingPageController",
 
                 var loginUserPromise = landingPageRepository.login(loginParamModel).$promise;
                 loginUserPromise.then(function (result) {
-                    toastr.success(result.message);
+                    $localStorage.TPUserId = result.userId;
+                    $window.location.href = '/home';
+                    toastr.success(result.message + $localStorage.TPUserId);
                 }).catch(function (result) {
                     console.log(result);
                     toastr.warning(result.data);

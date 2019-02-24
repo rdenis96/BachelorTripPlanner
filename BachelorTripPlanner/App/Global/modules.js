@@ -1,6 +1,6 @@
 ﻿var globalModule = angular.module('globalModule', [
     // Angular modules
-    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ui.bootstrap', 'toastr'
+    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ngStorage', 'ui.bootstrap', 'toastr'
 ]);
 
 globalModule.config([

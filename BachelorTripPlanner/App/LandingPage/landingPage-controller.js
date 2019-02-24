@@ -1,6 +1,6 @@
 ﻿globalModule.controller("LandingPageController",
-    ['$scope', '$http', 'landingPageRepository', 'toastr',
-        function ($scope, $http, landingPageRepository, toastr) {
+    ['$scope', '$http', '$localStorage', 'landingPageRepository', 'toastr',
+        function ($scope, $http, $localStorage, landingPageRepository, toastr) {
             $scope.landingPage = true;
             $scope.landingPageTabsEnum = landingPageTabsEnum;
             $scope.selectedTab = landingPageTabsEnum.Welcome;
@@ -23,8 +23,8 @@
             };
 
             $scope.register = function () {
-                 $http.get('https://ipapi.co/json/').success(function (response) {
-                     $scope.registerIp = response.ip;
+                $http.get('https://ipapi.co/json/').success(function (response) {
+                    $scope.registerIp = response.ip;
 
                     var registerParamModel = {
                         email: $scope.registerEmail,
@@ -41,8 +41,7 @@
                         $scope.changeTab(landingPageTabsEnum.Login);
                     }).catch(function (result) {
                         toastr.warning(result.data);
-                         });
-
+                    });
                 });
             };
 
@@ -54,7 +53,9 @@
 
                 var loginUserPromise = landingPageRepository.login(loginParamModel).$promise;
                 loginUserPromise.then(function (result) {
-                    toastr.success(result.message);
+                    $localStorage.TPUserId = result.userId;
+                    $window.location.href = '/home';
+                    toastr.success(result.message + $localStorage.TPUserId);
                 }).catch(function (result) {
                     console.log(result);
                     toastr.warning(result.data);
