@@ -55,7 +55,7 @@
                 loginUserPromise.then(function (result) {
                     $localStorage.TPUserId = result.userId;
                     $window.location.href = '/home';
-                    toastr.success(result.message + $localStorage.TPUserId);
+                    toastr.success(result.message);
                 }).catch(function (result) {
                     console.log(result);
                     toastr.warning(result.data);

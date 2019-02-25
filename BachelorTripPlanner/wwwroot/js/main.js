@@ -59,27 +59,45 @@ globalModule.factory('homeRepository', [
 
 ]);
 globalModule.controller("HomeController",
-    ['$scope', 'homeRepository',
-        function ($scope, homeRepository) {
-            $scope.testScope = 5;
-
-            $scope.getAllUsers = function () {
-                console.log(homeRepository);
-                var getAllUsersPromise = homeRepository.getAll().$promise;
-                getAllUsersPromise.then(function (result) {
-                    console.log(result);
-                });
+    ['$scope', '$window', '$localStorage', 'homeRepository',
+        function ($scope, $window, $localStorage, homeRepository) {
+            $scope.init = function () {
             };
         }
 
     ]);
 globalModule.controller("HeaderController",
-    ['$scope', '$localStorage', 'homeRepository',
-        function ($scope, $localStorage, homeRepository) {
+    ['$scope', '$window', '$localStorage', '$uibModal', 'homeRepository',
+        function ($scope, $window, $localStorage, $uibModal, homeRepository) {
             $scope.isLogged = $localStorage.TPUserId !== null && $localStorage.TPUserId !== undefined;
             $scope.init = function () {
-                if ($scope.isLogged == true)
+                if ($scope.isLogged === true)
                     $scope.userId = $localStorage.TPUserId;
+                else {
+                    if ($window.location.href.indexOf('/welcome') == -1) {
+                        $window.location.href = '/welcome';
+                    }
+                }
+            };
+
+            $scope.login = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/LandingPage/login-modal.html',
+                    controller: 'LoginModalController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg'
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            };
+
+            $scope.logout = function () {
+                $localStorage.TPUserId = null;
+                $window.location.href = '/welcome';
+
             };
         }
 
@@ -141,7 +159,7 @@ globalModule.controller("LandingPageController",
                 loginUserPromise.then(function (result) {
                     $localStorage.TPUserId = result.userId;
                     $window.location.href = '/home';
-                    toastr.success(result.message + $localStorage.TPUserId);
+                    toastr.success(result.message);
                 }).catch(function (result) {
                     console.log(result);
                     toastr.warning(result.data);
@@ -167,3 +185,30 @@ globalModule.factory('landingPageRepository', [
     }
 
 ]);
+globalModule.controller("LoginModalController",
+    ['$scope', '$window', '$localStorage', '$uibModalInstance', 'landingPageRepository', 'toastr',
+        function ($scope, $window, $localStorage, $uibModalInstance, landingPageRepository, toastr) {
+            $scope.login = function () {
+                var loginParamModel = {
+                    email: $scope.loginEmail,
+                    password: $scope.loginPassword
+                };
+
+                var loginUserPromise = landingPageRepository.login(loginParamModel).$promise;
+                loginUserPromise.then(function (result) {
+                    $uibModalInstance.close();
+                    $localStorage.TPUserId = result.userId;
+                    $window.location.href = '/home';
+                    toastr.success(result.message);
+                }).catch(function (result) {
+                    console.log(result);
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.close = function () {
+                $uibModalInstance.close();
+            };
+        }
+
+    ]);

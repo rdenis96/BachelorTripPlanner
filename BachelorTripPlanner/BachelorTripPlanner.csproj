@@ -8,8 +8,17 @@
     <None Remove="AppStyle\Common\global.css" />
     <None Remove="AppStyle\Common\landingPage.css" />
     <None Remove="AppViews\Home\home.html" />
+    <None Remove="AppViews\LandingPage\LandingPage.html" />
+    <None Remove="AppViews\LandingPage\login-modal.html" />
+    <None Remove="App\Global\directives.js" />
+    <None Remove="App\Global\enums.js" />
+    <None Remove="App\Global\header-controller.js" />
+    <None Remove="App\Global\login-modal-controller.js" />
+    <None Remove="App\Global\modules.js" />
     <None Remove="App\Home\home-controller.js" />
     <None Remove="App\Home\home-repository.js" />
+    <None Remove="App\LandingPage\landingPage-controller.js" />
+    <None Remove="App\LandingPage\landingPage-repository.js" />
     <None Remove="Images\LandingPage\landingPageWallpaper.jpg" />
   </ItemGroup>
 
@@ -18,15 +27,48 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="AppStyle\Common\global.css" />
+    <Content Include="AppStyle\Common\global.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="AppStyle\Common\landingPage.css">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppViews\Home\home.html">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App\Home\home-controller.js" />
-    <Content Include="App\Home\home-repository.js" />
+    <Content Include="AppViews\LandingPage\LandingPage.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AppViews\LandingPage\login-modal.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Global\directives.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Global\enums.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Global\header-controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Global\login-modal-controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Global\modules.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Home\home-controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Home\home-repository.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\LandingPage\landingPage-controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\LandingPage\landingPage-repository.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\LandingPage\landingPageWallpaper.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -46,5 +88,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Shared\_Footer.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\_Global.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\_Header.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

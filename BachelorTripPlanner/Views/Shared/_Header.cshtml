@@ -21,15 +21,16 @@
                             <li><a href="#"><i class="fa fa-fw fa-thumbs-o-up"></i> <span class="badge">Game</span> sayfasında iletiniz beğenildi</a></li>
                         </ul>
                     </li>
-                    <li class="active"><a href="#">Ana Sayfa <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="#">Create your Trip <span class="sr-only">(current)</span></a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fas fa-user-circle"></i> Account <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Geri bildirim</a></li>
-                            <li><a href="#">Yardım</a></li>
+                            <li><a href="#"><i class="fas fa-map-marked-alt"></i> Interests</a></li>
+                            <li><a href="#"><i class="fas fa-user-friends"></i> Friends</a></li>
+                            <li><a href="#"><i class="fas fa-history"></i> Planning History</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Ayarlar</a></li>
-                            <li><a href="#exit">Çıkış yap</a></li>
+                            <li><a href="#"><i class="fas fa-user-edit"></i> Edit Account</a></li>
+                            <li><a href="#" ng-click="logout()"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -50,7 +51,7 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#">Log In <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="#" ng-click="login()"> <i class="fa fa-user"></i> Log In <span class="sr-only">(current)</span></a></li>
                 </ul>
             </div>
         </div>
