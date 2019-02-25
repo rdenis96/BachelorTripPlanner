@@ -10,6 +10,8 @@
     <None Remove="AppViews\Home\home.html" />
     <None Remove="AppViews\LandingPage\LandingPage.html" />
     <None Remove="AppViews\LandingPage\login-modal.html" />
+    <None Remove="App\Account\account-controller.js" />
+    <None Remove="App\Account\account-repository.js" />
     <None Remove="App\Global\directives.js" />
     <None Remove="App\Global\enums.js" />
     <None Remove="App\Global\header-controller.js" />
@@ -40,6 +42,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppViews\LandingPage\login-modal.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Account\account-controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Account\account-repository.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App\Global\directives.js">

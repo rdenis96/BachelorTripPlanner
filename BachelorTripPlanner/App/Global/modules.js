@@ -19,6 +19,10 @@ globalModule.config([
                 templateUrl: 'AppViews/LandingPage/landingPage.html',
                 controller: 'LandingPageController'
             })
+            .when('/account/editAccount', {
+                templateUrl: 'AppViews/Account/edit-account.html',
+                controller: 'AccountController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

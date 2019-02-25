@@ -121,13 +121,14 @@ namespace DataLayer.Repository.Implementation
             using (TripPlanner context = new TripPlanner())
             {
                 User oldUser = context.Users.Find(obj.Id);
-                if (oldUser != null)
-                {
-                    oldUser.Email = obj.Email;
-                    oldUser.Password = obj.Password;
-                }
+
+                context.Entry(oldUser).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                oldUser = obj;
                 context.SaveChanges();
-                return context.Users.Find(obj.Id);
+
+                var result = context.Users.Find(obj.Id);
+                return result;
             }
         }
     }

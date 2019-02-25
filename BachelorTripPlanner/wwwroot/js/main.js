@@ -19,6 +19,10 @@ globalModule.config([
                 templateUrl: 'AppViews/LandingPage/landingPage.html',
                 controller: 'LandingPageController'
             })
+            .when('/account/editAccount', {
+                templateUrl: 'AppViews/Account/edit-account.html',
+                controller: 'AccountController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -180,6 +184,60 @@ globalModule.factory('landingPageRepository', [
                 login: {
                     method: 'GET',
                     url: 'api/landingpage/login'
+                }
+            });
+    }
+
+]);
+globalModule.controller("AccountController",
+    ['$scope', '$localStorage', 'accountRepository', 'toastr',
+        function ($scope, $localStorage, accountRepository, toastr) {
+            $scope.user = {};
+
+            $scope.initEditAccount = function () {
+                $scope.userId = $localStorage.TPUserId;
+                var getUserPromise = accountRepository.getUser({ userId: $scope.userId }).$promise;
+                getUserPromise.then(function (result) {
+                    $scope.user = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.update = function () {
+                if ($scope.newPassword != $scope.confPassword) {
+                    toastr.warning('The password does not match, please type the same password in Confirm Password field!');
+                    return;
+                }
+
+                var userUpdateParam = {
+                    userId: $scope.userId,
+                    email: $scope.user.email,
+                    password: $scope.newPassword
+                };
+
+                var userUpdatePromise = accountRepository.update(userUpdateParam).$promise;
+                userUpdatePromise.then(function (result) {
+                    toastr.success('The account was updated successfuly!');
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+        }
+
+    ]);
+globalModule.factory('accountRepository', [
+    '$resource',
+    function ($resource) {
+        return $resource("api/account", {},
+            {
+                getUser: {
+                    method: 'GET',
+                    url: 'api/account/getUser'
+                },
+                update: {
+                    method: 'PUT',
+                    url: 'api/account/update'
                 }
             });
     }

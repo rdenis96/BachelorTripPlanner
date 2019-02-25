@@ -49,6 +49,8 @@
       "App/Global/header-controller.js",
       "App/LandingPage/landingPage-controller.js",
       "App/LandingPage/landingPage-repository.js",
+      "App/Account/account-controller.js",
+      "App/Account/account-repository.js",
       "App/Global/login-modal-controller.js"
     ]
   }
