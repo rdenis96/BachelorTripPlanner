@@ -20,12 +20,11 @@
                 }
 
                 var userUpdateParam = {
-                    userId: $scope.userId,
                     email: $scope.user.email,
                     password: $scope.newPassword
                 };
 
-                var userUpdatePromise = accountRepository.update(userUpdateParam).$promise;
+                var userUpdatePromise = accountRepository.update({ userId: $scope.userId }, userUpdateParam).$promise;
                 userUpdatePromise.then(function (result) {
                     toastr.success('The account was updated successfuly!');
                 }).catch(function (result) {

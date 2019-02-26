@@ -19,8 +19,7 @@ namespace BachelorTripPlanner.Controllers
             _userWorker = new UserWorker();
         }
 
-        [HttpGet]
-        [Route("[action]")]
+        [HttpGet("[action]")]
         public IActionResult GetUser([FromQuery]int userId)
         {
             var user = _userWorker.GetById(userId);
@@ -32,9 +31,8 @@ namespace BachelorTripPlanner.Controllers
             return Ok(user);
         }
 
-        [HttpPut]
-        [Route("[action]")]
-        public IActionResult Update([FromBody]int userId, [FromBody]UserLoginModel userLoginModel)
+        [HttpPut("[action]")]
+        public IActionResult Update(int userId, [FromBody]UserLoginModel userLoginModel)
         {
             var user = _userWorker.GetById(userId);
             if (user == null)

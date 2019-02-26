@@ -5,8 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\main.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="AppStyle\Common\global.css" />
     <None Remove="AppStyle\Common\landingPage.css" />
+    <None Remove="AppViews\Account\edit-account.html" />
     <None Remove="AppViews\Home\home.html" />
     <None Remove="AppViews\LandingPage\LandingPage.html" />
     <None Remove="AppViews\LandingPage\login-modal.html" />
@@ -26,6 +31,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\main.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +39,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppStyle\Common\landingPage.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AppViews\Account\edit-account.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppViews\Home\home.html">
@@ -92,6 +101,10 @@
   <ItemGroup>
     <Folder Include="Scripts\Angular\" />
     <Folder Include="Scripts\Vendors\jQuery\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\main.min.js" />
   </ItemGroup>
 
   <ItemGroup>

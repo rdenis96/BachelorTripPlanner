@@ -120,11 +120,8 @@ namespace DataLayer.Repository.Implementation
                 return null;
             using (TripPlanner context = new TripPlanner())
             {
-                User oldUser = context.Users.Find(obj.Id);
+                context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-                context.Entry(oldUser).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-                oldUser = obj;
                 context.SaveChanges();
 
                 var result = context.Users.Find(obj.Id);
