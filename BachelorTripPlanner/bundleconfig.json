@@ -5,6 +5,9 @@
     "inputFiles": [
       "Scripts/Vendors/jQuery/jquery.min.js",
       "Scripts/Vendors/jQuery/jquery-ui.min.js",
+      "Scripts/Vendors/jQuery/jquery.poptrox.min.js",
+      "Scripts/Vendors/jQuery/jquery.scrolly.min.js",
+      "Scripts/Vendors/jQuery/skel.min.js",
       "Scripts/Vendors/bootstrap/js/bootstrap-tooltip.min.js",
       "Scripts/Angular/angular.min.js",
       "Scripts/Angular/angular-animate.min.js",

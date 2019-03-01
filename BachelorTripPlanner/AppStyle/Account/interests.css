@@ -1,226 +1,342 @@
-﻿#service {
-    background-color: ghostwhite;
-    padding-top: 100px;
-    padding-bottom: 100px;
-}
-
-.row-1 .ser-col-4 {
-    border-right: solid 1px #ccc;
-    border-bottom: solid 1px #ccc;
-}
-
-.row-1 .ser-col-4-l {
-    border-bottom: solid 1px #ccc;
-}
-
-.row-2 .ser-col-4 {
-    border-right: solid 1px #ccc;
-    border-bottom: solid 1px #ccc;
-}
-
-.row-2 .ser-col-4-l {
-    border-bottom: solid 1px #ccc;
-}
-
-.row-3 .ser-col-4 {
-    border-right: solid 1px #ccc;
-}
-
-@media (max-width:768px) {
-    .ser-col-4-l {
-        border-right: solid 1px #ccc;
-        border-bottom: solid 1px #ccc;
-        border-left: solid 1px #ccc;
-    }
-
-    .ser-col-4 {
-        border-left: solid 1px #ccc;
-        border-bottom: solid 1px #ccc;
-    }
-}
-
-.ser-col {
-    width: 100%;
-    height: auto;
-    text-align: center;
-    padding: 20px;
+﻿#banner {
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    padding: 8em 4em 6em 4em;
+    min-height: 70vh;
+    background-image: url('../../Images/Account/banner.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-top: 0;
     position: relative;
-}
-
-.icon-col {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    overflow: hidden;
 }
 
-    .icon-col i {
-        font-size: 35px;
-        padding: 20px;
+    #banner .inner {
+        text-align: center;
+        position: relative;
+        z-index: 2;
     }
 
-.circle {
+    #banner h1 {
+        color: #fff;
+        font-size: 5em;
+        font-weight: 400;
+        font-family: 'Passion One', cursive;
+        margin: 0;
+    }
+
+@media screen and (max-width: 980px) {
+
+    #banner h1 {
+        font-size: 5em;
+    }
+}
+
+@media screen and (max-width: 736px) {
+
+    #banner h1 {
+        font-size: 3em;
+    }
+}
+
+#banner p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+@media screen and (max-width: 980px) {
+
+    #banner p {
+        font-size: 1.5em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    #banner p {
+        font-size: 1.25em;
+    }
+}
+
+#banner a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    border-bottom: 1px dotted;
+}
+
+    #banner a:hover {
+        color: #FFF;
+        border: none;
+    }
+
+#banner .more {
+    background-image: url('../../Images/Account/arrow.svg');
+    background-position: center 1.35em;
+    background-repeat: no-repeat;
+    background-size: auto;
+    border: 1px solid #fff;
+    border-radius: 100%;
+    color: rgba(255, 255, 255, 0.75);
+    display: block;
+    height: 4em;
+    text-indent: 4em;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 4em;
+    z-index: 2;
+    margin: 0 auto 2em auto;
+}
+
+    #banner .more:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid #fff;
+        color: #FFF;
+    }
+
+#banner video {
+    -moz-transform: translateX(50%) translateY(50%);
+    -webkit-transform: translateX(50%) translateY(50%);
+    -ms-transform: translateX(50%) translateY(50%);
+    transform: translateX(50%) translateY(50%);
     position: absolute;
-    bottom: -11px;
-    right: -24px;
-    z-index: 99;
+    bottom: 50%;
+    right: 50%;
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    overflow: hidden;
 }
 
-    .circle i {
-        color: #ccc;
-        font-size: 18px;
-        background-color: ghostwhite;
+#banner:before {
+    -moz-transition: opacity 3s ease;
+    -webkit-transition: opacity 3s ease;
+    -ms-transition: opacity 3s ease;
+    transition: opacity 3s ease;
+    -moz-transition-delay: 1s;
+    -webkit-transition-delay: 1s;
+    -ms-transition-delay: 1s;
+    transition-delay: 1s;
+    content: '';
+    background-color: #42424f;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0.45;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+@media screen and (max-width: 1280px) {
+
+    #banner video {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 980px) {
+
+    #banner br {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 736px) {
+
+    #banner {
+        min-height: 0;
+        padding: 6em 2em 4em 2em;
     }
 
-.btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
+        #banner br {
+            display: none;
+        }
+}
+
+body.is-loading #banner:before {
+    opacity: 1;
+}
+
+.serviceBox {
     text-align: center;
-    color: red;
-    background-image: none;
-    border: 1px solid red;
-    border-radius: 0px;
+    margin-top: 60px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 21px;
 }
 
-.ser-col h2 {
-    color: #777;
-    margin-bottom: 20px;
-}
-
-.ser-col p {
-    color: #3e3b3b;
-    margin-bottom: 20px;
-}
-
-/*====== service 1 ====*/
-.ser-1 .icon-col {
-    border: solid 1px red;
-}
-
-    .ser-1 .icon-col i {
-        color: red;
+    .serviceBox .service-icon {
+        width: 78px;
+        height: 78px;
+        border-radius: 3px;
+        background: #fff;
+        margin: 0 auto;
+        position: absolute;
+        top: -34px;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        transition: all 0.3s ease-out 0s;
     }
 
-.ser-1 .btn {
-    color: red;
-    border: 1px solid red;
-}
-
-/*====== service 2 ====*/
-.ser-2 .icon-col {
-    border: solid 1px green;
-}
-
-    .ser-2 .icon-col i {
-        color: green;
+    .serviceBox:hover .service-icon {
+        transform: rotate(45deg);
     }
 
-.ser-2 .btn {
-    color: green;
-    border: 1px solid green;
-}
-
-/*====== service 3 ====*/
-.ser-3 .icon-col {
-    border: solid 1px chocolate;
-}
-
-    .ser-3 .icon-col i {
-        color: chocolate;
+    .serviceBox .service-icon span {
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        border-radius: 3px;
+        background: #727cb6;
+        font-size: 30px;
+        color: #fff;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        transition: all 0.3s ease-out 0s;
     }
 
-.ser-3 .btn {
-    color: chocolate;
-    border: 1px solid chocolate;
-}
+        .serviceBox .service-icon span i {
+            transition: all 0.3s ease-out 0s;
+        }
 
-/*====== service 4 ====*/
-.ser-4 .icon-col {
-    border: solid 1px blue;
-}
-
-    .ser-4 .icon-col i {
-        color: blue;
+    .serviceBox:hover .service-icon span i {
+        transform: rotate(-45deg);
     }
 
-.ser-4 .btn {
-    color: blue;
-    border: 1px solid blue;
-}
-
-/*====== service 5 ====*/
-.ser-5 .icon-col {
-    border: solid 1px deepskyblue;
-}
-
-    .ser-5 .icon-col i {
-        color: deepskyblue;
+    .serviceBox .service-content {
+        background: #fff;
+        border: 1px solid #e7e7e7;
+        border-radius: 3px;
+        padding: 55px 15px;
+        position: relative;
     }
 
-.ser-5 .btn {
-    color: deepskyblue;
-    border: 1px solid deepskyblue;
-}
+        .serviceBox .service-content:before {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 80px;
+            border: 1px solid #e7e7e7;
+            border-radius: 3px;
+            margin: 0 auto;
+            position: absolute;
+            top: -37px;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            transition: all 0.3s ease-out 0s;
+        }
 
-/*====== service 6 ====*/
-.ser-6 .icon-col {
-    border: solid 1px mediumslateblue;
-}
-
-    .ser-6 .icon-col i {
-        color: mediumslateblue;
+    .serviceBox:hover .service-content:before {
+        transform: rotate(45deg);
     }
 
-.ser-6 .btn {
-    color: mediumslateblue;
-    border: 1px solid mediumslateblue;
-}
-
-/*====== service 7 ====*/
-.ser-7 .icon-col {
-    border: solid 1px mediumseagreen;
-}
-
-    .ser-7 .icon-col i {
-        color: mediumseagreen;
+    .serviceBox .title {
+        font-size: 17px;
+        font-weight: 500;
+        color: #324545;
+        text-transform: uppercase;
+        margin: 0 0 25px 0;
+        position: relative;
+        transition: all 0.3s ease-out 0s;
     }
 
-.ser-7 .btn {
-    color: mediumseagreen;
-    border: 1px solid mediumseagreen;
-}
-
-/*====== service 8 ====*/
-.ser-8 .icon-col {
-    border: solid 1px salmon;
-}
-
-    .ser-8 .icon-col i {
-        color: salmon;
+    .serviceBox:hover .title {
+        color: #727cb6;
     }
 
-.ser-8 .btn {
-    color: salmon;
-    border: 1px solid salmon;
-}
-
-/*====== service 9 ====*/
-.ser-9 .icon-col {
-    border: solid 1px gold;
-}
-
-    .ser-9 .icon-col i {
-        color: gold;
+    .serviceBox .description {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+        margin-bottom: 0;
     }
 
-.ser-9 .btn {
-    color: gold;
-    border: 1px solid gold;
-}
+    .serviceBox .read-more {
+        display: block;
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #e7e7e7;
+        font-size: 14px;
+        color: #c4c2c2;
+        margin: 0 auto;
+        position: absolute;
+        bottom: -17px;
+        left: 0;
+        right: 0;
+        transition: all 0.3s ease-out 0s;
+    }
+
+        .serviceBox .read-more:hover {
+            border: 1px solid #727cb6;
+            color: #727cb6;
+            text-decoration: none;
+        }
+
+    .serviceBox.green .service-icon span {
+        background: #008b8b;
+    }
+
+    .serviceBox.blue .service-icon span {
+        background: #3498db;
+    }
+
+    .serviceBox.orange .service-icon span {
+        background: #e67e22;
+    }
+
+    .serviceBox.green:hover .title {
+        color: #008b8b;
+    }
+
+    .serviceBox.blue:hover .title {
+        color: #3498db;
+    }
+
+    .serviceBox.orange:hover .title {
+        color: #e67e22;
+    }
+
+    .serviceBox:hover .read-more {
+        border: 1px solid #727cb6;
+        color: #727cb6;
+    }
+
+    .serviceBox.green:hover .read-more {
+        border: 1px solid #008b8b;
+        color: #008b8b;
+    }
+
+    .serviceBox.blue:hover .read-more {
+        border: 1px solid #3498db;
+        color: #3498db;
+    }
+
+    .serviceBox.orange:hover .read-more {
+        border: 1px solid #e67e22;
+        color: #e67e22;
+    }
