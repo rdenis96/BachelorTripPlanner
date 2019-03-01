@@ -19,6 +19,10 @@ globalModule.config([
                 templateUrl: 'AppViews/LandingPage/landingPage.html',
                 controller: 'LandingPageController'
             })
+            .when('/account/interests', {
+                templateUrl: 'AppViews/Account/interests.html',
+                controller: 'AccountController'
+            })
             .when('/account/editAccount', {
                 templateUrl: 'AppViews/Account/edit-account.html',
                 controller: 'AccountController'

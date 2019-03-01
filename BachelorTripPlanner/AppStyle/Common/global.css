@@ -12,7 +12,6 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-
 /*NAVBAR START*/
 
 nav.navbar-findcond {
@@ -50,7 +49,7 @@ nav.navbar-findcond {
     }
 
     nav.navbar-findcond button.navbar-toggle {
-        background-color:black;
+        background-color: black;
         border-radius: 2px;
     }
 
@@ -97,11 +96,9 @@ nav.navbar-findcond {
 
 footer {
     bottom: 0;
-    position: sticky;
     width: 100%;
-    background-color: black !important;
 }
-
+/*
     footer .icon {
         font-size: 60px;
         color: black;
@@ -132,14 +129,18 @@ footer {
         font-family: 'Lato', sans-serif;
         font-weight: 400;
     }
-
+    */
 /*FOOTER END*/
+
+.bg-color{
+    background-color:var(--main-bg-color);
+}
 
 /*MAIN CONTENT VIEW START*/
 
-.mainContentView {
+/*.mainContentView {
     height: -webkit-fill-available;
-}
+}*/
 /*MAIN CONTENT VIEW END*/
 .border-top {
     border-top: 1px ridge gray;
@@ -221,12 +222,19 @@ footer {
     padding-top: 0px;
 }
 
-.padding-top--25percent{
+.padding-top--25percent {
     padding-top: -25%;
 }
 
-.image-sidebar {
-    background-image: url(https://i.pinimg.com/originals/78/dc/7f/78dc7f5a467a3730419f65365082ddb1.jpg);
+.image-sidebar-1 {
+    background-image: url(https://www.libertytravel.com/sites/default/files/styles/full_size/public/family-a.jpg?itok=903cfdUn);
+    background-size: cover;
+    background-position: center;
+    height: -webkit-fill-available;
+}
+
+.image-sidebar-2 {
+    background-image: url(https://i.pinimg.com/originals/1e/0b/24/1e0b243bd3b36c89c0ba9cffccf286fb.jpg);
     background-size: cover;
     background-position: center;
     height: -webkit-fill-available;

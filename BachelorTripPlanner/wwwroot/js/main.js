@@ -19,6 +19,10 @@ globalModule.config([
                 templateUrl: 'AppViews/LandingPage/landingPage.html',
                 controller: 'LandingPageController'
             })
+            .when('/account/interests', {
+                templateUrl: 'AppViews/Account/interests.html',
+                controller: 'AccountController'
+            })
             .when('/account/editAccount', {
                 templateUrl: 'AppViews/Account/edit-account.html',
                 controller: 'AccountController'
@@ -202,6 +206,10 @@ globalModule.controller("AccountController",
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
+            };
+
+            $scope.initInterests = function () {
+                $scope.userId = $localStorage.TPUserId;
             };
 
             $scope.update = function () {

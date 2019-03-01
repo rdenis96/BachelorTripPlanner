@@ -13,6 +13,10 @@
                 });
             };
 
+            $scope.initInterests = function () {
+                $scope.userId = $localStorage.TPUserId;
+            };
+
             $scope.update = function () {
                 if ($scope.newPassword != $scope.confPassword) {
                     toastr.warning('The password does not match, please type the same password in Confirm Password field!');
