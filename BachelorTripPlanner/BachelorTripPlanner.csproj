@@ -9,9 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="AppStyle\Account\interests.css" />
     <None Remove="AppStyle\Common\global.css" />
     <None Remove="AppStyle\Common\landingPage.css" />
     <None Remove="AppViews\Account\edit-account.html" />
+    <None Remove="AppViews\Account\interests.html" />
     <None Remove="AppViews\Home\home.html" />
     <None Remove="AppViews\LandingPage\LandingPage.html" />
     <None Remove="AppViews\LandingPage\login-modal.html" />
@@ -35,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="AppStyle\Account\interests.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="AppStyle\Common\global.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -42,6 +47,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppViews\Account\edit-account.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AppViews\Account\interests.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppViews\Home\home.html">

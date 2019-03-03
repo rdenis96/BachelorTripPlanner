@@ -1,146 +1,68 @@
-﻿
-<script type="text/javascript">
-    (function ($) {
-
-        skel.breakpoints({
-            xlarge: '(max-width: 1680px)',
-            large: '(max-width: 1280px)',
-            medium: '(max-width: 980px)',
-            small: '(max-width: 736px)',
-            xsmall: '(max-width: 480px)'
-        });
-
-        $(function () {
-
-            var $window = $(window),
-                $body = $('body');
-            
-
-            // Banner.
-            var $banner = $('#banner');
-
-            if ($banner.length > 0) {
-
-                // IE fix.
-                if (skel.vars.IEVersion < 12) {
-
-                    $window.on('resize', function () {
-
-                        var wh = $window.height() * 0.60,
-                            bh = $banner.height();
-
-                        $banner.css('height', 'auto');
-
-                        window.setTimeout(function () {
-
-                            if (bh < wh)
-                                $banner.css('height', wh + 'px');
-
-                        }, 0);
-
-                    });
-
-                    $window.on('load', function () {
-                        $window.triggerHandler('resize');
-                    });
-
-                }
-
-            }
-
-            // Scrolly.
-            $('.scrolly').scrolly();
-
-            // Poptrox.
-            $window.on('load', function () {
-
-                var $thumbs = $('.thumbnails');
-
-                if ($thumbs.length > 0)
-                    $thumbs.poptrox({
-                        onPopupClose: function () { $body.removeClass('is-covered'); },
-                        onPopupOpen: function () { $body.addClass('is-covered'); },
-                        baseZIndex: 10001,
-                        useBodyOverflow: false,
-                        overlayColor: '#222226',
-                        overlayOpacity: 0.75,
-                        popupLoaderText: '',
-                        fadeSpeed: 500,
-                        usePopupDefaultStyling: false,
-                        windowMargin: (skel.breakpoint('small').active ? 5 : 50)
-                    });
-
-            });
-
-            // Initial scroll.
-            $window.on('load', function () {
-                $window.trigger('scroll');
-            });
-
-        });
-
-    })(jQuery);
-</script>
-<section id="banner">
-    <video autoplay loop><source src="../../Images/Account/banner.mp4" type="video/mp4" /><source src="../../Images/Account/.webm" type="video/webm" /></video>
-    <div class="inner">
-        <h1>Full Motion</h1>
-        <p>
-            A responsive video gallery template with a functional lightbox<br />
-            designed by <a href="https://templated.co/">Templated</a> and released under the Creative Commons License.
-        </p>
-    </div>
-</section>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3 col-sm-6 col-xsx-6">
-            <div class="serviceBox">
-                <div class="service-icon">
-                    <span><i class="fa fa-id-card-o"></i></span>
-                </div>
-                <div class="service-content">
-                    <h3 class="title">Web Desinging</h3>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in volutpat elit. Class aptent taciti.</p>
-                    <a href="WebDesigning.html" class="read-more fa fa-plus" data-toggle="tooltip" title="Read More"></a>
-                </div>
-            </div>
+﻿<div ng-init="initInterests()">
+    <section id="banner">
+        <video autoplay loop><source src="../../Images/Account/banner.mp4" type="video/mp4" /><source src="../../Images/Account/.webm" type="video/webm" /></video>
+        <div class="inner">
+            <h1>Full Motion</h1>
+            <p>
+                A responsive video gallery template with a functional lightbox<br />
+                designed by <a href="https://templated.co/">Templated</a> and released under the Creative Commons License.
+            </p>
         </div>
+    </section>
+    <div id="main">
+        <div class="inner">
+            <div class="thumbnails">
 
-        <div class="col-md-3 col-sm-6 col-xsx-6">
-            <div class="serviceBox green">
-                <div class="service-icon">
-                    <span><i class="fa fa-desktop"></i></span>
+                <div class="box" ng-click="openCountryCityModal()">
+                    <a href="#" class="image fit"><img src="../../Images/Account/pic01.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Countries and Cities</h3>
+                        <p>Start your trip by selecting which country or which city would you like to visit.</p>
+                    </div>
                 </div>
-                <div class="service-content">
-                    <h3 class="title">Web Development</h3>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in volutpat elit. Class aptent taciti.</p>
-                    <a href="WebDevelopment.html" class="read-more fa fa-plus" data-toggle="tooltip" title="Read More"></a>
+
+                <div class="box">
+                    <a href="#" class="image fit"><img src="../../Images/Account/pic02.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Weather</h3>
+                        <p>How would you like the perfect location for your trip to be, maybe a sunny place or maybe a rainy one? Choose your type of weathers to match! </p>
+                    </div>
                 </div>
+
+                <div class="box">
+                    <a href="#" class="image fit"><img src="../../Images/Account/pic03.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <a href="#" class="image fit"><img src="../../Images/Account/pic04.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <a href="#" class="image fit"><img src="../../Images/Account/pic05.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <a href="#" class="image fit"><img src="../../Images/Account/pic06.jpg" alt="" /></a>
+                    <div class="inner">
+                        <h3>Nascetur nunc varius commodo</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                    </div>
+                </div>
+
             </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xsx-6">
-            <div class="serviceBox orange">
-                <div class="service-icon">
-                    <span><i class="fa fa-tablet"></i></span>
-                </div>
-                <div class="service-content">
-                    <h3 class="title">Mobile App Devlopment</h3>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in volutpat elit. Class aptent taciti.</p>
-                    <a href="MobileAppDevelopment.html" class="read-more fa fa-plus" data-toggle="tooltip" title="Read More"></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xsx-6">
-            <div class="serviceBox blue">
-                <div class="service-icon">
-                    <span><i class="fa fa-shopping-cart"></i></span>
-                </div>
-                <div class="service-content">
-                    <h3 class="title">E-Commarce</h3>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in volutpat elit. Class aptent taciti.</p>
-                    <a href="ECommarce.html" class="read-more fa fa-plus" data-toggle="tooltip" title="Read More"></a>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>

@@ -10,6 +10,7 @@ namespace DataLayer.Context
     public class TripPlanner : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<UserInterest> UserInterests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,6 +20,7 @@ namespace DataLayer.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             UserDefinitions.Set(modelBuilder);
+            UserInterestDefinitions.Set(modelBuilder);
         }
     }
 }
