@@ -1,6 +1,8 @@
 ﻿using BachelorTripPlanner.Models;
 using BachelorTripPlanner.Workers;
+using DataLayer.Enums;
 using DataLayer.Helpers;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,12 @@ namespace BachelorTripPlanner.Controllers
     public class AccountController : Controller
     {
         private UserWorker _userWorker;
+        private UserInterestWorker _userInterestWorker;
 
         public AccountController()
         {
             _userWorker = new UserWorker();
+            _userInterestWorker = new UserInterestWorker();
         }
 
         [HttpGet("[action]")]
@@ -49,6 +53,24 @@ namespace BachelorTripPlanner.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut("[action]")]
+        public IActionResult UpdateInterestByCountryAndCity(int userId, CountriesEnum country, string city)
+        {
+            var user = _userWorker.GetById(userId);
+            if (user == null)
+            {
+                return BadRequest("The account could not be retrieved!");
+            }
+
+            UserInterestCountryAndCity userInterestCountryAndCity = new UserInterestCountryAndCity();
+            userInterestCountryAndCity.UserId = userId;
+            userInterestCountryAndCity.Countries = country;
+            userInterestCountryAndCity.Cities = city;
+
+            var userInterest = _userInterestWorker.UpdateByCountryAndCity(userInterestCountryAndCity);
+            return Ok(userInterest);
         }
     }
 }

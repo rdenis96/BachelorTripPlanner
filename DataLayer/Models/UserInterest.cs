@@ -4,13 +4,12 @@ namespace DataLayer.Models
 {
     public class UserInterest
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
     }
 
     public class UserInterestCountryAndCity : UserInterest
     {
-        public string Countries { get; set; }
+        public CountriesEnum Countries { get; set; }
         public string Cities { get; set; }
     }
 

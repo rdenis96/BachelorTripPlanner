@@ -11,7 +11,6 @@ namespace DataLayer.Definitions
         public static void Set(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserInterest>().HasKey(k => k.UserId);
-            modelBuilder.Entity<UserInterest>().Property(k => k.Id).IsRequired(false);
 
             modelBuilder.Entity<UserInterestCountryAndCity>().HasBaseType<UserInterest>();
             modelBuilder.Entity<UserInterestCountryAndCity>().Property(x => x.Countries).IsRequired(false);

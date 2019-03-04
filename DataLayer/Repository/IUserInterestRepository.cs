@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer.Repository
 {
-    public interface IUserInterestsRepository : IBasicRepository<UserInterest>
+    public interface IUserInterestRepository : IBasicRepository<UserInterest>
     {
         UserInterest GetByUserId(int userId);
 
