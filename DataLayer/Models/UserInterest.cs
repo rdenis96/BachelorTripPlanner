@@ -30,7 +30,7 @@ namespace DataLayer.Models
 
     public class UserInterestExtended : UserInterest
     {
-        public string Countries { get; set; }
+        public CountriesEnum Countries { get; set; }
         public string Cities { get; set; }
         public WeathersEnum Weathers { get; set; }
         public string TouristAttractions { get; set; }

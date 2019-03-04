@@ -12,20 +12,20 @@ namespace DataLayer.Definitions
         {
             modelBuilder.Entity<UserInterest>().HasKey(k => k.UserId);
 
-            modelBuilder.Entity<UserInterestCountryAndCity>().HasBaseType<UserInterest>();
-            modelBuilder.Entity<UserInterestCountryAndCity>().Property(x => x.Countries).IsRequired(false);
+            //  modelBuilder.Entity<UserInterestCountryAndCity>().HasBaseType<UserInterest>();
+            modelBuilder.Entity<UserInterestCountryAndCity>().Property(x => x.Countries).IsRequired();
             modelBuilder.Entity<UserInterestCountryAndCity>().Property(x => x.Cities).IsRequired(false);
 
-            modelBuilder.Entity<UserInterestWeather>().HasBaseType<UserInterest>();
-            modelBuilder.Entity<UserInterestWeather>().Property(x => x.Weathers).IsRequired(false);
+            //   modelBuilder.Entity<UserInterestWeather>().HasBaseType<UserInterest>();
+            modelBuilder.Entity<UserInterestWeather>().Property(x => x.Weathers).IsRequired();
 
-            modelBuilder.Entity<UserInterestTouristAttraction>().HasBaseType<UserInterest>();
+            // modelBuilder.Entity<UserInterestTouristAttraction>().HasBaseType<UserInterest>();
             modelBuilder.Entity<UserInterestTouristAttraction>().Property(x => x.TouristAttractions).IsRequired(false);
 
-            modelBuilder.Entity<UserInterestTransport>().HasBaseType<UserInterest>();
-            modelBuilder.Entity<UserInterestTransport>().Property(x => x.Transports).IsRequired(false);
+            //     modelBuilder.Entity<UserInterestTransport>().HasBaseType<UserInterest>();
+            modelBuilder.Entity<UserInterestTransport>().Property(x => x.Transports).IsRequired();
 
-            modelBuilder.Entity<UserInterestExtended>().HasBaseType<UserInterest>();
+            // modelBuilder.Entity<UserInterestExtended>().HasBaseType<UserInterest>();
         }
     }
 }
