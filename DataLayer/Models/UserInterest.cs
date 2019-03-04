@@ -5,6 +5,7 @@ namespace DataLayer.Models
     public class UserInterest
     {
         public int UserId { get; set; }
+        public string Discriminator { get; set; }
     }
 
     public class UserInterestCountryAndCity : UserInterest
