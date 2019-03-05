@@ -16,8 +16,8 @@
       "Scripts/Angular/angular-storage.min.js",
       "Scripts/Vendors/bootstrap/js/ui-bootstrap-tpls.min.js",
       "Scripts/Vendors/Toastr/angular-toastr.tpls.min.js",
-      "Scripts/Vendors/select/select.js"
-
+      "Scripts/Vendors/select/select.js",
+      "Scripts/Vendors/loading/angular-busy.min.js"
     ],
     "minify": {
       "enabled": false

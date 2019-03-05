@@ -11,8 +11,11 @@ namespace DataLayer.Definitions
         public static void Set(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserInterest>().HasKey(k => k.UserId);
-            modelBuilder.Entity<UserInterest>().HasDiscriminator(x => x.Discriminator);
-            modelBuilder.Entity<UserInterest>().Property(x => x.Discriminator).IsRequired(false);
+            modelBuilder.Entity<UserInterest>().HasDiscriminator(x => x.Discriminator)
+                                               .HasValue<UserInterestCountryAndCity>(nameof(UserInterestCountryAndCity))
+                                               .HasValue<UserInterestTouristAttraction>(nameof(UserInterestTouristAttraction))
+                                               .HasValue<UserInterestWeather>(nameof(UserInterestWeather))
+                                               .HasValue<UserInterestTransport>(nameof(UserInterestTransport));
 
             //  modelBuilder.Entity<UserInterestCountryAndCity>().HasBaseType<UserInterest>();
             modelBuilder.Entity<UserInterestCountryAndCity>().Property(x => x.Countries).IsRequired();
@@ -26,8 +29,6 @@ namespace DataLayer.Definitions
 
             //     modelBuilder.Entity<UserInterestTransport>().HasBaseType<UserInterest>();
             modelBuilder.Entity<UserInterestTransport>().Property(x => x.Transports).IsRequired();
-
-            // modelBuilder.Entity<UserInterestExtended>().HasBaseType<UserInterest>();
         }
     }
 }

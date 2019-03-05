@@ -9,9 +9,11 @@
                         <div class="cols-sm-10">
                             <ui-select name="availableCountries"
                                        ng-model="countriesList.selected"
+                                       cg-busy="{promise:getAvailableCountriesPromise}"
                                        search-enabled="true"
-                                       on-select="">
-                                <ui-select-match placeholder="">{{$select.selected}}</ui-select-match>
+                                       on-select=""
+                                       reset-search-input="true">
+                                <ui-select-match allow-clear="true" placeholder="Type in the country name!">{{$select.selected}}</ui-select-match>
                                 <ui-select-choices repeat="option as option in countriesList"
                                                    refresh=""
                                                    refresh-delay="0">

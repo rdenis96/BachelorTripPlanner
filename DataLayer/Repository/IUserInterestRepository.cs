@@ -7,7 +7,7 @@ namespace DataLayer.Repository
 {
     public interface IUserInterestRepository : IBasicRepository<UserInterest>
     {
-        UserInterest GetByUserId(int userId);
+        UserInterestExtended GetByUserId(int userId);
 
         UserInterest UpdateByCountryAndCity(UserInterestCountryAndCity userInterestCountryAndCity);
 

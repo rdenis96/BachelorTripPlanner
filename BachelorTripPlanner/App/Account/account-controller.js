@@ -2,6 +2,7 @@
     ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
         function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
             $scope.user = {};
+            $scope.userInterests = {};
 
             $scope.initEditAccount = function () {
                 $scope.userId = $localStorage.TPUserId;
@@ -15,6 +16,12 @@
 
             $scope.initInterests = function () {
                 $scope.userId = $localStorage.TPUserId;
+                $scope.getUserInterestsPromise = accountRepository.getUserInterests({ userId: $scope.userId }).$promise;
+                $scope.getUserInterestsPromise.then(function (result) {
+                    $scope.userInterests = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
             };
 
             $scope.openCountryAndCityModal = function () {

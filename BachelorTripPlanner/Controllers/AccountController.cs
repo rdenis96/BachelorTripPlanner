@@ -36,15 +36,45 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetCountries()
+        public IActionResult GetAvailableCountries([FromQuery]int userId, List<CountriesEnum> userCountries)
         {
             var countriesEnumList = Enum.GetValues(typeof(CountriesEnum));
             List<string> countries = new List<string>();
             foreach (CountriesEnum countryEnum in countriesEnumList)
             {
-                countries.Add(countryEnum.ToString());
+                if (userCountries.Contains(countryEnum) == false)
+                {
+                    countries.Add(countryEnum.ToString());
+                }
             }
             return Ok(countries);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetUserInterests([FromQuery]int userId)
+        {
+            var user = _userWorker.GetById(userId);
+            if (user == null)
+            {
+                return BadRequest("The account could not be retrieved!");
+            }
+
+            var userInterest = _userInterestWorker.GetByUserId(userId);
+            if (userInterest == null)
+            {
+                return BadRequest("The user interests could not be retrieved!");
+            }
+
+            var userInterestSelect = new
+            {
+                userInterest.UserId,
+                countries = userInterest.Countries.ConvertCountriesStringToCountriesEnumList(),
+                userInterest.Cities,
+                userInterest.Weathers,
+                userInterest.TouristAttractions,
+                userInterest.Transports
+            };
+            return Ok(userInterestSelect);
         }
 
         [HttpPut("[action]")]

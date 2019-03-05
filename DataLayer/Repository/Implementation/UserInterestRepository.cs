@@ -43,9 +43,26 @@ namespace DataLayer.Repository.Implementation
             throw new NotImplementedException();
         }
 
-        public UserInterest GetByUserId(int userId)
+        public UserInterestExtended GetByUserId(int userId)
         {
-            throw new NotImplementedException();
+            if (userId <= 0)
+                return null;
+            using (TripPlanner context = new TripPlanner())
+            {
+                var result = context.UserInterests.Where(x => x.UserId == userId).FirstOrDefault();
+                if (result != null)
+                {
+                    UserInterestExtended userInterest = new UserInterestExtended();
+                    userInterest.UserId = result.UserId;
+                    userInterest.Countries = ((UserInterestCountryAndCity)result).Countries;
+                    userInterest.Cities = ((UserInterestCountryAndCity)result).Cities;
+                    userInterest.Transports = ((UserInterestTransport)result).Transports;
+                    userInterest.TouristAttractions = ((UserInterestTouristAttraction)result).TouristAttractions;
+                    userInterest.Weathers = ((UserInterestWeather)result).Weathers;
+                    return userInterest;
+                }
+                return null;
+            }
         }
 
         public UserInterest Update(UserInterest obj)

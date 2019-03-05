@@ -1,5 +1,6 @@
 ﻿using DataLayer.Enums;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.Models
@@ -31,8 +32,9 @@ namespace DataLayer.Models
         public TransportsEnum Transports { get; set; }
     }
 
-    public class UserInterestExtended : UserInterest
+    public class UserInterestExtended
     {
+        public int UserId { get; set; }
         public string Countries { get; set; }
         public string Cities { get; set; }
         public WeathersEnum Weathers { get; set; }

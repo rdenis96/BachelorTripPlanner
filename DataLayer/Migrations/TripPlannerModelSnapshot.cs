@@ -54,7 +54,8 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator");
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
                     b.HasKey("UserId");
 
@@ -75,11 +76,33 @@ namespace DataLayer.Migrations
                     b.HasDiscriminator().HasValue("UserInterestCountryAndCity");
                 });
 
+            modelBuilder.Entity("DataLayer.Models.UserInterestExtended", b =>
+                {
+                    b.HasBaseType("DataLayer.Models.UserInterest");
+
+                    b.Property<string>("Cities")
+                        .HasColumnName("UserInterestExtended_Cities");
+
+                    b.Property<string>("Countries")
+                        .HasColumnName("UserInterestExtended_Countries");
+
+                    b.Property<string>("TouristAttractions");
+
+                    b.Property<int>("Transports");
+
+                    b.Property<int>("Weathers");
+
+                    b.ToTable("UserInterests");
+
+                    b.HasDiscriminator().HasValue("UserInterestExtended");
+                });
+
             modelBuilder.Entity("DataLayer.Models.UserInterestTouristAttraction", b =>
                 {
                     b.HasBaseType("DataLayer.Models.UserInterest");
 
-                    b.Property<string>("TouristAttractions");
+                    b.Property<string>("TouristAttractions")
+                        .HasColumnName("UserInterestTouristAttraction_TouristAttractions");
 
                     b.HasDiscriminator().HasValue("UserInterestTouristAttraction");
                 });
@@ -88,7 +111,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasBaseType("DataLayer.Models.UserInterest");
 
-                    b.Property<int>("Transports");
+                    b.Property<int>("Transports")
+                        .HasColumnName("UserInterestTransport_Transports");
 
                     b.HasDiscriminator().HasValue("UserInterestTransport");
                 });
@@ -97,7 +121,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasBaseType("DataLayer.Models.UserInterest");
 
-                    b.Property<int>("Weathers");
+                    b.Property<int>("Weathers")
+                        .HasColumnName("UserInterestWeather_Weathers");
 
                     b.HasDiscriminator().HasValue("UserInterestWeather");
                 });

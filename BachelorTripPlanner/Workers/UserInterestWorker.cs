@@ -17,6 +17,12 @@ namespace BachelorTripPlanner.Workers
             _userInterestRepository = new UserInterestRepository();
         }
 
+        public UserInterestExtended GetByUserId(int userId)
+        {
+            var result = _userInterestRepository.GetByUserId(userId);
+            return result;
+        }
+
         public UserInterest UpdateByCountryAndCity(UserInterestCountryAndCity userInterestCountryAndCity)
         {
             var result = _userInterestRepository.UpdateByCountryAndCity(userInterestCountryAndCity);

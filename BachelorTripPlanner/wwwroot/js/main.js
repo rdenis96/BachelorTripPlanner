@@ -1,6 +1,6 @@
 var globalModule = angular.module('globalModule', [
     // Angular modules
-    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ngStorage', 'ui.bootstrap', 'ui.select', 'toastr'
+    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ngStorage', 'ui.bootstrap', 'ui.select', 'toastr', 'cgBusy'
 ]);
 
 globalModule.config([
@@ -197,6 +197,7 @@ globalModule.controller("AccountController",
     ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
         function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
             $scope.user = {};
+            $scope.userInterests = {};
 
             $scope.initEditAccount = function () {
                 $scope.userId = $localStorage.TPUserId;
@@ -210,6 +211,12 @@ globalModule.controller("AccountController",
 
             $scope.initInterests = function () {
                 $scope.userId = $localStorage.TPUserId;
+                $scope.getUserInterestsPromise = accountRepository.getUserInterests({ userId: $scope.userId }).$promise;
+                $scope.getUserInterestsPromise.then(function (result) {
+                    $scope.userInterests = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
             };
 
             $scope.openCountryAndCityModal = function () {
@@ -257,9 +264,13 @@ globalModule.factory('accountRepository', [
                     method: 'GET',
                     url: 'api/account/getUser'
                 },
-                getCountries: {
+                getUserInterests: {
                     method: 'GET',
-                    url: 'api/account/getCountries',
+                    url: 'api/account/getUserInterests'
+                },
+                getAvailableCountries: {
+                    method: 'GET',
+                    url: 'api/account/GetAvailableCountries',
                     isArray: true
                 },
                 update: {
@@ -275,15 +286,15 @@ globalModule.factory('accountRepository', [
 
 ]);
 globalModule.controller("AccountInterestsController",
-    ['$scope', '$localStorage', 'accountRepository', 'toastr',
-        function ($scope, $localStorage, accountRepository, toastr) {
+    ['$scope', '$localStorage', 'accountRepository', 'toastr', '$uibModalInstance',
+        function ($scope, $localStorage, accountRepository, toastr, $uibModalInstance) {
             $scope.user = {};
             $scope.countriesList = [];
 
             $scope.initCountryCity = function () {
                 $scope.userId = $localStorage.TPUserId;
-                var getCountriesPromise = accountRepository.getCountries().$promise;
-                getCountriesPromise.then(function (result) {
+                $scope.getAvailableCountriesPromise = accountRepository.getAvailableCountries({ userId: $scope.userId }).$promise;
+                $scope.getAvailableCountriesPromise.then(function (result) {
                     $scope.countriesList = result;
                 }).catch(function (result) {
                     toastr.warning(result.data);
@@ -308,6 +319,10 @@ globalModule.controller("AccountInterestsController",
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
+            };
+
+            $scope.close = function () {
+                $uibModalInstance.close();
             };
         }
 

@@ -7,9 +7,13 @@
                     method: 'GET',
                     url: 'api/account/getUser'
                 },
-                getCountries: {
+                getUserInterests: {
                     method: 'GET',
-                    url: 'api/account/getCountries',
+                    url: 'api/account/getUserInterests'
+                },
+                getAvailableCountries: {
+                    method: 'GET',
+                    url: 'api/account/GetAvailableCountries',
                     isArray: true
                 },
                 update: {
