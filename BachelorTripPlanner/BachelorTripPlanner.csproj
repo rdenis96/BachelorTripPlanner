@@ -13,11 +13,13 @@
     <None Remove="AppStyle\Common\global.css" />
     <None Remove="AppStyle\Common\landingPage.css" />
     <None Remove="AppViews\Account\edit-account.html" />
+    <None Remove="AppViews\Account\interest-country-city-modal.html" />
     <None Remove="AppViews\Account\interests.html" />
     <None Remove="AppViews\Home\home.html" />
     <None Remove="AppViews\LandingPage\LandingPage.html" />
     <None Remove="AppViews\LandingPage\login-modal.html" />
     <None Remove="App\Account\account-controller.js" />
+    <None Remove="App\Account\account-interests-controller.js" />
     <None Remove="App\Account\account-repository.js" />
     <None Remove="App\Global\directives.js" />
     <None Remove="App\Global\enums.js" />
@@ -49,6 +51,9 @@
     <Content Include="AppViews\Account\edit-account.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="AppViews\Account\interest-country-city-modal.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="AppViews\Account\interests.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -62,6 +67,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App\Account\account-controller.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App\Account\account-interests-controller.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App\Account\account-repository.js">

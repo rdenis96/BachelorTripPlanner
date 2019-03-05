@@ -15,7 +15,8 @@
       "Scripts/Angular/angular-touch.min.js",
       "Scripts/Angular/angular-storage.min.js",
       "Scripts/Vendors/bootstrap/js/ui-bootstrap-tpls.min.js",
-      "Scripts/Vendors/Toastr/angular-toastr.tpls.min.js"
+      "Scripts/Vendors/Toastr/angular-toastr.tpls.min.js",
+      "Scripts/Vendors/select/select.js"
 
     ],
     "minify": {
@@ -28,6 +29,8 @@
     "inputFiles": [
       "Scripts/Vendors/bootstrap/css/bootstrap.min.css",
       "Scripts/Vendors/Toastr/angular-toastr.min.css",
+      "Scripts/Vendors/select/select.min.css",
+      "Scripts/Vendors/select/select-theme.min.css",
       "AppStyle/Common/global.css",
       "AppStyle/Common/landingPage.css",
       "AppStyle/Account/interests.css"
@@ -52,6 +55,7 @@
       "App/LandingPage/landingPage-repository.js",
       "App/Account/account-controller.js",
       "App/Account/account-repository.js",
+      "App/Account/account-interests-controller.js",
       "App/Global/login-modal-controller.js"
     ]
   }

@@ -11,7 +11,7 @@ namespace DataLayer.Definitions
         public static void Set(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserInterest>().HasKey(k => k.UserId);
-            modelBuilder.Entity<UserInterest>().HasDiscriminator<string>("Discriminator");
+            modelBuilder.Entity<UserInterest>().HasDiscriminator(x => x.Discriminator);
             modelBuilder.Entity<UserInterest>().Property(x => x.Discriminator).IsRequired(false);
 
             //  modelBuilder.Entity<UserInterestCountryAndCity>().HasBaseType<UserInterest>();

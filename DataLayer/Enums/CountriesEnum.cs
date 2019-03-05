@@ -6,6 +6,7 @@ namespace DataLayer.Enums
 {
     public enum CountriesEnum
     {
+        None,
         Afghanistan,
         Albania,
         Algeria,

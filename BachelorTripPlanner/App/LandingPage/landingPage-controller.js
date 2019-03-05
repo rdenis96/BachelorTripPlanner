@@ -1,6 +1,6 @@
 ﻿globalModule.controller("LandingPageController",
-    ['$scope', '$http', '$localStorage', 'landingPageRepository', 'toastr',
-        function ($scope, $http, $localStorage, landingPageRepository, toastr) {
+    ['$scope', '$window', '$http', '$localStorage', 'landingPageRepository', 'toastr',
+        function ($scope, $window, $http, $localStorage, landingPageRepository, toastr) {
             $scope.landingPage = true;
             $scope.landingPageTabsEnum = landingPageTabsEnum;
             $scope.selectedTab = landingPageTabsEnum.Welcome;

@@ -35,6 +35,18 @@ namespace BachelorTripPlanner.Controllers
             return Ok(user);
         }
 
+        [HttpGet("[action]")]
+        public IActionResult GetCountries()
+        {
+            var countriesEnumList = Enum.GetValues(typeof(CountriesEnum));
+            List<string> countries = new List<string>();
+            foreach (CountriesEnum countryEnum in countriesEnumList)
+            {
+                countries.Add(countryEnum.ToString());
+            }
+            return Ok(countries);
+        }
+
         [HttpPut("[action]")]
         public IActionResult Update(int userId, [FromBody]UserLoginModel userLoginModel)
         {
@@ -56,7 +68,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdateInterestByCountryAndCity(int userId, CountriesEnum country, string city)
+        public IActionResult UpdateInterestByCountryAndCity(int userId, List<CountriesEnum> countries, string cities)
         {
             var user = _userWorker.GetById(userId);
             if (user == null)
@@ -66,8 +78,8 @@ namespace BachelorTripPlanner.Controllers
 
             UserInterestCountryAndCity userInterestCountryAndCity = new UserInterestCountryAndCity();
             userInterestCountryAndCity.UserId = userId;
-            userInterestCountryAndCity.Countries = country;
-            userInterestCountryAndCity.Cities = city;
+            userInterestCountryAndCity.Countries = countries.ConvertCountriesEnumListToString();
+            userInterestCountryAndCity.Cities = cities;
 
             var userInterest = _userInterestWorker.UpdateByCountryAndCity(userInterestCountryAndCity);
             return Ok(userInterest);

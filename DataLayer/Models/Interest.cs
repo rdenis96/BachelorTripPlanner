@@ -1,6 +1,7 @@
 ﻿using DataLayer.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.Models
@@ -15,6 +16,7 @@ namespace DataLayer.Models
         public WeathersEnum Weather { get; set; }
         public string TouristAttractions { get; set; }
 
+        [NotMapped]
         public List<string> TouristAttractionsList
         {
             get

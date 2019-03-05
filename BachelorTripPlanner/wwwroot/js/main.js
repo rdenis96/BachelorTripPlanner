@@ -1,6 +1,6 @@
 var globalModule = angular.module('globalModule', [
     // Angular modules
-    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ngStorage', 'ui.bootstrap', 'toastr'
+    'ngRoute', 'ngAnimate', 'ngCookies', 'ngResource', 'ngSanitize', 'ngTouch', 'ngStorage', 'ui.bootstrap', 'ui.select', 'toastr'
 ]);
 
 globalModule.config([
@@ -111,8 +111,8 @@ globalModule.controller("HeaderController",
 
     ]);
 globalModule.controller("LandingPageController",
-    ['$scope', '$http', '$localStorage', 'landingPageRepository', 'toastr',
-        function ($scope, $http, $localStorage, landingPageRepository, toastr) {
+    ['$scope', '$window', '$http', '$localStorage', 'landingPageRepository', 'toastr',
+        function ($scope, $window, $http, $localStorage, landingPageRepository, toastr) {
             $scope.landingPage = true;
             $scope.landingPageTabsEnum = landingPageTabsEnum;
             $scope.selectedTab = landingPageTabsEnum.Welcome;
@@ -194,8 +194,8 @@ globalModule.factory('landingPageRepository', [
 
 ]);
 globalModule.controller("AccountController",
-    ['$scope', '$localStorage', 'accountRepository', 'toastr',
-        function ($scope, $localStorage, accountRepository, toastr) {
+    ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
+        function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
             $scope.user = {};
 
             $scope.initEditAccount = function () {
@@ -212,6 +212,21 @@ globalModule.controller("AccountController",
                 $scope.userId = $localStorage.TPUserId;
             };
 
+            $scope.openCountryAndCityModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-country-city-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg'
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            }
+
+            //update functions
             $scope.update = function () {
                 if ($scope.newPassword != $scope.confPassword) {
                     toastr.warning('The password does not match, please type the same password in Confirm Password field!');
@@ -242,14 +257,61 @@ globalModule.factory('accountRepository', [
                     method: 'GET',
                     url: 'api/account/getUser'
                 },
+                getCountries: {
+                    method: 'GET',
+                    url: 'api/account/getCountries',
+                    isArray: true
+                },
                 update: {
                     method: 'PUT',
                     url: 'api/account/update'
+                },
+                updateCountriesAndCities: {
+                    method: 'PUT',
+                    url: 'api/account/updateCountriesAndCities'
                 }
             });
     }
 
 ]);
+globalModule.controller("AccountInterestsController",
+    ['$scope', '$localStorage', 'accountRepository', 'toastr',
+        function ($scope, $localStorage, accountRepository, toastr) {
+            $scope.user = {};
+            $scope.countriesList = [];
+
+            $scope.initCountryCity = function () {
+                $scope.userId = $localStorage.TPUserId;
+                var getCountriesPromise = accountRepository.getCountries().$promise;
+                getCountriesPromise.then(function (result) {
+                    $scope.countriesList = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            //update functions
+            $scope.updateCountryCity = function () {
+                if ($scope.newPassword != $scope.confPassword) {
+                    toastr.warning('The password does not match, please type the same password in Confirm Password field!');
+                    return;
+                }
+
+                var userUpdateParam = {
+                    email: $scope.user.email,
+                    password: $scope.newPassword
+                };
+
+                var userUpdatePromise = accountRepository.updateCountriesAndCities({ userId: $scope.userId }, userUpdateParam).$promise;
+                userUpdatePromise.then(function (result) {
+                    toastr.success('The account was updated successfuly!');
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+        }
+
+    ]);
 globalModule.controller("LoginModalController",
     ['$scope', '$window', '$localStorage', '$uibModalInstance', 'landingPageRepository', 'toastr',
         function ($scope, $window, $localStorage, $uibModalInstance, landingPageRepository, toastr) {

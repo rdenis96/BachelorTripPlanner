@@ -1,4 +1,6 @@
 ﻿using DataLayer.Enums;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DataLayer.Models
 {
@@ -10,7 +12,7 @@ namespace DataLayer.Models
 
     public class UserInterestCountryAndCity : UserInterest
     {
-        public CountriesEnum Countries { get; set; }
+        public string Countries { get; set; }
         public string Cities { get; set; }
     }
 
@@ -31,7 +33,7 @@ namespace DataLayer.Models
 
     public class UserInterestExtended : UserInterest
     {
-        public CountriesEnum Countries { get; set; }
+        public string Countries { get; set; }
         public string Cities { get; set; }
         public WeathersEnum Weathers { get; set; }
         public string TouristAttractions { get; set; }

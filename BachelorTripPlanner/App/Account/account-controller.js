@@ -1,6 +1,6 @@
 ﻿globalModule.controller("AccountController",
-    ['$scope', '$localStorage', 'accountRepository', 'toastr',
-        function ($scope, $localStorage, accountRepository, toastr) {
+    ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
+        function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
             $scope.user = {};
 
             $scope.initEditAccount = function () {
@@ -17,6 +17,21 @@
                 $scope.userId = $localStorage.TPUserId;
             };
 
+            $scope.openCountryAndCityModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-country-city-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg'
+                });
+
+                modalInstance.result.then(function () {
+                }, function () {
+                });
+            }
+
+            //update functions
             $scope.update = function () {
                 if ($scope.newPassword != $scope.confPassword) {
                     toastr.warning('The password does not match, please type the same password in Confirm Password field!');
