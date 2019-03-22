@@ -16,9 +16,9 @@
 
             $scope.initInterests = function () {
                 $scope.userId = $localStorage.TPUserId;
-                $scope.getUserInterestsPromise = accountRepository.getUserInterests({ userId: $scope.userId }).$promise;
-                $scope.getUserInterestsPromise.then(function (result) {
-                    $scope.userInterests = result;
+                $scope.getUserInterestPromise = accountRepository.getUserInterest({ userId: $scope.userId }).$promise;
+                $scope.getUserInterestPromise.then(function (result) {
+                    $scope.userInterest = result;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });

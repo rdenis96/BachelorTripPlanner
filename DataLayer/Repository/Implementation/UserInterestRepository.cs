@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataLayer.Context;
+using DataLayer.Enums;
 using DataLayer.Models;
 
 namespace DataLayer.Repository.Implementation
@@ -43,22 +44,16 @@ namespace DataLayer.Repository.Implementation
             throw new NotImplementedException();
         }
 
-        public UserInterestExtended GetByUserId(int userId)
+        public UserInterest GetByUserId(int userId)
         {
             if (userId <= 0)
                 return null;
             using (TripPlanner context = new TripPlanner())
             {
-                var result = context.UserInterests.Where(x => x.UserId == userId).FirstOrDefault();
-                if (result != null)
+                var userInterest = context.UserInterests.Where(x => x.UserId == userId).FirstOrDefault();
+
+                if (userInterest != null)
                 {
-                    UserInterestExtended userInterest = new UserInterestExtended();
-                    userInterest.UserId = result.UserId;
-                    userInterest.Countries = ((UserInterestCountryAndCity)result).Countries;
-                    userInterest.Cities = ((UserInterestCountryAndCity)result).Cities;
-                    userInterest.Transports = ((UserInterestTransport)result).Transports;
-                    userInterest.TouristAttractions = ((UserInterestTouristAttraction)result).TouristAttractions;
-                    userInterest.Weathers = ((UserInterestWeather)result).Weathers;
                     return userInterest;
                 }
                 return null;
@@ -67,37 +62,22 @@ namespace DataLayer.Repository.Implementation
 
         public UserInterest Update(UserInterest obj)
         {
-            throw new NotImplementedException();
-        }
-
-        public UserInterest UpdateByCountryAndCity(UserInterestCountryAndCity userInterestCountryAndCity)
-        {
-            if (userInterestCountryAndCity == null)
+            if (obj == null)
                 return null;
             using (TripPlanner context = new TripPlanner())
             {
-                context.Entry(userInterestCountryAndCity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                var userInterest = context.UserInterests.Find(obj.UserId);
+                if (userInterest == null)
+                {
+                    return null;
+                }
+
+                context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
                 context.SaveChanges();
 
-                var result = context.UserInterests.Find(userInterestCountryAndCity.UserId);
-                return result;
+                return userInterest;
             }
-        }
-
-        public UserInterest UpdateByTouristAttraction(UserInterestTouristAttraction userInterestTouristAttraction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UserInterest UpdateByTransport(UserInterestTransport userInterestTransport)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UserInterest UpdateByWeather(UserInterestWeather userInterestWeather)
-        {
-            throw new NotImplementedException();
         }
     }
 }

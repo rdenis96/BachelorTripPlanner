@@ -36,9 +36,10 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAvailableCountries([FromQuery]int userId, List<CountriesEnum> userCountries)
+        public IActionResult GetAvailableCountries([FromQuery]int userId)
         {
             var countriesEnumList = Enum.GetValues(typeof(CountriesEnum));
+            var userCountries = _userInterestWorker.GetByUserId(userId)?.Countries?.ConvertCountriesStringToCountriesEnumList();
             List<string> countries = new List<string>();
             foreach (CountriesEnum countryEnum in countriesEnumList)
             {
@@ -51,7 +52,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUserInterests([FromQuery]int userId)
+        public IActionResult GetUserInterest([FromQuery]int userId)
         {
             var user = _userWorker.GetById(userId);
             if (user == null)
@@ -65,16 +66,7 @@ namespace BachelorTripPlanner.Controllers
                 return BadRequest("The user interests could not be retrieved!");
             }
 
-            var userInterestSelect = new
-            {
-                userInterest.UserId,
-                countries = userInterest.Countries.ConvertCountriesStringToCountriesEnumList(),
-                userInterest.Cities,
-                userInterest.Weathers,
-                userInterest.TouristAttractions,
-                userInterest.Transports
-            };
-            return Ok(userInterestSelect);
+            return Ok(userInterest);
         }
 
         [HttpPut("[action]")]
@@ -106,12 +98,11 @@ namespace BachelorTripPlanner.Controllers
                 return BadRequest("The account could not be retrieved!");
             }
 
-            UserInterestCountryAndCity userInterestCountryAndCity = new UserInterestCountryAndCity();
-            userInterestCountryAndCity.UserId = userId;
-            userInterestCountryAndCity.Countries = countries.ConvertCountriesEnumListToString();
-            userInterestCountryAndCity.Cities = cities;
+            UserInterest userInterest = _userInterestWorker.GetByUserId(userId);
+            userInterest.Countries = countries.ConvertCountriesEnumListToString();
+            userInterest.Cities = cities;
 
-            var userInterest = _userInterestWorker.UpdateByCountryAndCity(userInterestCountryAndCity);
+            userInterest = _userInterestWorker.Update(userInterest);
             return Ok(userInterest);
         }
     }

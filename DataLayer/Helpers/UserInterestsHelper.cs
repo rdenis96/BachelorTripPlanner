@@ -31,7 +31,7 @@ namespace DataLayer.Helpers
                 {
                     countryEnum = CountriesEnum.None;
                 }
-                if (countryEnum.HasFlag(CountriesEnum.None) == false)
+                if (Convert.ToInt32(countryEnum) != 0)
                 {
                     countriesEnums.Add(countryEnum);
                 }

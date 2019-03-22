@@ -4,14 +4,16 @@ using DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(TripPlanner))]
-    partial class TripPlannerModelSnapshot : ModelSnapshot
+    [Migration("20190319071602_AddDefaultValuesForTransportsAndWeathersColumns")]
+    partial class AddDefaultValuesForTransportsAndWeathersColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,24 +56,57 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserInterests");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("UserInterest");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.UserInterestCountryAndCity", b =>
+                {
+                    b.HasBaseType("DataLayer.Models.UserInterest");
+
                     b.Property<string>("Cities");
 
                     b.Property<string>("Countries")
                         .IsRequired();
 
+                    b.HasDiscriminator().HasValue("UserInterestCountryAndCity");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.UserInterestTouristAttraction", b =>
+                {
+                    b.HasBaseType("DataLayer.Models.UserInterest");
+
                     b.Property<string>("TouristAttractions");
+
+                    b.HasDiscriminator().HasValue("UserInterestTouristAttraction");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.UserInterestTransport", b =>
+                {
+                    b.HasBaseType("DataLayer.Models.UserInterest");
 
                     b.Property<int>("Transports")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
 
+                    b.HasDiscriminator().HasValue("UserInterestTransport");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.UserInterestWeather", b =>
+                {
+                    b.HasBaseType("DataLayer.Models.UserInterest");
+
                     b.Property<int>("Weathers")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
 
-                    b.HasKey("UserId");
-
-                    b.ToTable("UserInterests");
+                    b.HasDiscriminator().HasValue("UserInterestWeather");
                 });
 #pragma warning restore 612, 618
         }

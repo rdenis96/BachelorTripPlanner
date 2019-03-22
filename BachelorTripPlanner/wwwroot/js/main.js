@@ -211,9 +211,9 @@ globalModule.controller("AccountController",
 
             $scope.initInterests = function () {
                 $scope.userId = $localStorage.TPUserId;
-                $scope.getUserInterestsPromise = accountRepository.getUserInterests({ userId: $scope.userId }).$promise;
-                $scope.getUserInterestsPromise.then(function (result) {
-                    $scope.userInterests = result;
+                $scope.getUserInterestPromise = accountRepository.getUserInterest({ userId: $scope.userId }).$promise;
+                $scope.getUserInterestPromise.then(function (result) {
+                    $scope.userInterest = result;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -264,9 +264,9 @@ globalModule.factory('accountRepository', [
                     method: 'GET',
                     url: 'api/account/getUser'
                 },
-                getUserInterests: {
+                getUserInterest: {
                     method: 'GET',
-                    url: 'api/account/getUserInterests'
+                    url: 'api/account/getUserInterest'
                 },
                 getAvailableCountries: {
                     method: 'GET',
@@ -288,11 +288,16 @@ globalModule.factory('accountRepository', [
 globalModule.controller("AccountInterestsController",
     ['$scope', '$localStorage', 'accountRepository', 'toastr', '$uibModalInstance',
         function ($scope, $localStorage, accountRepository, toastr, $uibModalInstance) {
-            $scope.user = {};
+            $scope.userInterest = {
+                countries: [],
+                cities: [],
+                weather: []
+            };
             $scope.countriesList = [];
 
             $scope.initCountryCity = function () {
                 $scope.userId = $localStorage.TPUserId;
+
                 $scope.getAvailableCountriesPromise = accountRepository.getAvailableCountries({ userId: $scope.userId }).$promise;
                 $scope.getAvailableCountriesPromise.then(function (result) {
                     $scope.countriesList = result;

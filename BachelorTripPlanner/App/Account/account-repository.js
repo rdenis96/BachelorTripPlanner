@@ -7,9 +7,9 @@
                     method: 'GET',
                     url: 'api/account/getUser'
                 },
-                getUserInterests: {
+                getUserInterest: {
                     method: 'GET',
-                    url: 'api/account/getUserInterests'
+                    url: 'api/account/getUserInterest'
                 },
                 getAvailableCountries: {
                     method: 'GET',

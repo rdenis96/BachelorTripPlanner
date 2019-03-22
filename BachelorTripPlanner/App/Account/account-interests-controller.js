@@ -1,11 +1,16 @@
 ﻿globalModule.controller("AccountInterestsController",
     ['$scope', '$localStorage', 'accountRepository', 'toastr', '$uibModalInstance',
         function ($scope, $localStorage, accountRepository, toastr, $uibModalInstance) {
-            $scope.user = {};
+            $scope.userInterest = {
+                countries: [],
+                cities: [],
+                weather: []
+            };
             $scope.countriesList = [];
 
             $scope.initCountryCity = function () {
                 $scope.userId = $localStorage.TPUserId;
+
                 $scope.getAvailableCountriesPromise = accountRepository.getAvailableCountries({ userId: $scope.userId }).$promise;
                 $scope.getAvailableCountriesPromise.then(function (result) {
                     $scope.countriesList = result;
