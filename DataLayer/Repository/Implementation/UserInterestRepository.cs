@@ -64,19 +64,15 @@ namespace DataLayer.Repository.Implementation
         {
             if (obj == null)
                 return null;
+
+            var changesSaved = false;
             using (TripPlanner context = new TripPlanner())
             {
-                var userInterest = context.UserInterests.Find(obj.UserId);
-                if (userInterest == null)
-                {
-                    return null;
-                }
-
                 context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-                context.SaveChanges();
+                changesSaved = context.SaveChanges() > 0;
 
-                return userInterest;
+                return changesSaved ? GetByUserId(obj.UserId) : null;
             }
         }
     }

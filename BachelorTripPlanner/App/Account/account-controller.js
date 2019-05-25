@@ -30,13 +30,75 @@
                     controller: 'AccountInterestsController',
                     backdrop: 'static',
                     keyboard: false,
-                    size: 'lg'
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
                 });
+            };
 
-                modalInstance.result.then(function () {
-                }, function () {
+            $scope.openWeatherModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-weather-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
                 });
-            }
+            };
+
+            $scope.openTransportsModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-transport-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
+                });
+            };
+
+            $scope.openTouristAttractionsModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-tourist-attractions-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
+                });
+            };
 
             //update functions
             $scope.update = function () {

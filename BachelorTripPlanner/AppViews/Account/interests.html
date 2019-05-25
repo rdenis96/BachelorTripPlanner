@@ -10,9 +10,8 @@
         </div>
     </section>
     <div id="main">
-        <div class="inner">
-            <div class="thumbnails" cg-busy="getUserInterestPromise">
-
+        <div class="inner" cg-busy="getUserInterestPromise">
+            <div class="thumbnails">
                 <div class="box" ng-click="openCountryAndCityModal()">
                     <a href="#" class="image fit"><img src="../../Images/Account/pic01.jpg" alt="" /></a>
                     <div class="inner">
@@ -21,46 +20,30 @@
                     </div>
                 </div>
 
-                <div class="box">
+                <div class="box" ng-click="openWeatherModal()">
                     <a href="#" class="image fit"><img src="../../Images/Account/pic02.jpg" alt="" /></a>
                     <div class="inner">
                         <h3>Weather</h3>
                         <p>How would you like the perfect location for your trip to be, maybe a sunny place or maybe a rainy one? Choose your type of weathers to match! </p>
                     </div>
                 </div>
-
+            </div>
+            <div class="thumbnails" ng-click="openTouristAttractionsModal()">
                 <div class="box">
                     <a href="#" class="image fit"><img src="../../Images/Account/pic03.jpg" alt="" /></a>
                     <div class="inner">
-                        <h3>Nascetur nunc varius commodo</h3>
-                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                        <h3>Tourist Attractions</h3>
+                        <p>When you go to a location, your main objective is to see as much as possible from tourist attractions. Well then make it easier for you and choose what to visit. </p>
                     </div>
                 </div>
 
-                <div class="box">
+                <div class="box" ng-click="openTransportsModal()">
                     <a href="#" class="image fit"><img src="../../Images/Account/pic04.jpg" alt="" /></a>
                     <div class="inner">
-                        <h3>Nascetur nunc varius commodo</h3>
-                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
-                    </div>
-                </div>
-
-                <div class="box">
-                    <a href="#" class="image fit"><img src="../../Images/Account/pic05.jpg" alt="" /></a>
-                    <div class="inner">
-                        <h3>Nascetur nunc varius commodo</h3>
-                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
-                    </div>
-                </div>
-
-                <div class="box">
-                    <a href="#" class="image fit"><img src="../../Images/Account/pic06.jpg" alt="" /></a>
-                    <div class="inner">
-                        <h3>Nascetur nunc varius commodo</h3>
-                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                        <h3>Transports</h3>
+                        <p>Going in a trip is hard when you don't have a vehicle to travel, especially when you are already at your destination, and that's why you can select before that which transports are your best fit. </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

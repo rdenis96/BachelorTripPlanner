@@ -17,7 +17,7 @@
       "Scripts/Vendors/bootstrap/js/ui-bootstrap-tpls.min.js",
       "Scripts/Vendors/Toastr/angular-toastr.tpls.min.js",
       "Scripts/Vendors/select/select.js",
-      "Scripts/Vendors/loading/angular-busy.min.js"
+      "Scripts/Vendors/loading/js/angular-busy.min.js"
     ],
     "minify": {
       "enabled": false
@@ -31,6 +31,7 @@
       "Scripts/Vendors/Toastr/angular-toastr.min.css",
       "Scripts/Vendors/select/select.min.css",
       "Scripts/Vendors/select/select-theme.min.css",
+      "Scripts/Vendors/loading/css/angular-busy.css",
       "AppStyle/Common/global.css",
       "AppStyle/Common/landingPage.css",
       "AppStyle/Account/interests.css"

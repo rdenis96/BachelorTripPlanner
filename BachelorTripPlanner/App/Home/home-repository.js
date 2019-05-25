@@ -3,9 +3,14 @@
     function ($resource) {
         return $resource("api/home", {},
             {
-                getAll: {
+                getSuggestedInterests: {
                     method: 'GET',
-                    url: 'api/home/getAll',
+                    url: 'api/home/getSuggestedInterests',
+                    isArray: true
+                },
+                getRandomInterests: {
+                    method: 'GET',
+                    url: 'api/home/getRandomInterests',
                     isArray: true
                 }
             });
