@@ -23,9 +23,17 @@ globalModule.config([
                 templateUrl: 'AppViews/Account/interests.html',
                 controller: 'AccountController'
             })
+            .when('/account/planningHistory', {
+                templateUrl: 'AppViews/Account/planning-history.html',
+                controller: 'PlanningHistoryController'
+            })
             .when('/account/editAccount', {
                 templateUrl: 'AppViews/Account/edit-account.html',
                 controller: 'AccountController'
+            })
+            .when('/trip/createTrip', {
+                templateUrl: 'AppViews/Trip/trip-create.html',
+                controller: 'TripCreateController'
             })
             .otherwise({
                 redirectTo: '/'
@@ -46,11 +54,21 @@ globalModule.config([
 
         $locationProvider.html5Mode(true);
     }]);
-
 var landingPageTabsEnum = {
     Welcome: 'Welcome',
     Register: 'Register',
     Login: 'Login'
+};
+
+var tripMainPageTabsEnum = {
+    MainTab: 'Main',
+    SingleTrip: 'Single Trip',
+    GroupTrip: 'Group Trip'
+};
+
+var tripTypeEnum = {
+    Single: 'Single',
+    Group: 'Group'
 };
 globalModule.directive('homeInterestsSlider', function ($timeout, $window) {
     return {
@@ -685,6 +703,208 @@ globalModule.controller("AccountInterestsController",
         }
 
     ]);
+globalModule.controller("PlanningHistoryController",
+    ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
+        function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
+            $scope.user = {};
+            $scope.userInterests = {};
+
+            $scope.initEditAccount = function () {
+                $scope.userId = $localStorage.TPUserId;
+                var getUserPromise = accountRepository.getUser({ userId: $scope.userId }).$promise;
+                getUserPromise.then(function (result) {
+                    $scope.user = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.initInterests = function () {
+                $scope.userId = $localStorage.TPUserId;
+                $scope.getUserInterestPromise = accountRepository.getUserInterest({ userId: $scope.userId }).$promise;
+                $scope.getUserInterestPromise.then(function (result) {
+                    $scope.userInterest = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.openCountryAndCityModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-country-city-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
+                });
+            };
+
+            $scope.openWeatherModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-weather-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
+                });
+            };
+
+            $scope.openTransportsModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-transport-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
+                });
+            };
+
+            $scope.openTouristAttractionsModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/interest-tourist-attractions-modal.html',
+                    controller: 'AccountInterestsController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userInterest: $scope.userInterest
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
+                });
+            };
+
+            //update functions
+            $scope.update = function () {
+                if ($scope.newPassword != $scope.confPassword) {
+                    toastr.warning('The password does not match, please type the same password in Confirm Password field!');
+                    return;
+                }
+
+                var userUpdateParam = {
+                    email: $scope.user.email,
+                    password: $scope.newPassword
+                };
+
+                var userUpdatePromise = accountRepository.update({ userId: $scope.userId }, userUpdateParam).$promise;
+                userUpdatePromise.then(function (result) {
+                    toastr.success('The account was updated successfuly!');
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+        }
+
+    ]);
+globalModule.controller("TripCreateController",
+    ['$scope', '$window', '$http', '$localStorage', 'tripCreateRepository', 'toastr',
+        function ($scope, $window, $http, $localStorage, tripCreateRepository, toastr) {
+            $scope.invitedPersonEmail = "";
+            $scope.invitedPeople = [];
+
+            $scope.tripMainPageTabsEnum = tripMainPageTabsEnum;
+            $scope.tripTypeEnum = tripTypeEnum;
+            $scope.selectedTab = tripMainPageTabsEnum.MainTab;
+
+            $scope.init = function () {
+                $scope.userId = $localStorage.TPUserId;
+            };
+
+            $scope.changeTab = function (tab) {
+                switch (tab) {
+                    case tripMainPageTabsEnum.MainTab: {
+                        $scope.selectedTab = tripMainPageTabsEnum.MainTab;
+                        break;
+                    }
+                    case tripMainPageTabsEnum.SingleTrip: {
+                        $scope.selectedTab = tripMainPageTabsEnum.SingleTrip;
+                        break;
+                    }
+                    case tripMainPageTabsEnum.GroupTrip: {
+                        $scope.selectedTab = tripMainPageTabsEnum.GroupTrip;
+                        break;
+                    }
+                }
+            };
+
+            $scope.goBackToMainTab = function () {
+                $scope.selectedTab = tripMainPageTabsEnum.MainTab;
+            };
+
+            $scope.addInvitedPerson = function () {
+                $scope.invitedPeople.push($scope.invitedPersonEmail);
+                $scope.invitedPersonEmail = "";
+            };
+
+            $scope.removeInvitedPerson = function () {
+                var index = $scope.invitedPeople.indexOf($scope.invitedPeople.selected);
+                $scope.invitedPeople.splice(index, 1);
+                $scope.invitedPeople.selected = undefined;
+            };
+
+            $scope.createTrip = function (tripType) {
+                var queryParam = {
+                    tripName: $scope.tripName,
+                    tripType: tripType
+                };
+                if (tripType == tripTypeEnum.Group) {
+                    angular.extend(queryParam, { invitedPeople: $scope.invitedPeople });
+                }
+                var createTripPromise = tripCreateRepository.createTrip({ userId: $scope.userId }, queryParam).$promise;
+                createTripPromise.then(function (result) {
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.init();
+        }
+
+    ]);
+globalModule.factory('tripCreateRepository', [
+    '$resource',
+    function ($resource) {
+        return $resource("api/trip", {},
+            {
+                createTrip: {
+                    method: 'POST',
+                    url: 'api/trip/createTrip'
+                }
+            });
+    }
+
+]);
 globalModule.controller("LoginModalController",
     ['$scope', '$window', '$localStorage', '$uibModalInstance', 'landingPageRepository', 'toastr',
         function ($scope, $window, $localStorage, $uibModalInstance, landingPageRepository, toastr) {

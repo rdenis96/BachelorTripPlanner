@@ -1,0 +1,77 @@
+﻿<div class="container-fluid trip-create-bg" cg-busy="createTripPromise">
+    <div id="content" ng-show="selectedTab === tripMainPageTabsEnum.MainTab">
+        <h2>Start planning by selecting if you go alone or with a group</h2>
+        <div class="col-md-4"></div>
+        <div class="row col-md-4">
+            <label>Trip Name</label>
+            <input type="text" class="col-md-4 btn btn-sm" placeholder="Type in the trip name!" ng-model="tripName" />
+        </div>
+        <div class="col-md-4"></div>
+        <div class="row col-md-12">
+            <br />
+
+            <button class="btn btn-primary btn-lg" ng-click="createTrip(tripTypeEnum.SingleTrip)">Single Trip</button>
+            <button class="btn btn-danger btn-lg" ng-click="changeTab(tripMainPageTabsEnum.GroupTrip)">Group Trip</button>
+        </div>
+    </div>
+    <div id="content" ng-show="selectedTab == tripMainPageTabsEnum.GroupTrip">
+        <div class="container">
+            <div class="row center-block">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="form-horizontal" method="get" action="#">
+                                <div class="form-group">
+                                    <label class="control-label">Email of the person to invite</label>
+                                    <div class="">
+                                        <div class="input-group">
+                                            <span class="col-md-10">
+                                                <input type="text" class="input-group-addon" placeholder="Type in the person's email!" ng-model="invitedPersonEmail" />
+                                            </span>
+                                            <span class="col-md-1">
+                                                <input ng-disabled="invitedPersonEmail.length < 1" class="btn btn-success" type="button" value="Add" ng-click="addInvitedPerson()" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="invitedPeople" class="control-label">Group people emails</label>
+                                    <div class="">
+                                        <div class="input-group">
+                                            <span class="col-md-10">
+                                                <ui-select name="invitedPeople"
+                                                           ng-model="invitedPeople.selected"
+                                                           search-enabled="true"
+                                                           on-select=""
+                                                           reset-search-input="true">
+                                                    <ui-select-match placeholder="Type in the invited person's email!">{{$select.selected}}</ui-select-match>
+                                                    <ui-select-choices repeat="person in invitedPeople"
+                                                                       refresh=""
+                                                                       refresh-delay="0">
+                                                        <div ng-bind-html="person | highlight: $select.search"></div>
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                            </span>
+                                            <span class="col-md-1">
+                                                <input ng-disabled="invitedPeople.length < 1" class="btn btn-danger" type="button" value="Remove" ng-click="removeInvitedPerson()" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-primary btn-lg btn-block login-button" ng-click="createTrip(tripTypeEnum.Group)">Create Group</button>
+                                        <button type="button" class="btn btn-info btn-lg btn-block login-button" ng-click="goBackToMainTab()">Cancel</button>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+</div>

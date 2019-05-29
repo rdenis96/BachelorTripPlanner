@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\planning-history.css" />
     <_ContentIncludedByDefault Remove="wwwroot\js\main.min.js" />
   </ItemGroup>
 
@@ -112,10 +113,11 @@
     <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Enums\" />
     <Folder Include="Scripts\Angular\" />
     <Folder Include="Scripts\Vendors\jQuery\" />
   </ItemGroup>

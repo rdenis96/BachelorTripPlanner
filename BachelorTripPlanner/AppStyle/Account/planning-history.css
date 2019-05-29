@@ -1,0 +1,48 @@
+﻿.planning-history-bg {
+    background-image: url(../../Images/Account/planning-history-bg.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    max-height: 100%;
+    font-family: Lato;
+    font-size: 16px;
+    color: black;
+
+}
+
+.planning-history h2 {
+    text-align: center;
+}
+
+.planning-history + .row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.photo {
+    border-radius: 45px;
+    margin-right: 20px;
+    width: 90px;
+    height: 90px
+}
+
+.planning-history .form-control {
+    width: 30%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.name {
+    font-weight: 700;
+}
+
+.expertise-label {
+    display: block;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.btn-more {
+    margin-top: 10px;
+    width: 100%
+}

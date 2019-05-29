@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using DataLayer.Context;
 using DataLayer.Enums;
 using DataLayer.Models;
@@ -52,11 +53,22 @@ namespace DataLayer.Repository.Implementation
             {
                 var userInterest = context.UserInterests.Where(x => x.UserId == userId).FirstOrDefault();
 
-                if (userInterest != null)
+                if (userInterest == null)
                 {
-                    return userInterest;
+                    userInterest = new UserInterest()
+                    {
+                        UserId = userId,
+                        Countries = string.Empty,
+                        Cities = string.Empty,
+                        Weather = string.Empty,
+                        TouristAttractions = string.Empty,
+                        Transports = string.Empty
+                    };
+                    context.UserInterests.Add(userInterest);
+                    context.SaveChanges();
                 }
-                return null;
+
+                return userInterest;
             }
         }
 

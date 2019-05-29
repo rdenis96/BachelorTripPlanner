@@ -13,6 +13,8 @@ namespace DataLayer.Context
         public DbSet<User> Users { get; set; }
         public DbSet<UserInterest> UserInterests { get; set; }
         public DbSet<Interest> Interests { get; set; }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<TripUser> TripUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,6 +26,8 @@ namespace DataLayer.Context
             UserDefinitions.Set(modelBuilder);
             UserInterestDefinitions.Set(modelBuilder);
             InterestDefinitions.Set(modelBuilder);
+            TripDefinitions.Set(modelBuilder);
+            TripUserDefinitions.Set(modelBuilder);
         }
     }
 }

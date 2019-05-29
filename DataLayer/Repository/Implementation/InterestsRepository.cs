@@ -216,6 +216,11 @@ namespace DataLayer.Repository.Implementation
             {
                 var userInterests = _userInterestsRepository.GetByUserId(userId);
 
+                if (userInterests == null)
+                {
+                    return new List<Interest>();
+                }
+
                 var userInterestsConverted = new
                 {
                     Countries = userInterests.Countries.ConvertStringToList(','),

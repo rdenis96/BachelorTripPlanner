@@ -40,7 +40,7 @@ namespace BachelorTripPlanner.Controllers
         [HttpGet("[action]")]
         public IActionResult GetAvailableCountries([FromQuery]int userId)
         {
-            var userCountries = _userInterestWorker.GetByUserId(userId)?.Countries?.ConvertStringToList(',');
+            var userCountries = _userInterestWorker.GetByUserId(userId)?.Countries.ConvertStringToList(',');
             var countries = _interestsWorker.GetAllCountries();
             ExcludeListFromList(ref countries, userCountries);
             return Ok(countries);
@@ -49,7 +49,7 @@ namespace BachelorTripPlanner.Controllers
         [HttpGet("[action]")]
         public IActionResult GetAvailableCities([FromQuery]int userId, [FromQuery]List<string> availableCountries)
         {
-            var userCities = _userInterestWorker.GetByUserId(userId)?.Cities?.ConvertStringToList(',');
+            var userCities = _userInterestWorker.GetByUserId(userId)?.Cities.ConvertStringToList(',');
             var cities = _interestsWorker.GetAllCitiesByCountries(availableCountries);
             ExcludeListFromList(ref cities, userCities);
             return Ok(cities);

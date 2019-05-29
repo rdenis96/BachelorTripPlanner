@@ -272,6 +272,24 @@ footer {
     max-height: 100%;
 }
 
+.trip-create-bg {
+    background-image: url(../../Images/Common/trip-create-bg.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    max-height: 100%;
+    font-family: Lato;
+    font-size: 16px;
+    color: black;
+    padding-top: 15%;
+    padding-bottom: 25%;
+}
+
+    .trip-create-bg h2 {
+        font-weight: 500;
+        font-size: 3em;
+    }
+
 /* SELECT 2 START */
 /*-----------------------------SELECT 2----------------------------------------*/
 .select2-container {
@@ -465,12 +483,10 @@ footer {
     display: block !important;
 }
 
-
     .slide.ng-enter,
     .slide.ng-leave.ng-leave-active {
         opacity: 0;
     }
-
 
         .slide.ng-leave,
         .slide.ng-enter.ng-enter-active {

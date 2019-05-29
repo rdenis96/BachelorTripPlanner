@@ -3,3 +3,14 @@
     Register: 'Register',
     Login: 'Login'
 };
+
+var tripMainPageTabsEnum = {
+    MainTab: 'Main',
+    SingleTrip: 'Single Trip',
+    GroupTrip: 'Group Trip'
+};
+
+var tripTypeEnum = {
+    Single: 'Single',
+    Group: 'Group'
+};
