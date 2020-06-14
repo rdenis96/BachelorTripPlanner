@@ -1,0 +1,65 @@
+﻿<div class="row center-block" ng-init="initTransport()">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <form class="form-horizontal" method="put" action="#">
+                    <div class="form-group">
+                        <span class="col-md-6">
+                            <label for="availableTransport" class="col-md-6 pull-left">Available Transport</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableTransport"
+                                           ng-model="transportList.selected"
+                                           cg-busy="{promise:getAvailableTransportPromise}"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the transport name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option as option in transportList"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="option | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="transportList.length < 1" class="btn btn-success" type="button" value="Add" ng-click="addTransport()" />
+                            </span>
+                        </span>
+                        <span class="col-md-6">
+                            <label for="availableUserTransport" class="col-md-6 pull-left">Desired Transport</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableUserTransport"
+                                           ng-model="userTransport.selected"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the transport name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="transport as transport in userTransport"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="transport | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="userTransport.length < 1" class="btn btn-danger" type="button" value="Remove" ng-click="removeTransport()" />
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" ng-click="submitTransport()">Submit changes</button>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <button type="button" class="padding-right-5 close" ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>

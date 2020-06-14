@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using DataLayer.Context;
 using DataLayer.Enums;
 using DataLayer.Models;
@@ -52,11 +53,22 @@ namespace DataLayer.Repository.Implementation
             {
                 var userInterest = context.UserInterests.Where(x => x.UserId == userId).FirstOrDefault();
 
-                if (userInterest != null)
+                if (userInterest == null)
                 {
-                    return userInterest;
+                    userInterest = new UserInterest()
+                    {
+                        UserId = userId,
+                        Countries = string.Empty,
+                        Cities = string.Empty,
+                        Weather = string.Empty,
+                        TouristAttractions = string.Empty,
+                        Transports = string.Empty
+                    };
+                    context.UserInterests.Add(userInterest);
+                    context.SaveChanges();
                 }
-                return null;
+
+                return userInterest;
             }
         }
 
@@ -64,19 +76,15 @@ namespace DataLayer.Repository.Implementation
         {
             if (obj == null)
                 return null;
+
+            var changesSaved = false;
             using (TripPlanner context = new TripPlanner())
             {
-                var userInterest = context.UserInterests.Find(obj.UserId);
-                if (userInterest == null)
-                {
-                    return null;
-                }
-
                 context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-                context.SaveChanges();
+                changesSaved = context.SaveChanges() > 0;
 
-                return userInterest;
+                return changesSaved ? GetByUserId(obj.UserId) : null;
             }
         }
     }

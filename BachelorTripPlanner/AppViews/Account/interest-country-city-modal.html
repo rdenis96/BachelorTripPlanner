@@ -1,47 +1,108 @@
-﻿<div class="row center-block" ng-init="initCountryCity()">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+﻿<div class="row center-block" ng-init="initCountriesCities()">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
         <div class="card">
             <div class="card-body">
                 <form class="form-horizontal" method="put" action="#">
                     <div class="form-group">
-                        <label for="email" class="cols-sm-2 control-label">Available Countries</label>
-                        <div class="cols-sm-10">
-                            <ui-select name="availableCountries"
-                                       ng-model="countriesList.selected"
-                                       cg-busy="{promise:getAvailableCountriesPromise}"
-                                       search-enabled="true"
-                                       on-select=""
-                                       reset-search-input="true">
-                                <ui-select-match allow-clear="true" placeholder="Type in the country name!">{{$select.selected}}</ui-select-match>
-                                <ui-select-choices repeat="option as option in countriesList"
-                                                   refresh=""
-                                                   refresh-delay="0">
-                                    <div ng-bind-html="option | highlight: $select.search"></div>
-                                </ui-select-choices>
-                            </ui-select>
-                        </div>
+                        <span class="col-md-6">
+                            <label for="availableCountries" class="col-md-6 pull-left">Available Countries</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableCountries"
+                                           ng-model="countriesList.selected"
+                                           cg-busy="{promise:getAvailableCountriesPromise}"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the country name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option as option in countriesList"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="option | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="countriesList.length < 1" class="btn btn-success" type="button" value="Add" ng-click="addCountry()" />
+                            </span>
+                        </span>
+                        <span class="col-md-6">
+                            <label for="desiredCountries" class="col-md-6 pull-left">Desired Countries</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableCountries"
+                                           ng-model="userInterest.countries.selected"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the country name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="country as country in userInterest.countries"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="country | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="userInterest.countries.length < 1" class="btn btn-danger" type="button" value="Remove" ng-click="removeCountry()" />
+                            </span>
+                        </span>
                     </div>
                     <div class="form-group">
-                        <label for="password" class="cols-sm-2 control-label">Password</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                                <input type="password" class="form-control" name="password" placeholder="Enter your Password" ng-model="loginPassword" />
-                            </div>
-                        </div>
+                        <span class="col-md-6">
+                            <label for="availableCities" class="col-md-6 pull-left">Available Cities</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableCities"
+                                           ng-model="citiesList.selected"
+                                           cg-busy="{promise:getUserCitiesByUserCountriesAndAvailableCitiesPromise}"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the city name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option as option in citiesList"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="option | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="citiesList.length < 1" class="btn btn-success" type="button" value="Add" ng-click="addCity()" />
+                            </span>
+                        </span>
+                        <span class="col-md-6">
+                            <label for="desiredCountries" class="col-md-6 pull-left">Desired Cities</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableCountries"
+                                           ng-model="userInterest.cities.selected"
+                                           cg-busy="{promise:getUserCitiesByUserCountriesAndAvailableCitiesPromise}"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the city name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="city as city in userInterest.cities"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="city | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="userInterest.cities.length < 1" class="btn btn-danger" type="button" value="Remove" ng-click="removeCity()" />
+                            </span>
+                        </span>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" ng-click="login()">Login</button>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" ng-click="submitCountriesAndCities()">Submit changes</button>
                         </div>
-                        <div class="col-md-3"></div>
+                        <div class="col-md-4"></div>
                     </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
     <button type="button" class="padding-right-5 close" ng-click="close()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>

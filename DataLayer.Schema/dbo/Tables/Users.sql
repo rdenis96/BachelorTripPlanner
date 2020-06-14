@@ -4,8 +4,10 @@
     [Password]     NVARCHAR (MAX) NOT NULL,
     [RegisterDate] DATETIME2 (7)  NOT NULL,
     [LastOnline]   DATETIME2 (7)  NULL,
-    [Ip]           NVARCHAR (50)  NOT NULL,
-    [Phone]        NVARCHAR (15)  NULL,
+    [Ip]           NVARCHAR (MAX) NOT NULL,
+    [Phone]        NVARCHAR (MAX) NULL,
     CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 

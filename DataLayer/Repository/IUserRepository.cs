@@ -11,6 +11,8 @@ namespace DataLayer.Repository
 
         User GetByEmailAndPassword(string email, string password);
 
+        List<int> GetIdsByEmail(List<string> emails);
+
         //User GetByPhone(string phone);
 
         //ICollection<User> GetByFirstname(string firstname);

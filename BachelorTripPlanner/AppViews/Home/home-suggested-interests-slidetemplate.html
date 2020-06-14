@@ -1,0 +1,30 @@
+﻿<div class="slider">
+    <div class="row home-section padding-top-10 slide" ng-repeat="interest in interests" ng-if="interest.visible" ng-show="interest.visible" ng-click="openWikipediaTab(interest.linkWikipediaCity)">
+        <div class="col-md-4 home-section-first-column">
+            <div class="row">
+                <img src="{{interest.linkImage}}" class="col-md-12" />
+            </div>
+            <h5 class="border-top padding-top-10">
+                <b>Country: </b>{{interest.country}}
+                <br />
+                <b>City: </b>{{interest.city}}
+            </h5>
+        </div>
+        <div class="col-md-8">
+            <b>Weather:</b> <span ng-repeat="weather in interest.weather track by $index">{{weather}}, </span>
+            <br />
+            <b>Tourist Attractions:</b> <span ng-repeat="attraction in interest.touristAttractions track by $index">{{attraction}}, </span>
+            <br />
+            <b>Transport:</b> <span ng-repeat="transport in interest.transports track by $index">{{transport}}, </span>
+        </div>
+    </div>
+</div>
+
+<div class="arrows">
+    <a href="#" ng-click="prev()">
+        <img src="../../Images/Common/arrow-left.png" />
+    </a>
+    <a href="#" ng-click="next()">
+        <img src="../../Images/Common/arrow-right.png" />
+    </a>
+</div>

@@ -1,42 +1,43 @@
 ﻿using DataLayer.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataLayer.Helpers
 {
     public static class UserInterestsHelper
     {
-        public static string ConvertCountriesEnumListToString(this List<CountriesEnum> countriesEnums)
+        public static string ConvertListToString(this List<string> list, char separator)
         {
-            var countries = string.Empty;
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendJoin(',', countriesEnums);
-            countries = stringBuilder.ToString();
-            return countries;
+            if (list == null)
+                return string.Empty;
+
+            return string.Join(separator, list.ToArray());
         }
 
-        public static List<CountriesEnum> ConvertCountriesStringToCountriesEnumList(this string countries)
+        public static List<string> ConvertStringToList(this string str, char separator)
         {
-            var countriesSplit = countries.Split(',');
-            List<CountriesEnum> countriesEnums = new List<CountriesEnum>();
-            foreach (var country in countriesSplit)
+            if (str == null || str == string.Empty)
+                return new List<string>();
+
+            return str.Split(separator).ToList();
+        }
+
+        public static List<T> Shuffle<T>(this List<T> list)
+        {
+            Random random = new Random();
+            int n = list.Count;
+
+            for (int i = list.Count - 1; i > 1; i--)
             {
-                CountriesEnum countryEnum = CountriesEnum.None;
-                try
-                {
-                    Enum.TryParse(country, out countryEnum);
-                }
-                catch (Exception ex)
-                {
-                    countryEnum = CountriesEnum.None;
-                }
-                if (Convert.ToInt32(countryEnum) != 0)
-                {
-                    countriesEnums.Add(countryEnum);
-                }
+                int rnd = random.Next(i + 1);
+
+                T value = list[rnd];
+                list[rnd] = list[i];
+                list[i] = value;
             }
-            return countriesEnums;
+            return list;
         }
     }
 }

@@ -1,12 +1,18 @@
-﻿<div class="container-fluid" ng-init="init()">
+﻿<div class="container-fluid home-bg">
     <div class="row">
-        <div class="col-md-3 image-sidebar-1"></div>
-        <div class="col-md-6 padding-right-0 padding-left-0">
-            <div class="bg-success">
-                Happy new {{testScope}} year to all
-                <input type="button" ng-click="getAllUsers()" value="Click me" />
+        <div class="col-md-3"></div>
+        <div class="col-md-5 margin-right-10" cg-busy="getSuggestedInterestsPromise">
+            <div class="row home-section home-section-header">
+                <h4> Suggested interests </h4>
             </div>
+            <home-interests-slider ng-if="suggestedInterestsLoaded" interests="suggestedInterests" />
         </div>
-        <div class="col-md-3 image-sidebar-2"></div>
+        <div class="col-md-3" cg-busy="getRandomInterestsPromise">
+            <div class="row home-section home-section-header">
+                <h4> Interests you may like </h4>
+            </div>
+            <home-interests-slider ng-if="randomInterestsLoaded" interests="randomInterests" />
+        </div>
+        <div class="col-md-1"></div>
     </div>
 </div>

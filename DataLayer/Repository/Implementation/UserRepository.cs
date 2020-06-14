@@ -128,5 +128,24 @@ namespace DataLayer.Repository.Implementation
                 return result;
             }
         }
+
+        public List<int> GetIdsByEmail(List<string> emails)
+        {
+            if (emails == null)
+                return null;
+            using (TripPlanner context = new TripPlanner())
+            {
+                List<int> ids = new List<int>();
+                foreach (var email in emails)
+                {
+                    var user = context.Users.Where(x => x.Email == email).FirstOrDefault();
+                    if (user != null)
+                    {
+                        ids.Add(user.Id);
+                    }
+                }
+                return ids;
+            }
+        }
     }
 }

@@ -23,9 +23,17 @@ globalModule.config([
                 templateUrl: 'AppViews/Account/interests.html',
                 controller: 'AccountController'
             })
+            .when('/account/planningHistory', {
+                templateUrl: 'AppViews/Account/planning-history.html',
+                controller: 'PlanningHistoryController'
+            })
             .when('/account/editAccount', {
                 templateUrl: 'AppViews/Account/edit-account.html',
                 controller: 'AccountController'
+            })
+            .when('/trip/createTrip', {
+                templateUrl: 'AppViews/Trip/trip-create.html',
+                controller: 'TripCreateController'
             })
             .otherwise({
                 redirectTo: '/'

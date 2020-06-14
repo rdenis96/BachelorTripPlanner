@@ -11,9 +11,9 @@ namespace DataLayer.Models
         public int UserId { get; set; }
         public string Countries { get; set; }
         public string Cities { get; set; }
-        public WeathersEnum Weathers { get; set; }
+        public string Weather { get; set; }
         public string TouristAttractions { get; set; }
-        public TransportsEnum Transports { get; set; }
+        public string Transports { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -26,14 +26,14 @@ namespace DataLayer.Models
                    UserId == other.UserId &&
                    Countries == other.Countries &&
                    Cities == other.Cities &&
-                   Weathers == other.Weathers &&
+                   Weather == other.Weather &&
                    TouristAttractions == other.TouristAttractions &&
                    Transports == other.Transports;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(UserId, Countries, Cities, Weathers, TouristAttractions, Transports);
+            return HashCode.Combine(UserId, Countries, Cities, Weather, TouristAttractions, Transports);
         }
     }
 }

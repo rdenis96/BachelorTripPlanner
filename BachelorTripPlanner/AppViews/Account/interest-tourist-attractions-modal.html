@@ -1,0 +1,65 @@
+﻿<div class="row center-block" ng-init="initTouristAttractions()">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <form class="form-horizontal" method="put" action="#">
+                    <div class="form-group">
+                        <span class="col-md-6">
+                            <label for="availableTouristAttractions" class="col-md-6 pull-left">Available TouristAttractions</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableTouristAttractions"
+                                           ng-model="touristAttractionsList.selected"
+                                           cg-busy="{promise:getAvailableTouristAttractionsPromise}"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the touristAttractions name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option as option in touristAttractionsList"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="option | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="touristAttractionsList.length < 1" class="btn btn-success" type="button" value="Add" ng-click="addTouristAttractions()" />
+                            </span>
+                        </span>
+                        <span class="col-md-6">
+                            <label for="availableUserTouristAttractions" class="col-md-6 pull-left">Desired TouristAttractions</label>
+                            <span class="col-md-10">
+                                <ui-select name="availableUserTouristAttractions"
+                                           ng-model="userTouristAttractions.selected"
+                                           search-enabled="true"
+                                           on-select=""
+                                           reset-search-input="true">
+                                    <ui-select-match placeholder="Type in the touristAttractions name!">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="touristAttractions as touristAttractions in userTouristAttractions"
+                                                       refresh=""
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="touristAttractions | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </span>
+                            <span class="col-md-1">
+                                <input ng-disabled="userTouristAttractions.length < 1" class="btn btn-danger" type="button" value="Remove" ng-click="removeTouristAttractions()" />
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" ng-click="submitTouristAttractions()">Submit changes</button>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <button type="button" class="padding-right-5 close" ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>

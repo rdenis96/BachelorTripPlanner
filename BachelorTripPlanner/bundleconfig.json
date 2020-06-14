@@ -17,7 +17,7 @@
       "Scripts/Vendors/bootstrap/js/ui-bootstrap-tpls.min.js",
       "Scripts/Vendors/Toastr/angular-toastr.tpls.min.js",
       "Scripts/Vendors/select/select.js",
-      "Scripts/Vendors/loading/angular-busy.min.js"
+      "Scripts/Vendors/loading/js/angular-busy.min.js"
     ],
     "minify": {
       "enabled": false
@@ -31,9 +31,11 @@
       "Scripts/Vendors/Toastr/angular-toastr.min.css",
       "Scripts/Vendors/select/select.min.css",
       "Scripts/Vendors/select/select-theme.min.css",
+      "Scripts/Vendors/loading/css/angular-busy.css",
       "AppStyle/Common/global.css",
       "AppStyle/Common/landingPage.css",
-      "AppStyle/Account/interests.css"
+      "AppStyle/Account/interests.css",
+      "AppStyle/Account/planning-history.css"
     ]
   },
   {
@@ -56,6 +58,9 @@
       "App/Account/account-controller.js",
       "App/Account/account-repository.js",
       "App/Account/account-interests-controller.js",
+      "App/Account/account-planning-history-controller.js",
+      "App/Trip/trip-create-controller.js",
+      "App/Trip/trip-create-repository.js",
       "App/Global/login-modal-controller.js"
     ]
   }
