@@ -1,9 +1,6 @@
 ﻿using DataLayer.Definitions;
 using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataLayer.Context
 {
@@ -14,7 +11,8 @@ namespace DataLayer.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=WORKSTATION9\\SQLEXPRESS;Initial Catalog=TripPlanner;Integrated Security=True;TrustServerCertificate=True");
+            //optionsBuilder.UseSqlServer("Data Source=WORKSTATION9\\SQLEXPRESS;Initial Catalog=TripPlanner;Integrated Security=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-21DPREV;Initial Catalog=TripPlanner;Integrated Security=True;TrustServerCertificate=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
