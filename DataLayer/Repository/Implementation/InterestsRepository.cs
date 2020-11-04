@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using DataLayer.Constants;
-using DataLayer.Context;
+﻿using DataLayer.Context;
 using DataLayer.Helpers;
 using DataLayer.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataLayer.Repository.Implementation
 {
@@ -236,6 +233,40 @@ namespace DataLayer.Repository.Implementation
                 List<Interest> interestsByTouristAttractions = context.Interests.Where(x => userInterestsConverted.TouristAttractions.Any(val => x.TouristAttractions.Contains(val))).ToList();
                 List<Interest> interestsByTransports = context.Interests.Where(x => userInterestsConverted.Transports.Any(val => x.Transport.Contains(val))).ToList();
                 var interestsUnion = interestsByCountries.Union(interestsByCities).Union(interestsByWeather).Union(interestsByTouristAttractions).Union(interestsByTransports).ToList().Shuffle().Take(20).ToList();
+                return interestsUnion;
+            }
+        }
+
+        public List<Interest> GetSuggestedInterestsByTrip(int tripId)
+        {
+            using (TripPlanner context = new TripPlanner())
+            {
+                var allTripUsersInterests = context.UserInterests.Where(x => x.TripId == tripId);
+
+                var userInterestsConverted = new
+                {
+                    Countries = new List<string>(),
+                    Cities = new List<string>(),
+                    Weather = new List<string>(),
+                    TouristAttractions = new List<string>(),
+                    Transports = new List<string>()
+                };
+
+                foreach (var userInterests in allTripUsersInterests)
+                {
+                    userInterestsConverted.Countries.AddRange(userInterests.Countries.ConvertStringToList(','));
+                    userInterestsConverted.Cities.AddRange(userInterests.Cities.ConvertStringToList(','));
+                    userInterestsConverted.Weather.AddRange(userInterests.Weather.ConvertStringToList(','));
+                    userInterestsConverted.TouristAttractions.AddRange(userInterests.TouristAttractions.ConvertStringToList('#'));
+                    userInterestsConverted.Transports.AddRange(userInterests.Transports.ConvertStringToList(','));
+                }
+
+                List<Interest> interestsByCountries = context.Interests.Where(x => userInterestsConverted.Countries.Contains(x.Country)).ToList();
+                List<Interest> interestsByCities = context.Interests.Where(x => userInterestsConverted.Cities.Contains(x.City)).ToList();
+                List<Interest> interestsByWeather = context.Interests.Where(x => userInterestsConverted.Weather.Any(val => x.Weather.Contains(val))).ToList();
+                List<Interest> interestsByTouristAttractions = context.Interests.Where(x => userInterestsConverted.TouristAttractions.Any(val => x.TouristAttractions.Contains(val))).ToList();
+                List<Interest> interestsByTransports = context.Interests.Where(x => userInterestsConverted.Transports.Any(val => x.Transport.Contains(val))).ToList();
+                var interestsUnion = interestsByCountries.Union(interestsByCities).Union(interestsByWeather).Union(interestsByTouristAttractions).Union(interestsByTransports).ToList().Shuffle().ToList();
                 return interestsUnion;
             }
         }

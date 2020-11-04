@@ -14,3 +14,8 @@ var tripTypeEnum = {
     Single: 'Single',
     Group: 'Group'
 };
+
+var notificationTypes = {
+    TripInvitation: 0,
+    FriendRequest: 1
+}

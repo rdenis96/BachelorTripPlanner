@@ -59,6 +59,11 @@
                 updateTouristAttractions: {
                     method: 'PUT',
                     url: 'api/account/updateInterestByTouristAttractions'
+                },
+                getUserTrips: {
+                    method: 'GET',
+                    url: 'api/account/getUserTrips',
+                    isArray: true
                 }
             });
     }

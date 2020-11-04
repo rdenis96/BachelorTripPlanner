@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataLayer.Constants
+﻿namespace DataLayer.Constants
 {
     public static class GlobalConstants
     {
-        public const string SqlDatabaseConnection = "Data Source=WORKSTATION9\\SQLEXPRESS;Initial Catalog=TripPlanner;Integrated Security=True;TrustServerCertificate=True";
+        public const string SqlDatabaseConnection = "Data Source=DESKTOP-21DPREV;Initial Catalog=TripPlanner;Integrated Security=True;TrustServerCertificate=True";
     }
 }

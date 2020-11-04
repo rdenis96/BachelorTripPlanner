@@ -35,6 +35,10 @@ globalModule.config([
                 templateUrl: 'AppViews/Trip/trip-create.html',
                 controller: 'TripCreateController'
             })
+            .when('/trip/tripPlanner/:id', {
+                templateUrl: 'AppViews/Trip/trip-planner.html',
+                controller: 'TripPlannerController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -70,13 +74,61 @@ var tripTypeEnum = {
     Single: 'Single',
     Group: 'Group'
 };
-globalModule.directive('homeInterestsSlider', function ($timeout, $window) {
+
+var notificationTypes = {
+    TripInvitation: 0,
+    FriendRequest: 1
+}
+globalModule.directive('interestsSlider', function ($timeout, $window) {
     return {
         restrict: 'E',
         scope: {
             interests: '='
         },
         link: function (scope, elem, attrs) {
+
+            var transportsIcons = {
+                Bus: 'Bus',
+                Metro: 'Metro',
+                Train: 'Train',
+                Boat: 'Boat',
+                Tram: 'Tram',
+                Taxi: 'Taxi',
+                Underground: 'Underground',
+                Subway: 'Subway',
+                Helicopter: 'Helicopter',
+                Plane: 'Plane',
+                Rent: 'Rent'
+            }
+
+            scope.getTransportIcon = function (transport) {
+                transport = transport.trim();
+                switch (transport) {
+                    case transportsIcons.Bus:
+                        return "Images/Common/BusIcon.png";
+                    case transportsIcons.Metro:
+                        return "Images/Common/MetroIcon.png";
+                    case transportsIcons.Train:
+                        return "Images/Common/TrainIcon.png";
+                    case transportsIcons.Boat:
+                        return "Images/Common/BoatIcon.png";
+                    case transportsIcons.Tram:
+                        return "Images/Common/TramIcon.png";
+                    case transportsIcons.Taxi:
+                        return "Images/Common/TaxiIcon.png";
+                    case transportsIcons.Underground:
+                        return "Images/Common/UndergroundIcon.png";
+                    case transportsIcons.Subway:
+                        return "Images/Common/SubwayIcon.png";
+                    case transportsIcons.Helicopter:
+                        return "Images/Common/HelicopterIcon.png";
+                    case transportsIcons.Plane:
+                        return "Images/Common/PlaneIcon.png";
+                    case transportsIcons.Rent:
+                        return "Images/Common/RentIcon.png";
+                }
+            }
+
             scope.currentIndex = 0; // Initially the index is at the first interest
 
             scope.next = function () {
@@ -103,8 +155,8 @@ globalModule.directive('homeInterestsSlider', function ($timeout, $window) {
             var sliderFunc = function () {
                 timer = $timeout(function () {
                     scope.next();
-                    timer = $timeout(sliderFunc, 2000);
-                }, 2000);
+                    timer = $timeout(sliderFunc, 4000);
+                }, 4000);
             };
 
             sliderFunc();
@@ -171,13 +223,40 @@ globalModule.controller("HomeController",
         }
 
     ]);
+globalModule.factory('notificationsRepository', [
+    '$resource',
+    function ($resource) {
+        return $resource("api/notifications", {},
+            {
+                getNotifications: {
+                    method: 'GET',
+                    url: 'api/notifications/getNotifications',
+                    isArray: true
+                },
+                sendNotification: {
+                    method: 'POST',
+                    url: 'api/notifications/sendNotification'
+                },
+                respondNotification: {
+                    method: 'POST',
+                    url: 'api/notifications/respondNotification'
+                }
+            });
+    }
+
+]);
 globalModule.controller("HeaderController",
-    ['$scope', '$window', '$localStorage', '$uibModal', 'homeRepository',
-        function ($scope, $window, $localStorage, $uibModal, homeRepository) {
+    ['$scope', '$window', '$localStorage', '$uibModal', 'homeRepository', 'tripRepository', 'notificationsRepository', 'toastr',
+        function ($scope, $window, $localStorage, $uibModal, homeRepository, tripRepository, notificationsRepository, toastr) {
+            $scope.notificationTypes = notificationTypes;
+
             $scope.isLogged = $localStorage.TPUserId !== null && $localStorage.TPUserId !== undefined;
             $scope.init = function () {
-                if ($scope.isLogged === true)
+                if ($scope.isLogged === true) {
                     $scope.userId = $localStorage.TPUserId;
+                    $scope.getUserGroupTrips();
+                    $scope.getNotifications();
+                }
                 else {
                     if ($window.location.href.indexOf('/welcome') == -1) {
                         $window.location.href = '/welcome';
@@ -202,8 +281,44 @@ globalModule.controller("HeaderController",
             $scope.logout = function () {
                 $localStorage.TPUserId = null;
                 $window.location.href = '/welcome';
-
             };
+
+            $scope.respondNotification = function (notification, respondValue) {
+                var queryParam = {
+                    IsAccepted: respondValue,
+                    Notification: notification
+                }
+
+                switch (notification.type) {
+                    case notificationTypes.TripInvitation:
+                    case notificationTypes.FriendRequest:
+                        $scope.respondNotificationPromise = notificationsRepository.respondNotification(queryParam).$promise;
+                        $scope.respondNotificationPromise.then(function (result) {
+                            $scope.getNotifications();
+                        }).catch(function (result) {
+                            toastr.warning(result.data);
+                        });
+                        break;
+                }
+            }
+
+            $scope.getUserGroupTrips = function () {
+                $scope.getUserGroupTripsPromise = tripRepository.getUserHeaderTrips({ userId: $scope.userId }).$promise;
+                $scope.getUserGroupTripsPromise.then(function (result) {
+                    $scope.userGroupTrips = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.getNotifications = function () {
+                $scope.getNotificationsPromise = notificationsRepository.getNotifications({ userId: $scope.userId }).$promise;
+                $scope.getNotificationsPromise.then(function (result) {
+                    $scope.notifications = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
         }
 
     ]);
@@ -475,6 +590,11 @@ globalModule.factory('accountRepository', [
                 updateTouristAttractions: {
                     method: 'PUT',
                     url: 'api/account/updateInterestByTouristAttractions'
+                },
+                getUserTrips: {
+                    method: 'GET',
+                    url: 'api/account/getUserTrips',
+                    isArray: true
                 }
             });
     }
@@ -484,6 +604,7 @@ globalModule.controller("AccountInterestsController",
     ['$scope', 'data', '$localStorage', 'accountRepository', 'toastr', '$uibModalInstance',
         function ($scope, data, $localStorage, accountRepository, toastr, $uibModalInstance) {
             $scope.userInterest = data.userInterest;
+            $scope.tripId = data.tripId;
             $scope.countriesList = [];
             $scope.citiesList = [];
             $scope.weatherList = [];
@@ -496,7 +617,12 @@ globalModule.controller("AccountInterestsController",
             $scope.initCountriesCities = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableCountriesPromise = accountRepository.getAvailableCountries({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableCountriesPromise = accountRepository.getAvailableCountries(queryParam).$promise;
                 $scope.getAvailableCountriesPromise.then(function (result) {
                     $scope.countriesList = result;
                     $scope.reInitCities();
@@ -508,8 +634,10 @@ globalModule.controller("AccountInterestsController",
             $scope.reInitCities = function () {
                 var queryParam = {
                     userId: $scope.userId,
+                    tripId: $scope.tripId,
                     userCountries: $scope.userInterest.countries
                 };
+
                 $scope.getUserCitiesByUserCountriesAndAvailableCitiesPromise = accountRepository.getUserCitiesByUserCountriesAndAvailableCities(queryParam).$promise;
                 $scope.getUserCitiesByUserCountriesAndAvailableCitiesPromise.then(function (result) {
                     $scope.citiesList = result.availableCities;
@@ -522,7 +650,12 @@ globalModule.controller("AccountInterestsController",
             $scope.initWeather = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableWeatherPromise = accountRepository.getAvailableWeather({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableWeatherPromise = accountRepository.getAvailableWeather(queryParam).$promise;
                 $scope.getAvailableWeatherPromise.then(function (result) {
                     $scope.weatherList = result;
                     $scope.userWeather = $scope.extractListFromString($scope.userInterest.weather);
@@ -534,7 +667,12 @@ globalModule.controller("AccountInterestsController",
             $scope.initTransport = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableTransportPromise = accountRepository.getAvailableTransport({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableTransportPromise = accountRepository.getAvailableTransport(queryParam).$promise;
                 $scope.getAvailableTransportPromise.then(function (result) {
                     $scope.transportList = result;
                     $scope.userTransport = $scope.extractListFromString($scope.userInterest.transports);
@@ -546,7 +684,12 @@ globalModule.controller("AccountInterestsController",
             $scope.initTouristAttractions = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableTouristAttractionsPromise = accountRepository.getAvailableTouristAttractions({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableTouristAttractionsPromise = accountRepository.getAvailableTouristAttractions(queryParam).$promise;
                 $scope.getAvailableTouristAttractionsPromise.then(function (result) {
                     $scope.touristAttractionsList = result;
                     $scope.userTouristAttractions = $scope.userInterest.touristAttractions;
@@ -630,7 +773,8 @@ globalModule.controller("AccountInterestsController",
             $scope.submitCountriesAndCities = function () {
                 var queryParam = {
                     countries: $scope.userInterest.countries,
-                    cities: $scope.userInterest.cities
+                    cities: $scope.userInterest.cities,
+                    tripId: $scope.tripId
                 };
                 $scope.updateCountriesAndCitiesForUserPromise = accountRepository.updateCountriesAndCities({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateCountriesAndCitiesForUserPromise.then(function (result) {
@@ -645,7 +789,8 @@ globalModule.controller("AccountInterestsController",
 
             $scope.submitWeather = function () {
                 var queryParam = {
-                    weather: $scope.userWeather
+                    weather: $scope.userWeather,
+                    tripId: $scope.tripId
                 };
                 $scope.updateWeatherForUserPromise = accountRepository.updateWeather({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateWeatherForUserPromise.then(function (result) {
@@ -660,7 +805,8 @@ globalModule.controller("AccountInterestsController",
 
             $scope.submitTransport = function () {
                 var queryParam = {
-                    transport: $scope.userTransport
+                    transport: $scope.userTransport,
+                    tripId: $scope.tripId
                 };
                 $scope.updateTransportForUserPromise = accountRepository.updateTransport({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateTransportForUserPromise.then(function (result) {
@@ -675,7 +821,8 @@ globalModule.controller("AccountInterestsController",
 
             $scope.submitTouristAttractions = function () {
                 var queryParam = {
-                    touristAttractions: $scope.userTouristAttractions
+                    touristAttractions: $scope.userTouristAttractions,
+                    tripId: $scope.tripId
                 };
                 $scope.updateTouristAttractionsForUserPromise = accountRepository.updateTouristAttractions({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateTouristAttractionsForUserPromise.then(function (result) {
@@ -707,23 +854,183 @@ globalModule.controller("PlanningHistoryController",
     ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
         function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
             $scope.user = {};
-            $scope.userInterests = {};
+            $scope.trips = {};
 
-            $scope.initEditAccount = function () {
+            $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
-                var getUserPromise = accountRepository.getUser({ userId: $scope.userId }).$promise;
-                getUserPromise.then(function (result) {
-                    $scope.user = result;
+                var getUserTripsPromise = accountRepository.getUserTrips({ userId: $scope.userId }).$promise;
+                getUserTripsPromise.then(function (result) {
+                    $scope.trips = result;
+
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
             };
 
+            $scope.containsSearchText = function (trip) {
+                if ($scope.searchText === null || $scope.searchText === undefined) {
+                    return true;
+                }
+                return trip.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) !== -1;
+            };
+
+            $scope.enableEdit = function (trip) {
+                if (trip.editMode === undefined || trip.editMode === false) {
+                    trip.editMode = true;
+                }
+                else {
+                    trip.editMode = !trip.editMode;
+                    //save changes
+                }
+            }
+
+            // TO DO
+            //$scope.deleteTrip = function (trip) {
+            //    var getUserTripsPromise = accountRepository.deleteTrip({ userId: $scope.userId }).$promise;
+            //    getUserTripsPromise.then(function (result) {
+            //        $scope.trips = result;
+
+            //    }).catch(function (result) {
+            //        toastr.warning(result.data);
+            //    });
+            //}
+
+            $scope.init();
+        }
+
+    ]);
+globalModule.controller("TripCreateController",
+    ['$scope', '$window', '$http', '$location', '$localStorage', 'tripCreateRepository', 'toastr',
+        function ($scope, $window, $http, $location, $localStorage, tripCreateRepository, toastr) {
+            $scope.invitedPersonEmail = "";
+            $scope.invitedPeople = [];
+
+            $scope.tripMainPageTabsEnum = tripMainPageTabsEnum;
+            $scope.tripTypeEnum = tripTypeEnum;
+            $scope.selectedTab = tripMainPageTabsEnum.MainTab;
+
+            $scope.init = function () {
+                $scope.userId = $localStorage.TPUserId;
+            };
+
+            $scope.changeTab = function (tab) {
+                $scope.tripName = '';
+                switch (tab) {
+                    case tripMainPageTabsEnum.MainTab: {
+                        $scope.selectedTab = tripMainPageTabsEnum.MainTab;
+                        break;
+                    }
+                    case tripMainPageTabsEnum.SingleTrip: {
+                        $scope.selectedTab = tripMainPageTabsEnum.SingleTrip;
+                        break;
+                    }
+                    case tripMainPageTabsEnum.GroupTrip: {
+                        $scope.selectedTab = tripMainPageTabsEnum.GroupTrip;
+                        break;
+                    }
+                }
+            };
+
+            $scope.goBackToMainTab = function () {
+                $scope.tripName = '';
+                $scope.selectedTab = tripMainPageTabsEnum.MainTab;
+            };
+
+            $scope.addInvitedPerson = function () {
+                if (validateEmail($scope.invitedPersonEmail)) {
+                    if ($scope.invitedPeople.indexOf($scope.invitedPersonEmail) !== -1) {
+                        toastr.error("The typed person is already invited!");
+                    }
+                    else {
+                        $scope.invitedPeople.push($scope.invitedPersonEmail);
+                        $scope.invitedPersonEmail = "";
+                        $scope.$apply();
+                    }
+                }
+                else {
+                    toastr.error("The email is not valid!");
+                }
+            };
+
+            $scope.removeInvitedPerson = function (person) {
+                var index = $scope.invitedPeople.indexOf(person);
+                $scope.invitedPeople.splice(index, 1);
+                $scope.apply();
+            };
+
+            function isNullOrWhitespace(input) {
+                if (typeof input === 'undefined' || input == null) return true;
+                return input.replace(/\s/g, '').length < 1;
+            }
+
+            $scope.createTrip = function (tripType) {
+                if (isNullOrWhitespace($scope.tripName)) {
+                    toastr.error("Trip Name field must not be empty!");
+                    return;
+                }
+
+                var queryParam = {
+                    tripName: $scope.tripName,
+                    tripType: tripType
+                };
+                if (tripType == tripTypeEnum.Group) {
+                    angular.extend(queryParam, { invitedPeople: $scope.invitedPeople });
+                }
+                var createTripPromise = tripCreateRepository.createTrip({ userId: $scope.userId }, queryParam).$promise;
+                createTripPromise.then(function (result) {
+                    if (result != null) {
+                        $location.url('/trip/tripPlanner/' + result.id);
+                    }
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            function validateEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+            $scope.init();
+        }
+
+    ]);
+globalModule.factory('tripCreateRepository', [
+    '$resource',
+    function ($resource) {
+        return $resource("api/trip", {},
+            {
+                createTrip: {
+                    method: 'POST',
+                    url: 'api/trip/createTrip'
+                }
+            });
+    }
+
+]);
+globalModule.controller("TripPlannerController",
+    ['$scope', '$window', '$http', '$localStorage', 'tripRepository', 'toastr', '$routeParams', '$uibModal',
+        function ($scope, $window, $http, $localStorage, tripRepository, toastr, $routeParams, $uibModal) {
+            $scope.invitedPersonEmail = "";
+            $scope.invitedPeople = [];
+            $scope.suggestedInterests = [];
+
+            $scope.isAdmin = false;
+
+            $scope.messageText = "";
+
+            $scope.suggestedInterestsLoaded = false;
+            $scope.tripId = null;
+
+            $scope.tripTypeEnum = tripTypeEnum;
+
             $scope.initInterests = function () {
                 $scope.userId = $localStorage.TPUserId;
-                $scope.getUserInterestPromise = accountRepository.getUserInterest({ userId: $scope.userId }).$promise;
+                $scope.getUserInterestPromise = tripRepository.getUserInterestForTrip({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
                 $scope.getUserInterestPromise.then(function (result) {
                     $scope.userInterest = result;
+                    $scope.initInterestsForTrip();
+                    $scope.initMessagesForTrip();
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -739,7 +1046,8 @@ globalModule.controller("PlanningHistoryController",
                     resolve: {
                         data: function () {
                             return {
-                                userInterest: $scope.userInterest
+                                userInterest: $scope.userInterest,
+                                tripId: $scope.tripId
                             };
                         }
                     }
@@ -758,7 +1066,8 @@ globalModule.controller("PlanningHistoryController",
                     resolve: {
                         data: function () {
                             return {
-                                userInterest: $scope.userInterest
+                                userInterest: $scope.userInterest,
+                                tripId: $scope.tripId
                             };
                         }
                     }
@@ -777,7 +1086,8 @@ globalModule.controller("PlanningHistoryController",
                     resolve: {
                         data: function () {
                             return {
-                                userInterest: $scope.userInterest
+                                userInterest: $scope.userInterest,
+                                tripId: $scope.tripId
                             };
                         }
                     }
@@ -796,7 +1106,8 @@ globalModule.controller("PlanningHistoryController",
                     resolve: {
                         data: function () {
                             return {
-                                userInterest: $scope.userInterest
+                                userInterest: $scope.userInterest,
+                                tripId: $scope.tripId
                             };
                         }
                     }
@@ -805,101 +1116,150 @@ globalModule.controller("PlanningHistoryController",
                 });
             };
 
-            //update functions
-            $scope.update = function () {
-                if ($scope.newPassword != $scope.confPassword) {
-                    toastr.warning('The password does not match, please type the same password in Confirm Password field!');
-                    return;
-                }
-
-                var userUpdateParam = {
-                    email: $scope.user.email,
-                    password: $scope.newPassword
-                };
-
-                var userUpdatePromise = accountRepository.update({ userId: $scope.userId }, userUpdateParam).$promise;
-                userUpdatePromise.then(function (result) {
-                    toastr.success('The account was updated successfuly!');
-                }).catch(function (result) {
-                    toastr.warning(result.data);
-                });
-            };
-        }
-
-    ]);
-globalModule.controller("TripCreateController",
-    ['$scope', '$window', '$http', '$localStorage', 'tripCreateRepository', 'toastr',
-        function ($scope, $window, $http, $localStorage, tripCreateRepository, toastr) {
-            $scope.invitedPersonEmail = "";
-            $scope.invitedPeople = [];
-
-            $scope.tripMainPageTabsEnum = tripMainPageTabsEnum;
-            $scope.tripTypeEnum = tripTypeEnum;
-            $scope.selectedTab = tripMainPageTabsEnum.MainTab;
-
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
+                $scope.tripId = $routeParams.id;
+                $scope.initInterests();
+                $scope.setAdmin();
             };
 
-            $scope.changeTab = function (tab) {
-                switch (tab) {
-                    case tripMainPageTabsEnum.MainTab: {
-                        $scope.selectedTab = tripMainPageTabsEnum.MainTab;
-                        break;
-                    }
-                    case tripMainPageTabsEnum.SingleTrip: {
-                        $scope.selectedTab = tripMainPageTabsEnum.SingleTrip;
-                        break;
-                    }
-                    case tripMainPageTabsEnum.GroupTrip: {
-                        $scope.selectedTab = tripMainPageTabsEnum.GroupTrip;
-                        break;
-                    }
-                }
-            };
+            $scope.initInterestsForTrip = function () {
+                $scope.getInterestsForTripPromise = tripRepository.getInterestsForTrip({ tripId: $scope.tripId }).$promise;
+                $scope.getInterestsForTripPromise.then(function (result) {
+                    $scope.suggestedInterests = result;
+                    $scope.suggestedInterestsLoaded = true;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });;
+            }
 
-            $scope.goBackToMainTab = function () {
-                $scope.selectedTab = tripMainPageTabsEnum.MainTab;
-            };
+            $scope.initMessagesForTrip = function () {
+                $scope.getInterestsForTripPromise = tripRepository.getMessagesForTrip({ tripId: $scope.tripId }).$promise;
+                $scope.getInterestsForTripPromise.then(function (result) {
+                    $scope.messages = result.map(function (message) {
+                        return {
+                            id: message.id,
+                            senderId: message.senderId,
+                            text: message.text,
+                            isSender: $scope.userId == message.senderId,
+                            date: message.date,
+                            senderEmail: message.senderEmail
+                        };
+                    });
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });;
+            }
 
-            $scope.addInvitedPerson = function () {
-                $scope.invitedPeople.push($scope.invitedPersonEmail);
-                $scope.invitedPersonEmail = "";
-            };
+            $scope.refreshMessages = function () {
+                $scope.initMessagesForTrip();
+            }
 
-            $scope.removeInvitedPerson = function () {
-                var index = $scope.invitedPeople.indexOf($scope.invitedPeople.selected);
-                $scope.invitedPeople.splice(index, 1);
-                $scope.invitedPeople.selected = undefined;
-            };
-
-            $scope.createTrip = function (tripType) {
-                var queryParam = {
-                    tripName: $scope.tripName,
-                    tripType: tripType
+            $scope.sendMessage = function () {
+                var newMessage = {
+                    senderId: $scope.userId,
+                    tripId: $scope.tripId,
+                    text: $scope.messageText,
+                    date: new Date(),
                 };
-                if (tripType == tripTypeEnum.Group) {
-                    angular.extend(queryParam, { invitedPeople: $scope.invitedPeople });
-                }
-                var createTripPromise = tripCreateRepository.createTrip({ userId: $scope.userId }, queryParam).$promise;
-                createTripPromise.then(function (result) {
+
+                $scope.createMessagePromise = tripRepository.createMessage(newMessage).$promise;
+                $scope.createMessagePromise.then(function (result) {
+                    $scope.messageText = "";
+                    $scope.initMessagesForTrip();
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
-            };
+            }
 
-            $scope.init();
+            $scope.getFirstLetterFromEmail = function (email) {
+                var emailTrimed = email.trim();
+                return emailTrimed[0].toUpperCase().concat(emailTrimed[1].toUpperCase());
+            }
+
+            $scope.setAdmin = function () {
+                $scope.getUserAdmin = tripRepository.isUserAdmin({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
+                $scope.getUserAdmin.then(function (result) {
+                    $scope.isAdmin = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.initManageMembersModal = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Trip/trip-planner-manage-members-modal.html',
+                    controller: 'TripPlannerManageMembersModalController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userId: $scope.userId,
+                                tripId: $scope.tripId,
+                                isAdmin: $scope.isAdmin
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.initInterests();
+                });
+            }
         }
 
     ]);
-globalModule.factory('tripCreateRepository', [
+globalModule.controller("TripPlannerManageMembersModalController",
+    ['$scope', 'data', '$window', '$http', '$localStorage', 'tripRepository', 'toastr', '$routeParams', '$uibModal',
+        function ($scope, data, $window, $http, $localStorage, tripRepository, toastr, $routeParams, $uibModal) {
+            $scope.userId = data.userId;
+            $scope.tripId = data.tripId;
+            $scope.isAdmin = data.isAdmin;
+
+            $scope.members = [];
+
+            $scope.init = function () {
+                $scope.getTripUsersPromise = tripRepository.getTripUsers({ userId: $scope.userId }).$promise;
+                $scope.getTripUsersPromise.then(function (result) {
+                    $scope.members = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+        }
+
+    ]);
+globalModule.factory('tripRepository', [
     '$resource',
     function ($resource) {
         return $resource("api/trip", {},
             {
-                createTrip: {
+                getUserHeaderTrips: {
+                    method: 'GET',
+                    url: 'api/trip/getUserHeaderTrips',
+                    isArray: true
+                },
+                getUserInterestForTrip: {
+                    method: 'GET',
+                    url: 'api/trip/getUserInterestForTrip'
+                },
+                getInterestsForTrip: {
+                    method: 'GET',
+                    url: 'api/trip/getSuggestedInterests',
+                    isArray: true
+                },
+                getMessagesForTrip: {
+                    method: 'GET',
+                    url: 'api/trip/getMessages',
+                    isArray: true
+                },
+                createMessage: {
                     method: 'POST',
-                    url: 'api/trip/createTrip'
+                    url: 'api/trip/createMessage'
+                },
+                isUserAdmin: {
+                    method: 'GET',
+                    url: 'api/trip/isUserAdmin'
                 }
             });
     }

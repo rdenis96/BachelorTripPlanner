@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace DataLayer.Models
 {
@@ -12,7 +9,6 @@ namespace DataLayer.Models
         public int TripId { get; set; }
         public bool HasAcceptedInvitation { get; set; }
         public bool IsGroupAdmin { get; set; }
-        public UserInterestWrapper Interests { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -30,13 +26,12 @@ namespace DataLayer.Models
                    UserId == user.UserId &&
                    TripId == user.TripId &&
                    HasAcceptedInvitation == user.HasAcceptedInvitation &&
-                   IsGroupAdmin == user.IsGroupAdmin &&
-                   EqualityComparer<UserInterestWrapper>.Default.Equals(Interests, user.Interests);
+                   IsGroupAdmin == user.IsGroupAdmin;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, UserId, TripId, HasAcceptedInvitation, IsGroupAdmin, Interests);
+            return HashCode.Combine(Id, UserId, TripId, HasAcceptedInvitation, IsGroupAdmin);
         }
     }
 }

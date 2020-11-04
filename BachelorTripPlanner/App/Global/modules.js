@@ -35,6 +35,10 @@ globalModule.config([
                 templateUrl: 'AppViews/Trip/trip-create.html',
                 controller: 'TripCreateController'
             })
+            .when('/trip/tripPlanner/:id', {
+                templateUrl: 'AppViews/Trip/trip-planner.html',
+                controller: 'TripPlannerController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

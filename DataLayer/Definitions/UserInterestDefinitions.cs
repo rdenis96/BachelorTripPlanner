@@ -1,9 +1,5 @@
-﻿using DataLayer.Enums;
-using DataLayer.Models;
+﻿using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataLayer.Definitions
 {
@@ -11,7 +7,10 @@ namespace DataLayer.Definitions
     {
         public static void Set(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserInterest>().HasKey(k => k.UserId);
+
+            modelBuilder.Entity<UserInterest>().HasKey(k => k.Id);
+            modelBuilder.Entity<UserInterest>().Property(x => x.UserId).IsRequired();
+            modelBuilder.Entity<UserInterest>().Property(x => x.TripId).IsRequired(false);
             modelBuilder.Entity<UserInterest>().Property(x => x.Countries).IsRequired();
             modelBuilder.Entity<UserInterest>().Property(x => x.Cities).IsRequired(false);
             modelBuilder.Entity<UserInterest>().Property(x => x.Weather).IsRequired();

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DataLayer.Context;
+﻿using DataLayer.Context;
 using DataLayer.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataLayer.Repository.Implementation
 {
@@ -12,8 +12,6 @@ namespace DataLayer.Repository.Implementation
         {
             using (TripPlanner context = new TripPlanner())
             {
-                UserInterestWrapper interests = new UserInterestWrapper(string.Empty);
-                obj.Interests = interests;
                 context.TripUsers.Add(obj);
                 context.SaveChanges();
                 return obj;
@@ -37,17 +35,66 @@ namespace DataLayer.Repository.Implementation
 
         public List<TripUser> GetByTripId(int tripId)
         {
-            throw new NotImplementedException();
+            if (tripId < 0)
+            {
+                return null;
+            }
+            using (TripPlanner context = new TripPlanner())
+            {
+                var result = context.TripUsers.Where(x => x.TripId == tripId).ToList();
+                return result;
+            }
+        }
+
+        public bool IsUserAdmin(int userId, int tripId)
+        {
+            if (userId < 0 || tripId < 0)
+            {
+                return false;
+            }
+
+            using (TripPlanner context = new TripPlanner())
+            {
+                var tripUser = context.TripUsers.Where(x => x.UserId == userId && x.TripId == tripId).FirstOrDefault();
+                if (tripUser != null)
+                {
+                    return tripUser.IsGroupAdmin;
+                }
+
+                return false;
+            }
         }
 
         public List<TripUser> GetByUserId(int userId)
         {
-            throw new NotImplementedException();
+            if (userId < 0)
+            {
+                return null;
+            }
+            using (TripPlanner context = new TripPlanner())
+            {
+                var result = context.TripUsers.Where(x => x.UserId == userId && x.HasAcceptedInvitation == true).ToList();
+                return result;
+            }
         }
 
         public TripUser GetByUserIdAndTripId(int userId, int tripId)
         {
-            throw new NotImplementedException();
+            if (userId < 0)
+            {
+                return null;
+            }
+
+            if (tripId < 0)
+            {
+                return null;
+            }
+
+            using (TripPlanner context = new TripPlanner())
+            {
+                var result = context.TripUsers.Where(x => x.UserId == userId && x.TripId == tripId).FirstOrDefault();
+                return result;
+            }
         }
 
         public TripUser Update(TripUser obj)

@@ -290,6 +290,24 @@ footer {
         font-size: 3em;
     }
 
+.trip-planner-bg {
+    background-image: url(../../Images/Common/trip-create-bg.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    max-height: 100%;
+    font-family: Lato;
+    font-size: 16px;
+    color: black;
+    padding-top: 2%;
+    padding-bottom: 25%;
+}
+
+.trip-create-bg h2 {
+    font-weight: 500;
+    font-size: 3em;
+}
+
 /* SELECT 2 START */
 /*-----------------------------SELECT 2----------------------------------------*/
 .select2-container {
@@ -530,3 +548,9 @@ footer {
     .arrows img {
         height: 20px;
     }
+
+.notification-img-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}

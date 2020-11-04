@@ -13,15 +13,32 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-fw fa-bell-o"></i> Parties <span class="badge">0</span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-fw fa-users"></i> Parties <span class="badge">{{userGroupTrips.length}}</span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#"><i class="fa fa-fw fa-users"></i> <span class="badge">3</span> Ceva</a></li>
-                            <li><a href="#"><i class="fa fa-fw fa-thumbs-o-up"></i> <span class="badge">Music</span> sayfasında iletiniz beğenildi</a></li>
-                            <li><a href="#"><i class="fa fa-fw fa-thumbs-o-up"></i> <span class="badge">Video</span> sayfasında iletiniz beğenildi</a></li>
-                            <li><a href="#"><i class="fa fa-fw fa-thumbs-o-up"></i> <span class="badge">Game</span> sayfasında iletiniz beğenildi</a></li>
+                            <li ng-repeat="userGroupTrip in userGroupTrips track by $index"><a href="../trip/tripPlanner/{{userGroupTrip.tripId}}"><i class="fa fa-fw fa-users"></i> <span class="badge">{{userGroupTrip.membersCount}}</span>{{userGroupTrip.name}}</a></li>
                         </ul>
                     </li>
                     <li class="active"><a href="../trip/createTrip">Create your Trip <span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown" uib-tooltip="Notifications">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-fw fa-bell"></i> <span class="badge">{{notifications.length}}</span></a>
+                        <ul class="dropdown-menu" role="menu" cg-busy="getNotificationsPromise">
+                            <li ng-repeat="notification in notifications track by $index">
+                                <a ng-if="notification.type === notificationTypes.TripInvitation">
+                                    <label>
+                                        Invitation From: <span style="color:red;">{{notification.senderEmail}}</span> |
+                                        Trip: <span style="color:red;">{{notification.tripName}}</span>
+                                    </label>
+                                    <img class="notification-img-icon" src="https://www.pngkey.com/png/full/0-4418_image-checkmark-green-circle-check-mark.png" ng-click="respondNotification(notification, true)" />
+                                    <img class="notification-img-icon" src="https://secure.webtoolhub.com/static/resources/icons/set114/97967b31.png" ng-click="respondNotification(notification, false)" />
+                                </a>
+                                <a ng-if="notification.type === notificationTypes.FriendRequest">
+                                    <label>Friend Request: <span style="color:red;">{{notification.senderEmail}}</span></label>
+                                    <img class="notification-img-icon" src="https://www.pngkey.com/png/full/0-4418_image-checkmark-green-circle-check-mark.png ng-click="respondNotification(notification, true)" />
+                                    <img class="notification-img-icon" src="https://secure.webtoolhub.com/static/resources/icons/set114/97967b31.png" ng-click="respondNotification(notification, false)" />
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fas fa-user-circle"></i> Account <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -34,9 +51,6 @@
                         </ul>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-right search-form" role="search">
-                    <input type="text" class="form-control" placeholder="Search" />
-                </form>
             </div>
         </div>
         <div class="container" ng-show="isLogged == false">

@@ -1,8 +1,8 @@
 ﻿<div class="slider">
-    <div class="row home-section padding-top-10 slide" ng-repeat="interest in interests" ng-if="interest.visible" ng-show="interest.visible" ng-click="openWikipediaTab(interest.linkWikipediaCity)">
+    <div class="row home-section padding-top-10 slide" ng-repeat="interest in interests" ng-if="interest.visible" ng-show="interest.visible" >
         <div class="col-md-4 home-section-first-column">
             <div class="row">
-                <img src="{{interest.linkImage}}" class="col-md-12" />
+                <img src="{{interest.linkImage}}" class="col-md-12" ng-click="openWikipediaTab(interest.linkWikipediaCity)"/>
             </div>
             <h5 class="border-top padding-top-10">
                 <b>Country: </b>{{interest.country}}
@@ -15,7 +15,10 @@
             <br />
             <b>Tourist Attractions:</b> <span ng-repeat="attraction in interest.touristAttractions track by $index">{{attraction}}, </span>
             <br />
-            <b>Transport:</b> <span ng-repeat="transport in interest.transports track by $index">{{transport}}, </span>
+            <b>Transport:</b> 
+            <span ng-repeat="transport in interest.transports track by $index">
+                <img width="25" height="25" src={{getTransportIcon(transport)}} uib-tooltip="{{transport}}"/>
+            </span>
         </div>
     </div>
 </div>

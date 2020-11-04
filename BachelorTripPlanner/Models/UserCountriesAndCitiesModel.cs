@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BachelorTripPlanner.Models
 {
@@ -9,5 +6,6 @@ namespace BachelorTripPlanner.Models
     {
         public List<string> Countries { get; set; }
         public List<string> Cities { get; set; }
+        public int? TripId { get; set; }
     }
 }

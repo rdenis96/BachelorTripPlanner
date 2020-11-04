@@ -5,13 +5,13 @@
             <div class="row home-section home-section-header">
                 <h4> Suggested interests </h4>
             </div>
-            <home-interests-slider ng-if="suggestedInterestsLoaded" interests="suggestedInterests" />
+            <interests-slider ng-if="suggestedInterestsLoaded" interests="suggestedInterests" />
         </div>
         <div class="col-md-3" cg-busy="getRandomInterestsPromise">
             <div class="row home-section home-section-header">
                 <h4> Interests you may like </h4>
             </div>
-            <home-interests-slider ng-if="randomInterestsLoaded" interests="randomInterests" />
+            <interests-slider ng-if="randomInterestsLoaded" interests="randomInterests" />
         </div>
         <div class="col-md-1"></div>
     </div>

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BachelorTripPlanner.Models
 {
     public class UserTouristAttractionsModel
     {
         public List<string> TouristAttractions { get; set; }
+        public int? TripId { get; set; }
     }
 }

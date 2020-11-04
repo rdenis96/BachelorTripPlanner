@@ -1,7 +1,5 @@
 ﻿using DataLayer.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataLayer.Repository
 {
@@ -12,5 +10,7 @@ namespace DataLayer.Repository
         List<TripUser> GetByTripId(int tripId);
 
         TripUser GetByUserIdAndTripId(int userId, int tripId);
+
+        bool IsUserAdmin(int userId, int tripId);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using DataLayer.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataLayer.Repository
 {
@@ -24,6 +22,8 @@ namespace DataLayer.Repository
         List<string> GetAllTouristAttractions();
 
         List<Interest> GetSuggestedInterests(int userId);
+
+        List<Interest> GetSuggestedInterestsByTrip(int tripId);
 
         List<Interest> GetRandomInterests();
     }

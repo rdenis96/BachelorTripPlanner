@@ -1,0 +1,38 @@
+﻿<div class="row center-block" ng-init="initWeather()">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-fw fa-list" aria-hidden="true"></i> Trips list
+            </div>
+            <div class="panel-body">
+                <ul ng-class="{'panel-body-overflow': trips.length > 10}" class="list-group" cg-busy="getUserTripsPromise">
+                    <li ng-show="member.userId != userId" class="list-group-item" ng-repeat="member in members track by $index">
+                        <div class="checkbox">
+                            <span class="tripLabel" ng-bind="member.name" ng-show="trip.editMode === false || trip.editMode === undefined">
+                            </span>
+                            <input type="text" ng-show="trip.editMode" ng-model="trip.name" />
+                        </div>
+                        <div class="pull-right action-buttons">
+                            <a href="#" ng-click="enableEdit(trip)"><i class="fa fa-fw " ng-class="trip.editMode ? 'fa-check' : 'fa-edit'" aria-hidden="true"></i></a>
+                            <a href="http://www.jquery2dotnet.com" class="trash"><i class="fa fa-fw fa-trash" aria-hidden="true"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <h6 class="pull-right">
+                            Total Count <span class="label label-info">{{trips.length}}</span>
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+    <button type="button" class="padding-right-5 close" ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>

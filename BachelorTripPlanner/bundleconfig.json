@@ -35,7 +35,9 @@
       "AppStyle/Common/global.css",
       "AppStyle/Common/landingPage.css",
       "AppStyle/Account/interests.css",
-      "AppStyle/Account/planning-history.css"
+      "AppStyle/Account/planning-history.css",
+      "AppStyle/Trip/trip-create.css",
+      "AppStyle/Trip/trip-planner.css"
     ]
   },
   {
@@ -52,6 +54,7 @@
       "App/Global/directives.js",
       "App/Home/home-repository.js",
       "App/Home/home-controller.js",
+      "App/Global/notifications-repository.js",
       "App/Global/header-controller.js",
       "App/LandingPage/landingPage-controller.js",
       "App/LandingPage/landingPage-repository.js",
@@ -61,6 +64,9 @@
       "App/Account/account-planning-history-controller.js",
       "App/Trip/trip-create-controller.js",
       "App/Trip/trip-create-repository.js",
+      "App/Trip/trip-planner-controller.js",
+      "App/Trip/trip-planner-manage-members-modal-controller.js",
+      "App/Trip/trip-repository.js",
       "App/Global/login-modal-controller.js"
     ]
   }

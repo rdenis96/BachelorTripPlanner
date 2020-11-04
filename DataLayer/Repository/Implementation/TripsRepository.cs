@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DataLayer.Context;
+﻿using DataLayer.Context;
 using DataLayer.Enums;
 using DataLayer.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataLayer.Repository.Implementation
 {
@@ -13,8 +13,6 @@ namespace DataLayer.Repository.Implementation
         {
             using (TripPlanner context = new TripPlanner())
             {
-                UserInterestWrapper interests = new UserInterestWrapper(string.Empty);
-                obj.Interests = interests;
                 context.Trips.Add(obj);
                 context.SaveChanges();
                 return obj;
@@ -33,7 +31,10 @@ namespace DataLayer.Repository.Implementation
 
         public Trip GetById(int id)
         {
-            throw new NotImplementedException();
+            using (TripPlanner context = new TripPlanner())
+            {
+                return context.Trips.Where(c => c.Id == id).FirstOrDefault();
+            }
         }
 
         public List<Trip> GetByType(TripType type)

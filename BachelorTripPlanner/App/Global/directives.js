@@ -1,10 +1,53 @@
-﻿globalModule.directive('homeInterestsSlider', function ($timeout, $window) {
+﻿globalModule.directive('interestsSlider', function ($timeout, $window) {
     return {
         restrict: 'E',
         scope: {
             interests: '='
         },
         link: function (scope, elem, attrs) {
+
+            var transportsIcons = {
+                Bus: 'Bus',
+                Metro: 'Metro',
+                Train: 'Train',
+                Boat: 'Boat',
+                Tram: 'Tram',
+                Taxi: 'Taxi',
+                Underground: 'Underground',
+                Subway: 'Subway',
+                Helicopter: 'Helicopter',
+                Plane: 'Plane',
+                Rent: 'Rent'
+            }
+
+            scope.getTransportIcon = function (transport) {
+                transport = transport.trim();
+                switch (transport) {
+                    case transportsIcons.Bus:
+                        return "Images/Common/BusIcon.png";
+                    case transportsIcons.Metro:
+                        return "Images/Common/MetroIcon.png";
+                    case transportsIcons.Train:
+                        return "Images/Common/TrainIcon.png";
+                    case transportsIcons.Boat:
+                        return "Images/Common/BoatIcon.png";
+                    case transportsIcons.Tram:
+                        return "Images/Common/TramIcon.png";
+                    case transportsIcons.Taxi:
+                        return "Images/Common/TaxiIcon.png";
+                    case transportsIcons.Underground:
+                        return "Images/Common/UndergroundIcon.png";
+                    case transportsIcons.Subway:
+                        return "Images/Common/SubwayIcon.png";
+                    case transportsIcons.Helicopter:
+                        return "Images/Common/HelicopterIcon.png";
+                    case transportsIcons.Plane:
+                        return "Images/Common/PlaneIcon.png";
+                    case transportsIcons.Rent:
+                        return "Images/Common/RentIcon.png";
+                }
+            }
+
             scope.currentIndex = 0; // Initially the index is at the first interest
 
             scope.next = function () {
@@ -31,8 +74,8 @@
             var sliderFunc = function () {
                 timer = $timeout(function () {
                     scope.next();
-                    timer = $timeout(sliderFunc, 2000);
-                }, 2000);
+                    timer = $timeout(sliderFunc, 4000);
+                }, 4000);
             };
 
             sliderFunc();

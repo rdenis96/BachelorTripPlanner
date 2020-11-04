@@ -13,6 +13,7 @@
     <None Remove="AppStyle\Account\interests.css" />
     <None Remove="AppStyle\Common\global.css" />
     <None Remove="AppStyle\Common\landingPage.css" />
+    <None Remove="AppStyle\Trip\trip-create.css" />
     <None Remove="AppViews\Account\edit-account.html" />
     <None Remove="AppViews\Account\interest-country-city-modal.html" />
     <None Remove="AppViews\Account\interests.html" />
@@ -48,6 +49,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppStyle\Common\landingPage.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AppStyle\Trip\trip-create.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppViews\Account\edit-account.html">

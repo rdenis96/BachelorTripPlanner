@@ -7,11 +7,21 @@ namespace DataLayer.Context
 {
     public class TripPlanner : DbContext
     {
+        public TripPlanner() : base()
+        {
+        }
+
+        public TripPlanner(DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<UserInterest> UserInterests { get; set; }
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripUser> TripUsers { get; set; }
+        public DbSet<TripMessage> TripMessages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,6 +35,8 @@ namespace DataLayer.Context
             InterestDefinitions.Set(modelBuilder);
             TripDefinitions.Set(modelBuilder);
             TripUserDefinitions.Set(modelBuilder);
+            TripMessageDefinitions.Set(modelBuilder);
+            NotificationDefinitions.Set(modelBuilder);
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using DataLayer.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataLayer.Models
 {
@@ -9,30 +7,24 @@ namespace DataLayer.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public UserInterestWrapper Interests { get; set; }
         public TripType Type { get; set; }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType())
-                return false;
-
-            return Equals((Trip)obj);
+            return Equals(obj as Trip);
         }
 
-        public bool Equals(Trip obj)
+        public bool Equals(Trip other)
         {
-            var trip = obj as Trip;
-            return trip != null &&
-                   Id == trip.Id &&
-                   Name == trip.Name &&
-                   EqualityComparer<UserInterestWrapper>.Default.Equals(Interests, trip.Interests) &&
-                   Type == trip.Type;
+            return other != null &&
+                   Id == other.Id &&
+                   Name == other.Name &&
+                   Type == other.Type;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Name, Interests, Type);
+            return HashCode.Combine(Id, Name, Type);
         }
     }
 }

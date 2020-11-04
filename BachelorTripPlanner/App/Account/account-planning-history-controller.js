@@ -2,123 +2,48 @@
     ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
         function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
             $scope.user = {};
-            $scope.userInterests = {};
+            $scope.trips = {};
 
-            $scope.initEditAccount = function () {
+            $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
-                var getUserPromise = accountRepository.getUser({ userId: $scope.userId }).$promise;
-                getUserPromise.then(function (result) {
-                    $scope.user = result;
+                var getUserTripsPromise = accountRepository.getUserTrips({ userId: $scope.userId }).$promise;
+                getUserTripsPromise.then(function (result) {
+                    $scope.trips = result;
+
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
             };
 
-            $scope.initInterests = function () {
-                $scope.userId = $localStorage.TPUserId;
-                $scope.getUserInterestPromise = accountRepository.getUserInterest({ userId: $scope.userId }).$promise;
-                $scope.getUserInterestPromise.then(function (result) {
-                    $scope.userInterest = result;
-                }).catch(function (result) {
-                    toastr.warning(result.data);
-                });
-            };
-
-            $scope.openCountryAndCityModal = function () {
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'AppViews/Account/interest-country-city-modal.html',
-                    controller: 'AccountInterestsController',
-                    backdrop: 'static',
-                    keyboard: false,
-                    size: 'lg',
-                    resolve: {
-                        data: function () {
-                            return {
-                                userInterest: $scope.userInterest
-                            };
-                        }
-                    }
-                }).closed.then(function () {
-                    $scope.initInterests();
-                });
-            };
-
-            $scope.openWeatherModal = function () {
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'AppViews/Account/interest-weather-modal.html',
-                    controller: 'AccountInterestsController',
-                    backdrop: 'static',
-                    keyboard: false,
-                    size: 'lg',
-                    resolve: {
-                        data: function () {
-                            return {
-                                userInterest: $scope.userInterest
-                            };
-                        }
-                    }
-                }).closed.then(function () {
-                    $scope.initInterests();
-                });
-            };
-
-            $scope.openTransportsModal = function () {
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'AppViews/Account/interest-transport-modal.html',
-                    controller: 'AccountInterestsController',
-                    backdrop: 'static',
-                    keyboard: false,
-                    size: 'lg',
-                    resolve: {
-                        data: function () {
-                            return {
-                                userInterest: $scope.userInterest
-                            };
-                        }
-                    }
-                }).closed.then(function () {
-                    $scope.initInterests();
-                });
-            };
-
-            $scope.openTouristAttractionsModal = function () {
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'AppViews/Account/interest-tourist-attractions-modal.html',
-                    controller: 'AccountInterestsController',
-                    backdrop: 'static',
-                    keyboard: false,
-                    size: 'lg',
-                    resolve: {
-                        data: function () {
-                            return {
-                                userInterest: $scope.userInterest
-                            };
-                        }
-                    }
-                }).closed.then(function () {
-                    $scope.initInterests();
-                });
-            };
-
-            //update functions
-            $scope.update = function () {
-                if ($scope.newPassword != $scope.confPassword) {
-                    toastr.warning('The password does not match, please type the same password in Confirm Password field!');
-                    return;
+            $scope.containsSearchText = function (trip) {
+                if ($scope.searchText === null || $scope.searchText === undefined) {
+                    return true;
                 }
-
-                var userUpdateParam = {
-                    email: $scope.user.email,
-                    password: $scope.newPassword
-                };
-
-                var userUpdatePromise = accountRepository.update({ userId: $scope.userId }, userUpdateParam).$promise;
-                userUpdatePromise.then(function (result) {
-                    toastr.success('The account was updated successfuly!');
-                }).catch(function (result) {
-                    toastr.warning(result.data);
-                });
+                return trip.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) !== -1;
             };
+
+            $scope.enableEdit = function (trip) {
+                if (trip.editMode === undefined || trip.editMode === false) {
+                    trip.editMode = true;
+                }
+                else {
+                    trip.editMode = !trip.editMode;
+                    //save changes
+                }
+            }
+
+            // TO DO
+            //$scope.deleteTrip = function (trip) {
+            //    var getUserTripsPromise = accountRepository.deleteTrip({ userId: $scope.userId }).$promise;
+            //    getUserTripsPromise.then(function (result) {
+            //        $scope.trips = result;
+
+            //    }).catch(function (result) {
+            //        toastr.warning(result.data);
+            //    });
+            //}
+
+            $scope.init();
         }
 
     ]);

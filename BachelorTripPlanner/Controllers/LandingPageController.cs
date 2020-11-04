@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using BachelorTripPlanner.Models;
+﻿using BachelorTripPlanner.Models;
 using BachelorTripPlanner.Workers;
 using DataLayer.Helpers;
 using DataLayer.Models;
@@ -16,16 +11,18 @@ namespace BachelorTripPlanner.Controllers
     [Route("api/[controller]")]
     public class LandingPageController : Controller
     {
-        private UserWorker _userWorker;
+        private readonly UserWorker _userWorker;
+        private readonly UserInterestWorker _userInterestWorker;
 
         public LandingPageController()
         {
             _userWorker = new UserWorker();
+            _userInterestWorker = new UserInterestWorker();
         }
 
         [HttpPost]
         [Route("[action]")]
-        public IActionResult Register([FromBody]UserRegisterModel userRegister)
+        public IActionResult Register([FromBody] UserRegisterModel userRegister)
         {
             var userExists = _userWorker.GetByEmail(userRegister.Email);
             if (userExists != null)
@@ -52,6 +49,8 @@ namespace BachelorTripPlanner.Controllers
                 return BadRequest("The user could not be created, please try again later!");
             }
 
+            _userInterestWorker.Create(user.Id, null);
+
             var result = new
             {
                 message = "The account was successfuly registered, please login!"
@@ -62,7 +61,7 @@ namespace BachelorTripPlanner.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult Login([FromQuery]UserLoginModel userLogin)
+        public IActionResult Login([FromQuery] UserLoginModel userLogin)
         {
             var user = _userWorker.GetByEmailAndPassword(userLogin.Email, userLogin.Password);
             if (user == null)

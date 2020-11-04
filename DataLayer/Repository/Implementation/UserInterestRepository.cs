@@ -1,11 +1,8 @@
-﻿using System;
+﻿using DataLayer.Context;
+using DataLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataLayer.Context;
-using DataLayer.Enums;
-using DataLayer.Models;
 
 namespace DataLayer.Repository.Implementation
 {
@@ -42,32 +39,55 @@ namespace DataLayer.Repository.Implementation
 
         public UserInterest GetById(int id)
         {
-            throw new NotImplementedException();
+            if (id < 0)
+                return null;
+            using (TripPlanner context = new TripPlanner())
+            {
+                var interest = context.UserInterests.Find(id);
+
+                if (interest != null)
+                {
+                    return interest;
+                }
+                return null;
+            }
         }
 
         public UserInterest GetByUserId(int userId)
         {
             if (userId <= 0)
                 return null;
+
+            UserInterest userInterest = new UserInterest();
             using (TripPlanner context = new TripPlanner())
             {
-                var userInterest = context.UserInterests.Where(x => x.UserId == userId).FirstOrDefault();
+                userInterest = context.UserInterests.Where(x => x.UserId == userId && x.TripId == null).FirstOrDefault();
+                return userInterest;
+            }
+        }
 
-                if (userInterest == null)
-                {
-                    userInterest = new UserInterest()
-                    {
-                        UserId = userId,
-                        Countries = string.Empty,
-                        Cities = string.Empty,
-                        Weather = string.Empty,
-                        TouristAttractions = string.Empty,
-                        Transports = string.Empty
-                    };
-                    context.UserInterests.Add(userInterest);
-                    context.SaveChanges();
-                }
+        public UserInterest GetByUserIdAndTripId(int userId, int tripId)
+        {
+            if (userId <= 0)
+                return null;
 
+            var userInterest = new UserInterest();
+            using (TripPlanner context = new TripPlanner())
+            {
+                userInterest = context.UserInterests.Where(x => x.UserId == userId && x.TripId == tripId).FirstOrDefault();
+                return userInterest;
+            }
+        }
+
+        public IEnumerable<UserInterest> GetByTripId(int tripId)
+        {
+            if (tripId <= 0)
+                return null;
+
+            var userInterest = Enumerable.Empty<UserInterest>();
+            using (TripPlanner context = new TripPlanner())
+            {
+                userInterest = context.UserInterests.Where(x => x.TripId == tripId);
                 return userInterest;
             }
         }
@@ -83,9 +103,8 @@ namespace DataLayer.Repository.Implementation
                 context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
                 changesSaved = context.SaveChanges() > 0;
-
-                return changesSaved ? GetByUserId(obj.UserId) : null;
             }
+            return changesSaved ? GetById(obj.Id) : null;
         }
     }
 }

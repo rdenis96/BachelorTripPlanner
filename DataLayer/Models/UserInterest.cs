@@ -1,19 +1,18 @@
-﻿using DataLayer.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using System;
 
 namespace DataLayer.Models
 {
-    public class UserInterest : IEquatable<UserInterest>
+    public class UserInterest : UserInterestBase, IEquatable<UserInterest>
     {
-        public int UserId { get; set; }
         public string Countries { get; set; }
         public string Cities { get; set; }
         public string Weather { get; set; }
         public string TouristAttractions { get; set; }
         public string Transports { get; set; }
+
+        public UserInterest() : base()
+        {
+        }
 
         public override bool Equals(object obj)
         {
@@ -23,7 +22,9 @@ namespace DataLayer.Models
         public bool Equals(UserInterest other)
         {
             return other != null &&
+                   base.Equals(other) &&
                    UserId == other.UserId &&
+                   TripId == other.TripId &&
                    Countries == other.Countries &&
                    Cities == other.Cities &&
                    Weather == other.Weather &&
@@ -33,7 +34,7 @@ namespace DataLayer.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(UserId, Countries, Cities, Weather, TouristAttractions, Transports);
+            return HashCode.Combine(base.GetHashCode(), UserId, TripId, Countries, Cities, Weather, TouristAttractions, Transports);
         }
     }
 }

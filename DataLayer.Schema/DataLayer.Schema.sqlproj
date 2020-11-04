@@ -65,5 +65,7 @@
     <Build Include="dbo\Tables\UserInterests.sql" />
     <Build Include="dbo\Tables\Interests.sql" />
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
+    <Build Include="dbo\Tables\TripUsers.sql" />
+    <Build Include="dbo\Tables\Trips.sql" />
   </ItemGroup>
 </Project>

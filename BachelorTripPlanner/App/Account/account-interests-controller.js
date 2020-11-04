@@ -2,6 +2,7 @@
     ['$scope', 'data', '$localStorage', 'accountRepository', 'toastr', '$uibModalInstance',
         function ($scope, data, $localStorage, accountRepository, toastr, $uibModalInstance) {
             $scope.userInterest = data.userInterest;
+            $scope.tripId = data.tripId;
             $scope.countriesList = [];
             $scope.citiesList = [];
             $scope.weatherList = [];
@@ -14,7 +15,12 @@
             $scope.initCountriesCities = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableCountriesPromise = accountRepository.getAvailableCountries({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableCountriesPromise = accountRepository.getAvailableCountries(queryParam).$promise;
                 $scope.getAvailableCountriesPromise.then(function (result) {
                     $scope.countriesList = result;
                     $scope.reInitCities();
@@ -26,8 +32,10 @@
             $scope.reInitCities = function () {
                 var queryParam = {
                     userId: $scope.userId,
+                    tripId: $scope.tripId,
                     userCountries: $scope.userInterest.countries
                 };
+
                 $scope.getUserCitiesByUserCountriesAndAvailableCitiesPromise = accountRepository.getUserCitiesByUserCountriesAndAvailableCities(queryParam).$promise;
                 $scope.getUserCitiesByUserCountriesAndAvailableCitiesPromise.then(function (result) {
                     $scope.citiesList = result.availableCities;
@@ -40,7 +48,12 @@
             $scope.initWeather = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableWeatherPromise = accountRepository.getAvailableWeather({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableWeatherPromise = accountRepository.getAvailableWeather(queryParam).$promise;
                 $scope.getAvailableWeatherPromise.then(function (result) {
                     $scope.weatherList = result;
                     $scope.userWeather = $scope.extractListFromString($scope.userInterest.weather);
@@ -52,7 +65,12 @@
             $scope.initTransport = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableTransportPromise = accountRepository.getAvailableTransport({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableTransportPromise = accountRepository.getAvailableTransport(queryParam).$promise;
                 $scope.getAvailableTransportPromise.then(function (result) {
                     $scope.transportList = result;
                     $scope.userTransport = $scope.extractListFromString($scope.userInterest.transports);
@@ -64,7 +82,12 @@
             $scope.initTouristAttractions = function () {
                 $scope.userId = $localStorage.TPUserId;
 
-                $scope.getAvailableTouristAttractionsPromise = accountRepository.getAvailableTouristAttractions({ userId: $scope.userId }).$promise;
+                var queryParam = {
+                    userId: $scope.userId,
+                    tripId: $scope.tripId
+                };
+
+                $scope.getAvailableTouristAttractionsPromise = accountRepository.getAvailableTouristAttractions(queryParam).$promise;
                 $scope.getAvailableTouristAttractionsPromise.then(function (result) {
                     $scope.touristAttractionsList = result;
                     $scope.userTouristAttractions = $scope.userInterest.touristAttractions;
@@ -148,7 +171,8 @@
             $scope.submitCountriesAndCities = function () {
                 var queryParam = {
                     countries: $scope.userInterest.countries,
-                    cities: $scope.userInterest.cities
+                    cities: $scope.userInterest.cities,
+                    tripId: $scope.tripId
                 };
                 $scope.updateCountriesAndCitiesForUserPromise = accountRepository.updateCountriesAndCities({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateCountriesAndCitiesForUserPromise.then(function (result) {
@@ -163,7 +187,8 @@
 
             $scope.submitWeather = function () {
                 var queryParam = {
-                    weather: $scope.userWeather
+                    weather: $scope.userWeather,
+                    tripId: $scope.tripId
                 };
                 $scope.updateWeatherForUserPromise = accountRepository.updateWeather({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateWeatherForUserPromise.then(function (result) {
@@ -178,7 +203,8 @@
 
             $scope.submitTransport = function () {
                 var queryParam = {
-                    transport: $scope.userTransport
+                    transport: $scope.userTransport,
+                    tripId: $scope.tripId
                 };
                 $scope.updateTransportForUserPromise = accountRepository.updateTransport({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateTransportForUserPromise.then(function (result) {
@@ -193,7 +219,8 @@
 
             $scope.submitTouristAttractions = function () {
                 var queryParam = {
-                    touristAttractions: $scope.userTouristAttractions
+                    touristAttractions: $scope.userTouristAttractions,
+                    tripId: $scope.tripId
                 };
                 $scope.updateTouristAttractionsForUserPromise = accountRepository.updateTouristAttractions({ userId: $scope.userId }, queryParam).$promise;
                 $scope.updateTouristAttractionsForUserPromise.then(function (result) {

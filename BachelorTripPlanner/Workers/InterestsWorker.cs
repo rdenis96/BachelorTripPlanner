@@ -1,10 +1,7 @@
 ﻿using DataLayer.Models;
 using DataLayer.Repository;
 using DataLayer.Repository.Implementation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BachelorTripPlanner.Workers
 {
@@ -74,6 +71,12 @@ namespace BachelorTripPlanner.Workers
         public List<Interest> GetSuggestedInterests(int userId)
         {
             var result = _interestsRepository.GetSuggestedInterests(userId);
+            return result;
+        }
+
+        public List<Interest> GetSuggestedInterestsByTrip(int tripId)
+        {
+            var result = _interestsRepository.GetSuggestedInterestsByTrip(tripId);
             return result;
         }
 
