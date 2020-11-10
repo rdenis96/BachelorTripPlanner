@@ -4,6 +4,7 @@ using DataLayer.Repository;
 using DataLayer.Repository.Implementation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BachelorTripPlanner.Workers
 {
@@ -57,28 +58,7 @@ namespace BachelorTripPlanner.Workers
 
             foreach (var id in usersIdByEmail)
             {
-                var userTrip = new TripUser
-                {
-                    HasAcceptedInvitation = false,
-                    IsGroupAdmin = false,
-                    UserId = id,
-                    TripId = createdTrip.Id
-                };
-                var createdUserTrip = _tripsUsersRepository.Create(userTrip);
-
-                var userInterest = GenerateUserInterestForTrip(id, createdUserTrip.TripId);
-                userInterest = _userInterestRepository.Create(userInterest);
-                if (userInterest != null)
-                {
-                    _notificationsRepository.Create(new Notification
-                    {
-                        SenderId = userId,
-                        TripId = createdTrip.Id,
-                        Type = NotificationType.TripInvitation,
-                        UserId = id,
-                        Date = DateTime.UtcNow
-                    });
-                }
+                AddTripMember(userId, createdTrip.Id, id);
             }
 
             if (createdTrip != null)
@@ -86,6 +66,19 @@ namespace BachelorTripPlanner.Workers
                 return createdTrip;
             }
             return null;
+        }
+
+        public IEnumerable<TripUser> AddNewTripMember(int adminId, int tripId, string newMemberEmail)
+        {
+            var userIdByEmail = _userRepository.GetIdsByEmail(new List<string> { newMemberEmail }).FirstOrDefault();
+
+            if (userIdByEmail > 0)
+            {
+                AddTripMember(adminId, tripId, userIdByEmail);
+            }
+
+            var tripUsers = _tripsUsersRepository.GetByTripId(tripId);
+            return tripUsers;
         }
 
         private UserInterest GenerateUserInterestForTrip(int userId, int tripId)
@@ -101,6 +94,32 @@ namespace BachelorTripPlanner.Workers
                 Weather = string.Empty
             };
             return userInterest;
+        }
+
+        private void AddTripMember(int adminId, int tripid, int userId)
+        {
+            var userTrip = new TripUser
+            {
+                HasAcceptedInvitation = false,
+                IsGroupAdmin = false,
+                UserId = userId,
+                TripId = tripid
+            };
+            var createdUserTrip = _tripsUsersRepository.Create(userTrip);
+
+            var userInterest = GenerateUserInterestForTrip(userId, createdUserTrip.TripId);
+            userInterest = _userInterestRepository.Create(userInterest);
+            if (userInterest != null)
+            {
+                _notificationsRepository.Create(new Notification
+                {
+                    SenderId = adminId,
+                    TripId = tripid,
+                    Type = NotificationType.TripInvitation,
+                    UserId = userId,
+                    Date = DateTime.UtcNow
+                });
+            }
         }
     }
 }

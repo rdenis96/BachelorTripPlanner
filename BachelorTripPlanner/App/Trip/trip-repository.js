@@ -29,6 +29,21 @@
                 isUserAdmin: {
                     method: 'GET',
                     url: 'api/trip/isUserAdmin'
+                },
+                getTripUsers: {
+                    method: 'GET',
+                    url: 'api/trip/getTripUsers',
+                    isArray: true
+                },
+                updateTripUsers: {
+                    method: 'POST',
+                    url: 'api/trip/updateTripUsers',
+                    isArray: true
+                },
+                addNewTripMember: {
+                    method: 'GET',
+                    url: 'api/trip/addNewTripMember',
+                    isArray: true
                 }
             });
     }

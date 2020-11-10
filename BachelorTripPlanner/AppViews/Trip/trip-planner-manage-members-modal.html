@@ -1,4 +1,4 @@
-﻿<div class="row center-block" ng-init="initWeather()">
+﻿<!--<div class="row center-block" ng-init="initWeather()">
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <div class="panel panel-primary">
@@ -9,12 +9,11 @@
                 <ul ng-class="{'panel-body-overflow': trips.length > 10}" class="list-group" cg-busy="getUserTripsPromise">
                     <li ng-show="member.userId != userId" class="list-group-item" ng-repeat="member in members track by $index">
                         <div class="checkbox">
-                            <span class="tripLabel" ng-bind="member.name" ng-show="trip.editMode === false || trip.editMode === undefined">
+                            <span class="tripLabel" ng-bind="member.user.email">
                             </span>
-                            <input type="text" ng-show="trip.editMode" ng-model="trip.name" />
                         </div>
                         <div class="pull-right action-buttons">
-                            <a href="#" ng-click="enableEdit(trip)"><i class="fa fa-fw " ng-class="trip.editMode ? 'fa-check' : 'fa-edit'" aria-hidden="true"></i></a>
+                            <a href="#" ng-click="enableEdit(trip)"><i class="fa fa-fw fa-edit " aria-hidden="true"></i></a>
                             <a href="http://www.jquery2dotnet.com" class="trash"><i class="fa fa-fw fa-trash" aria-hidden="true"></i></a>
                         </div>
                     </li>
@@ -35,4 +34,48 @@
     <button type="button" class="padding-right-5 close" ng-click="close()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
+</div>-->
+
+<div class="row center-block">
+    <button type="button" class="padding-right-5 close" ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="col-md-12" ng-if="isAdmin">
+        <button class="btn btn-primary" ng-click="enableAddNewMember()">Add new member</button>
+    </div>
+    <div class="row col-md-6 margin-top-10" ng-show="canShowNewMemberFields ">
+        <div class="col-md-10">
+            <input class="input-sm" type="email" ng-model="newMemberEmail" />
+        </div>
+        <div>
+            <button type="button" class="btn btn-success" ng-click="addNewMember()" aria-label="Add">
+                <span aria-hidden="true">Add</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-striped custab">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Is Admin</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tr ng-show="member.userId != userId" ng-repeat="member in members track by $index" cg-busy="addNewMemberPromise">
+                <td>{{member.user.email}}</td>
+                <td>
+                    <input ng-model="member.isGroupAdmin" type="checkbox" />
+                </td>
+                <td class="text-center" ng-if="isAdmin" ng-show="member.hasAcceptedInvitation"><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+                <td class="text-center" ng-if="isAdmin" ng-show="!member.hasAcceptedInvitation">Pending invitation</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-3 pull-right" ng-if="isAdmin">
+        <button type="button" class="btn btn-primary pull-right margin-bottom-10" ng-click="submit()" aria-label="Submit">
+            <span aria-hidden="true">Submit</span>
+        </button>
+    </div>
 </div>

@@ -12,6 +12,7 @@ namespace DataLayer.Definitions
             modelBuilder.Entity<TripUser>().Property(x => x.TripId).IsRequired();
             modelBuilder.Entity<TripUser>().Property(x => x.HasAcceptedInvitation).IsRequired();
             modelBuilder.Entity<TripUser>().Property(x => x.IsGroupAdmin).IsRequired();
+            modelBuilder.Entity<TripUser>().HasOne(c => c.User).WithMany().HasForeignKey(c => c.UserId);
         }
     }
 }

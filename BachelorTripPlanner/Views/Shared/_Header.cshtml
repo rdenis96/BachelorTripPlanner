@@ -28,12 +28,12 @@
                                         Invitation From: <span style="color:red;">{{notification.senderEmail}}</span> |
                                         Trip: <span style="color:red;">{{notification.tripName}}</span>
                                     </label>
-                                    <img class="notification-img-icon" src="https://www.pngkey.com/png/full/0-4418_image-checkmark-green-circle-check-mark.png" ng-click="respondNotification(notification, true)" />
-                                    <img class="notification-img-icon" src="https://secure.webtoolhub.com/static/resources/icons/set114/97967b31.png" ng-click="respondNotification(notification, false)" />
+                                    <img class="notification-img-icon" ng-click="respondNotification(notification, true)" src="https://www.pngkey.com/png/full/0-4418_image-checkmark-green-circle-check-mark.png" />
+                                    <img class="notification-img-icon" ng-click="respondNotification(notification, false)" src="https://secure.webtoolhub.com/static/resources/icons/set114/97967b31.png"  />
                                 </a>
                                 <a ng-if="notification.type === notificationTypes.FriendRequest">
                                     <label>Friend Request: <span style="color:red;">{{notification.senderEmail}}</span></label>
-                                    <img class="notification-img-icon" src="https://www.pngkey.com/png/full/0-4418_image-checkmark-green-circle-check-mark.png ng-click="respondNotification(notification, true)" />
+                                    <img class="notification-img-icon" src="https://www.pngkey.com/png/full/0-4418_image-checkmark-green-circle-check-mark.png" ng-click="respondNotification(notification, true)" />
                                     <img class="notification-img-icon" src="https://secure.webtoolhub.com/static/resources/icons/set114/97967b31.png" ng-click="respondNotification(notification, false)" />
                                 </a>
                             </li>

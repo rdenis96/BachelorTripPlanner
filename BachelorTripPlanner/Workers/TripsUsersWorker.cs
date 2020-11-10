@@ -41,13 +41,25 @@ namespace BachelorTripPlanner.Workers
 
         public int GetTripUsersCount(int tripId)
         {
-            var tripUsersCount = _tripsUsersRepository.GetByTripId(tripId).Count;
-            return tripUsersCount;
+            var tripUsersCount = _tripsUsersRepository.GetLazyByTripId(tripId)?.Where(x => x.HasAcceptedInvitation)?.Count();
+            return tripUsersCount.GetValueOrDefault();
         }
 
         public bool IsUserAdmin(int userId, int tripId)
         {
             var result = _tripsUsersRepository.IsUserAdmin(userId, tripId);
+            return result;
+        }
+
+        public IEnumerable<TripUser> GetTripUsers(int tripId)
+        {
+            var result = _tripsUsersRepository.GetByTripId(tripId);
+            return result;
+        }
+
+        public IEnumerable<TripUser> UpdateMany(IEnumerable<TripUser> tripUsers)
+        {
+            var result = _tripsUsersRepository.UpdateMany(tripUsers);
             return result;
         }
     }

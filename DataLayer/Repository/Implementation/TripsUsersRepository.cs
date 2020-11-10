@@ -1,5 +1,6 @@
 ﻿using DataLayer.Context;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace DataLayer.Repository.Implementation
             throw new NotImplementedException();
         }
 
-        public List<TripUser> GetByTripId(int tripId)
+        public List<TripUser> GetLazyByTripId(int tripId)
         {
             if (tripId < 0)
             {
@@ -42,6 +43,19 @@ namespace DataLayer.Repository.Implementation
             using (TripPlanner context = new TripPlanner())
             {
                 var result = context.TripUsers.Where(x => x.TripId == tripId).ToList();
+                return result;
+            }
+        }
+
+        public List<TripUser> GetByTripId(int tripId)
+        {
+            if (tripId < 0)
+            {
+                return null;
+            }
+            using (TripPlanner context = new TripPlanner())
+            {
+                var result = context.TripUsers.Where(x => x.TripId == tripId).Include(x => x.User).ToList();
                 return result;
             }
         }
@@ -75,6 +89,25 @@ namespace DataLayer.Repository.Implementation
             {
                 var result = context.TripUsers.Where(x => x.UserId == userId && x.HasAcceptedInvitation == true).ToList();
                 return result;
+            }
+        }
+
+        public IEnumerable<TripUser> UpdateMany(IEnumerable<TripUser> tripUsers)
+        {
+            if (tripUsers == null)
+                return null;
+
+            var changesSaved = false;
+            using (TripPlanner context = new TripPlanner())
+            {
+                foreach (var tripUser in tripUsers)
+                {
+                    context.Entry(tripUser).State = EntityState.Modified;
+                }
+
+                changesSaved = context.SaveChanges() > 0;
+
+                return changesSaved ? tripUsers : Enumerable.Empty<TripUser>();
             }
         }
 

@@ -1210,22 +1210,61 @@ globalModule.controller("TripPlannerController",
 
     ]);
 globalModule.controller("TripPlannerManageMembersModalController",
-    ['$scope', 'data', '$window', '$http', '$localStorage', 'tripRepository', 'toastr', '$routeParams', '$uibModal',
-        function ($scope, data, $window, $http, $localStorage, tripRepository, toastr, $routeParams, $uibModal) {
+    ['$scope', 'data', '$window', '$http', '$localStorage', '$uibModalInstance', 'tripRepository', 'toastr', '$routeParams', '$uibModal',
+        function ($scope, data, $window, $http, $localStorage, $uibModalInstance, tripRepository, toastr, $routeParams, $uibModal) {
             $scope.userId = data.userId;
             $scope.tripId = data.tripId;
             $scope.isAdmin = data.isAdmin;
 
+            $scope.newMemberEmail = "";
+            $scope.canShowNewMemberFields = false;
+
             $scope.members = [];
 
+            $scope.enableAddNewMember = function () {
+                if ($scope.canShowNewMemberFields) {
+                    $scope.canShowNewMemberFields = false;
+                } else {
+                    $scope.newMemberEmail = "";
+                    $scope.canShowNewMemberFields = true;
+                }
+            }
+
+            $scope.addNewMember = function () {
+                $scope.addNewMemberPromise = tripRepository.addNewTripMember({ adminid: $scope.userId, tripId: $scope.tripId, newMemberEmail: $scope.newMemberEmail }).$promise;
+                $scope.addNewMemberPromise.then(function (result) {
+                    $scope.members = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.submit = function () {
+                var list = [];
+                $scope.members.forEach(function (item) { list.push(item) });
+
+                $scope.updateTripUsersPromise = tripRepository.updateTripUsers(list).$promise;
+                $scope.updateTripUsersPromise.then(function (result) {
+                    $scope.members = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.close = function () {
+                $uibModalInstance.close();
+            };
+
             $scope.init = function () {
-                $scope.getTripUsersPromise = tripRepository.getTripUsers({ userId: $scope.userId }).$promise;
+                $scope.getTripUsersPromise = tripRepository.getTripUsers({ tripId: $scope.tripId }).$promise;
                 $scope.getTripUsersPromise.then(function (result) {
                     $scope.members = result;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
             }
+
+            $scope.init();
         }
 
     ]);
@@ -1260,6 +1299,21 @@ globalModule.factory('tripRepository', [
                 isUserAdmin: {
                     method: 'GET',
                     url: 'api/trip/isUserAdmin'
+                },
+                getTripUsers: {
+                    method: 'GET',
+                    url: 'api/trip/getTripUsers',
+                    isArray: true
+                },
+                updateTripUsers: {
+                    method: 'POST',
+                    url: 'api/trip/updateTripUsers',
+                    isArray: true
+                },
+                addNewTripMember: {
+                    method: 'GET',
+                    url: 'api/trip/addNewTripMember',
+                    isArray: true
                 }
             });
     }

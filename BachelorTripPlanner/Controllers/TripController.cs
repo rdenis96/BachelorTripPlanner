@@ -143,5 +143,26 @@ namespace BachelorTripPlanner.Controllers
             var result = _tripsUsersWorker.IsUserAdmin(userId, tripId);
             return Ok(result);
         }
+
+        [HttpGet("[action]")]
+        public IActionResult GetTripUsers(int tripId)
+        {
+            var result = _tripsUsersWorker.GetTripUsers(tripId);
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult UpdateTripUsers([FromBody] List<TripUser> tripUsers)
+        {
+            var result = _tripsUsersWorker.UpdateMany(tripUsers);
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult AddNewTripMember(int adminId, int tripid, string newMemberEmail)
+        {
+            var result = _tripsWorker.AddNewTripMember(adminId, tripid, newMemberEmail);
+            return Ok(result);
+        }
     }
 }

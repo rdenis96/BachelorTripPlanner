@@ -6,6 +6,7 @@ namespace DataLayer.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public User User { get; set; }
         public int TripId { get; set; }
         public bool HasAcceptedInvitation { get; set; }
         public bool IsGroupAdmin { get; set; }
