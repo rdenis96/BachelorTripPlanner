@@ -164,5 +164,19 @@ namespace BachelorTripPlanner.Controllers
             var result = _tripsWorker.AddNewTripMember(adminId, tripid, newMemberEmail);
             return Ok(result);
         }
+
+        [HttpGet("[action]")]
+        public IActionResult RemoveUserFromTrip(int adminId, int userId, int tripid)
+        {
+            var result = _tripsWorker.RemoveUserFromTrip(adminId, userId, tripid);
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult ResetUserInterests(int userId, int tripid)
+        {
+            var result = _tripsWorker.ResetUserInterests(userId, tripid);
+            return Ok(result);
+        }
     }
 }

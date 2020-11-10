@@ -81,6 +81,41 @@ namespace BachelorTripPlanner.Workers
             return tripUsers;
         }
 
+        public bool ResetUserInterests(int userId, int tripId)
+        {
+            var userInterests = _userInterestRepository.GetByUserIdAndTripId(userId, tripId);
+            if (userInterests != null)
+            {
+                userInterests.Cities = string.Empty;
+                userInterests.Countries = string.Empty;
+                userInterests.TouristAttractions = string.Empty;
+                userInterests.Transports = string.Empty;
+                userInterests.Weather = string.Empty;
+
+                var userInterestsUpdated = _userInterestRepository.Update(userInterests);
+                var result = userInterests.Equals(userInterestsUpdated);
+                return result;
+            }
+
+            return false;
+        }
+
+        public bool RemoveUserFromTrip(int adminId, int userId, int tripId)
+        {
+            var userInterest = _userInterestRepository.GetByUserIdAndTripId(userId, tripId);
+            var isDeleted = _userInterestRepository.Delete(userInterest);
+            if (isDeleted)
+            {
+                var tripUser = _tripsUsersRepository.GetByUserIdAndTripId(userId, tripId);
+                isDeleted = _tripsUsersRepository.Delete(tripUser);
+                if (isDeleted)
+                {
+                    return isDeleted;
+                }
+            }
+            return false;
+        }
+
         private UserInterest GenerateUserInterestForTrip(int userId, int tripId)
         {
             var userInterest = new UserInterest

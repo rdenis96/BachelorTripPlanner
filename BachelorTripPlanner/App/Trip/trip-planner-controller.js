@@ -106,6 +106,20 @@
                 });
             };
 
+            $scope.resetUserInterests = function () {
+                $scope.resetUserInterestsPromise = tripRepository.resetUserInterests({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
+                $scope.resetUserInterestsPromise.then(function (result) {
+                    if (result) {
+                        $scope.initInterests();
+                    }
+                    else {
+                        toastr.warning("A problem occured while reseting interests! Please try again!");
+                    }
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
                 $scope.tripId = $routeParams.id;

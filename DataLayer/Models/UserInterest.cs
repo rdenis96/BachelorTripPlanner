@@ -23,8 +23,6 @@ namespace DataLayer.Models
         {
             return other != null &&
                    base.Equals(other) &&
-                   UserId == other.UserId &&
-                   TripId == other.TripId &&
                    Countries == other.Countries &&
                    Cities == other.Cities &&
                    Weather == other.Weather &&
@@ -34,7 +32,7 @@ namespace DataLayer.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), UserId, TripId, Countries, Cities, Weather, TouristAttractions, Transports);
+            return HashCode.Combine(base.GetHashCode(), Countries, Cities, Weather, TouristAttractions, Transports);
         }
     }
 }

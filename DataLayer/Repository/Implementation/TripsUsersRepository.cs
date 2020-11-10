@@ -21,7 +21,18 @@ namespace DataLayer.Repository.Implementation
 
         public bool Delete(TripUser obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+                return false;
+            using (TripPlanner context = new TripPlanner())
+            {
+                var tripUser = context.TripUsers.Find(obj.Id);
+                if (tripUser != null)
+                {
+                    context.Entry(tripUser).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }
+                return true;
+            }
         }
 
         public ICollection<TripUser> GetAll()

@@ -68,7 +68,7 @@
                 <td>
                     <input ng-model="member.isGroupAdmin" type="checkbox" />
                 </td>
-                <td class="text-center" ng-if="isAdmin" ng-show="member.hasAcceptedInvitation"><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+                <td class="text-center" ng-if="isAdmin" ng-show="member.hasAcceptedInvitation"><a href="#" class="btn btn-danger btn-xs" ng-click="removeUser(member)" uib-tooltip="Remove user from trip"><span class="glyphicon glyphicon-remove"></span></a></td>
                 <td class="text-center" ng-if="isAdmin" ng-show="!member.hasAcceptedInvitation">Pending invitation</td>
             </tr>
         </table>

@@ -1,5 +1,6 @@
 ﻿using DataLayer.Context;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,14 @@ namespace DataLayer.Repository.Implementation
                 return false;
             using (TripPlanner context = new TripPlanner())
             {
-                context.UserInterests.Remove(obj);
-                if (context.UserInterests.Contains(obj))
-                    return false;
-                context.SaveChanges();
-                return true;
+                var userInterests = context.UserInterests.Find(obj.Id);
+                if (userInterests != null)
+                {
+                    context.Entry(userInterests).State = EntityState.Deleted;
+                    return context.SaveChanges() > 0;
+                }
+
+                return false;
             }
         }
 

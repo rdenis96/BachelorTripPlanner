@@ -38,6 +38,21 @@
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
+            };
+
+            $scope.removeUser = function (member) {
+                $scope.removeUserFromTripPromise = tripRepository.removeUserFromTrip({ adminId: $scope.userId, userId: member.userId, tripId: $scope.tripId }).$promise;
+                $scope.removeUserFromTripPromise.then(function (result) {
+                    if (result) {
+                        var index = $scope.members.indexOf(member);
+                        $scope.members.splice(index, 1);
+                    }
+                    else {
+                        toastr.warning("The user couldn't be removed from this trip!");
+                    }
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
             }
 
             $scope.close = function () {

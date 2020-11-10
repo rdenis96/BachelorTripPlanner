@@ -1116,6 +1116,20 @@ globalModule.controller("TripPlannerController",
                 });
             };
 
+            $scope.resetUserInterests = function () {
+                $scope.resetUserInterestsPromise = tripRepository.resetUserInterests({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
+                $scope.resetUserInterestsPromise.then(function (result) {
+                    if (result) {
+                        $scope.initInterests();
+                    }
+                    else {
+                        toastr.warning("A problem occured while reseting interests! Please try again!");
+                    }
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
                 $scope.tripId = $routeParams.id;
@@ -1249,6 +1263,21 @@ globalModule.controller("TripPlannerManageMembersModalController",
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
+            };
+
+            $scope.removeUser = function (member) {
+                $scope.removeUserFromTripPromise = tripRepository.removeUserFromTrip({ adminId: $scope.userId, userId: member.userId, tripId: $scope.tripId }).$promise;
+                $scope.removeUserFromTripPromise.then(function (result) {
+                    if (result) {
+                        var index = $scope.members.indexOf(member);
+                        $scope.members.splice(index, 1);
+                    }
+                    else {
+                        toastr.warning("The user couldn't be removed from this trip!");
+                    }
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
             }
 
             $scope.close = function () {
@@ -1314,6 +1343,14 @@ globalModule.factory('tripRepository', [
                     method: 'GET',
                     url: 'api/trip/addNewTripMember',
                     isArray: true
+                },
+                removeUserFromTrip: {
+                    method: 'GET',
+                    url: 'api/trip/removeUserFromTrip'
+                },
+                resetUserInterests: {
+                    method: 'GET',
+                    url: 'api/trip/resetUserInterests'
                 }
             });
     }

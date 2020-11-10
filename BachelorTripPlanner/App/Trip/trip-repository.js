@@ -44,6 +44,14 @@
                     method: 'GET',
                     url: 'api/trip/addNewTripMember',
                     isArray: true
+                },
+                removeUserFromTrip: {
+                    method: 'GET',
+                    url: 'api/trip/removeUserFromTrip'
+                },
+                resetUserInterests: {
+                    method: 'GET',
+                    url: 'api/trip/resetUserInterests'
                 }
             });
     }
