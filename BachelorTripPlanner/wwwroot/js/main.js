@@ -77,8 +77,9 @@ var tripTypeEnum = {
 
 var notificationTypes = {
     TripInvitation: 0,
-    FriendRequest: 1
-}
+    FriendRequest: 1,
+    TripKicked: 2
+};
 globalModule.directive('interestsSlider', function ($timeout, $window) {
     return {
         restrict: 'E',
@@ -240,6 +241,10 @@ globalModule.factory('notificationsRepository', [
                 respondNotification: {
                     method: 'POST',
                     url: 'api/notifications/respondNotification'
+                },
+                deleteNotification: {
+                    method: 'POST',
+                    url: 'api/notifications/deleteNotification'
                 }
             });
     }
@@ -299,6 +304,13 @@ globalModule.controller("HeaderController",
                             toastr.warning(result.data);
                         });
                         break;
+                    case notificationTypes.TripKicked:
+                        $scope.deleteNotificationPromise = notificationsRepository.deleteNotification(notification).$promise;
+                        $scope.deleteNotificationPromise.then(function (result) {
+                            $scope.getNotifications();
+                        }).catch(function (result) {
+                            toastr.warning(result.data);
+                        });
                 }
             }
 
@@ -851,8 +863,8 @@ globalModule.controller("AccountInterestsController",
 
     ]);
 globalModule.controller("PlanningHistoryController",
-    ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
-        function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
+    ['$scope', '$window', '$localStorage', '$uibModal', 'accountRepository', 'tripRepository', 'toastr',
+        function ($scope, $window, $localStorage, $uibModal, accountRepository, tripRepository, toastr) {
             $scope.user = {};
             $scope.trips = {};
 
@@ -884,16 +896,20 @@ globalModule.controller("PlanningHistoryController",
                 }
             }
 
-            // TO DO
-            //$scope.deleteTrip = function (trip) {
-            //    var getUserTripsPromise = accountRepository.deleteTrip({ userId: $scope.userId }).$promise;
-            //    getUserTripsPromise.then(function (result) {
-            //        $scope.trips = result;
+            $scope.redirectToTrip = function (trip) { 
+                if (trip.isDeleted === false) {
+                    $window.location.href = '/trip/tripPlanner/' + trip.id;
+                }
+            };
 
-            //    }).catch(function (result) {
-            //        toastr.warning(result.data);
-            //    });
-            //}
+            $scope.leaveTrip = function (tripId) {
+                $scope.leaveTripPromise = tripRepository.leaveTrip({ userId: $scope.userId, tripId: tripId }).$promise;
+                $scope.leaveTripPromise.then(function (result) {
+                    $scope.init();
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
 
             $scope.init();
         }
@@ -1016,6 +1032,7 @@ globalModule.controller("TripPlannerController",
             $scope.suggestedInterests = [];
 
             $scope.isAdmin = false;
+            $scope.isGroupTrip = false;
 
             $scope.messageText = "";
 
@@ -1031,6 +1048,15 @@ globalModule.controller("TripPlannerController",
                     $scope.userInterest = result;
                     $scope.initInterestsForTrip();
                     $scope.initMessagesForTrip();
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.getTrip = function (tripId) {
+                $scope.getTripPromise = tripRepository.getTrip({ tripId: tripId }).$promise;
+                $scope.getTripPromise.then(function (result) {
+                    $scope.isGroupTrip = result.type == tripTypeEnum.Group;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -1130,9 +1156,19 @@ globalModule.controller("TripPlannerController",
                 });
             };
 
+            $scope.leaveTrip = function () {
+                $scope.leaveTripPromise = tripRepository.leaveTrip({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
+                $scope.leaveTripPromise.then(function (result) {
+                    $window.location.href = '/';
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
                 $scope.tripId = $routeParams.id;
+                $scope.getTrip();
                 $scope.initInterests();
                 $scope.setAdmin();
             };
@@ -1351,6 +1387,14 @@ globalModule.factory('tripRepository', [
                 resetUserInterests: {
                     method: 'GET',
                     url: 'api/trip/resetUserInterests'
+                },
+                leaveTrip: {
+                    method: 'GET',
+                    url: 'api/trip/leaveTrip'
+                },
+                getTrip: {
+                    method: 'GET',
+                    url: 'api/trip/getTrip'
                 }
             });
     }

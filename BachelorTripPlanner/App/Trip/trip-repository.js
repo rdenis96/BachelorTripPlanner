@@ -52,6 +52,14 @@
                 resetUserInterests: {
                     method: 'GET',
                     url: 'api/trip/resetUserInterests'
+                },
+                leaveTrip: {
+                    method: 'GET',
+                    url: 'api/trip/leaveTrip'
+                },
+                getTrip: {
+                    method: 'GET',
+                    url: 'api/trip/getTrip'
                 }
             });
     }

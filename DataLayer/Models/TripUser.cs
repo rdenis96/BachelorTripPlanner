@@ -10,6 +10,7 @@ namespace DataLayer.Models
         public int TripId { get; set; }
         public bool HasAcceptedInvitation { get; set; }
         public bool IsGroupAdmin { get; set; }
+        public bool IsDeleted { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -27,12 +28,13 @@ namespace DataLayer.Models
                    UserId == user.UserId &&
                    TripId == user.TripId &&
                    HasAcceptedInvitation == user.HasAcceptedInvitation &&
-                   IsGroupAdmin == user.IsGroupAdmin;
+                   IsGroupAdmin == user.IsGroupAdmin &&
+                   IsDeleted == user.IsDeleted;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, UserId, TripId, HasAcceptedInvitation, IsGroupAdmin);
+            return HashCode.Combine(Id, UserId, TripId, HasAcceptedInvitation, IsGroupAdmin, IsDeleted);
         }
     }
 }

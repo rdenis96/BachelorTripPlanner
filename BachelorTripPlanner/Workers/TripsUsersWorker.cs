@@ -18,9 +18,9 @@ namespace BachelorTripPlanner.Workers
             _tripsUsersRepository = new TripsUsersRepository();
         }
 
-        public List<Trip> GetTripsForUser(int userId, TripType? type = null)
+        public List<Trip> GetTripsForUser(int userId, TripType? type = null, bool includeDeleted = false)
         {
-            var tripsForUser = _tripsUsersRepository.GetByUserId(userId);
+            var tripsForUser = _tripsUsersRepository.GetByUserId(userId, includeDeleted: includeDeleted);
             List<Trip> trips = new List<Trip>();
             foreach (var tripUser in tripsForUser)
             {

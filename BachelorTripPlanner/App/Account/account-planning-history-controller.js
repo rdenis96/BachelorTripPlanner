@@ -1,6 +1,6 @@
 ﻿globalModule.controller("PlanningHistoryController",
-    ['$scope', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
-        function ($scope, $localStorage, $uibModal, accountRepository, toastr) {
+    ['$scope', '$window', '$localStorage', '$uibModal', 'accountRepository', 'tripRepository', 'toastr',
+        function ($scope, $window, $localStorage, $uibModal, accountRepository, tripRepository, toastr) {
             $scope.user = {};
             $scope.trips = {};
 
@@ -32,16 +32,20 @@
                 }
             }
 
-            // TO DO
-            //$scope.deleteTrip = function (trip) {
-            //    var getUserTripsPromise = accountRepository.deleteTrip({ userId: $scope.userId }).$promise;
-            //    getUserTripsPromise.then(function (result) {
-            //        $scope.trips = result;
+            $scope.redirectToTrip = function (trip) { 
+                if (trip.isDeleted === false) {
+                    $window.location.href = '/trip/tripPlanner/' + trip.id;
+                }
+            };
 
-            //    }).catch(function (result) {
-            //        toastr.warning(result.data);
-            //    });
-            //}
+            $scope.leaveTrip = function (tripId) {
+                $scope.leaveTripPromise = tripRepository.leaveTrip({ userId: $scope.userId, tripId: tripId }).$promise;
+                $scope.leaveTripPromise.then(function (result) {
+                    $scope.init();
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
 
             $scope.init();
         }

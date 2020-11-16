@@ -15,6 +15,10 @@
                 respondNotification: {
                     method: 'POST',
                     url: 'api/notifications/respondNotification'
+                },
+                deleteNotification: {
+                    method: 'POST',
+                    url: 'api/notifications/deleteNotification'
                 }
             });
     }

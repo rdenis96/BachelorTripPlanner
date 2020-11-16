@@ -5,6 +5,7 @@ using DataLayer.Helpers;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,7 @@ namespace BachelorTripPlanner.Controllers
         private readonly UserInterestWorker _userInterestWorker;
         private readonly InterestsWorker _interestsWorker;
         private readonly TripMessagesWorker _tripMessagesWorker;
+        private readonly NotificationsWorker _notificationsWorker;
 
         public TripController()
         {
@@ -28,6 +30,7 @@ namespace BachelorTripPlanner.Controllers
             _tripsUsersWorker = new TripsUsersWorker();
             _interestsWorker = new InterestsWorker();
             _tripMessagesWorker = new TripMessagesWorker();
+            _notificationsWorker = new NotificationsWorker();
         }
 
         [HttpPost("[action]")]
@@ -159,16 +162,27 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult AddNewTripMember(int adminId, int tripid, string newMemberEmail)
+        public IActionResult AddNewTripMember(int adminId, int tripId, string newMemberEmail)
         {
-            var result = _tripsWorker.AddNewTripMember(adminId, tripid, newMemberEmail);
+            var result = _tripsWorker.AddNewTripMember(adminId, tripId, newMemberEmail);
             return Ok(result);
         }
 
         [HttpGet("[action]")]
-        public IActionResult RemoveUserFromTrip(int adminId, int userId, int tripid)
+        public IActionResult RemoveUserFromTrip(int adminId, int userId, int tripId)
         {
-            var result = _tripsWorker.RemoveUserFromTrip(adminId, userId, tripid);
+            var result = _tripsWorker.RemoveUserFromTrip(userId, tripId);
+            if (result)
+            {
+                _notificationsWorker.Create(new Notification
+                {
+                    SenderId = adminId,
+                    TripId = tripId,
+                    Type = NotificationType.TripKicked,
+                    UserId = userId,
+                    Date = DateTime.UtcNow
+                });
+            }
             return Ok(result);
         }
 
@@ -177,6 +191,34 @@ namespace BachelorTripPlanner.Controllers
         {
             var result = _tripsWorker.ResetUserInterests(userId, tripid);
             return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult LeaveTrip(int userId, int tripid)
+        {
+            try
+            {
+                _tripsWorker.LeaveTrip(userId, tripid);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetTrip(int tripId)
+        {
+            try
+            {
+                var result = _tripsWorker.Get(tripId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

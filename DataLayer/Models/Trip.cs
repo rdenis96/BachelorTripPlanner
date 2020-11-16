@@ -8,6 +8,7 @@ namespace DataLayer.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public TripType Type { get; set; }
+        public bool IsDeleted { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -19,12 +20,13 @@ namespace DataLayer.Models
             return other != null &&
                    Id == other.Id &&
                    Name == other.Name &&
-                   Type == other.Type;
+                   Type == other.Type &&
+                   IsDeleted == other.IsDeleted;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Name, Type);
+            return HashCode.Combine(Id, Name, Type, IsDeleted);
         }
     }
 }

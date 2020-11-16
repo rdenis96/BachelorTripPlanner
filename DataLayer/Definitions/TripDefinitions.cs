@@ -10,6 +10,7 @@ namespace DataLayer.Definitions
             modelBuilder.Entity<Trip>().HasKey(k => k.Id);
             modelBuilder.Entity<Trip>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Trip>().Property(x => x.Type).IsRequired();
+            modelBuilder.Entity<Trip>().Property(x => x.IsDeleted).IsRequired();
         }
     }
 }

@@ -35,5 +35,12 @@ namespace BachelorTripPlanner.Controllers
             var result = _notificationsWorker.Respond(notification.IsAccepted, notification.Notification);
             return Ok(result);
         }
+
+        [HttpPost("[action]")]
+        public IActionResult DeleteNotification([FromBody] Notification notification)
+        {
+            var result = _notificationsWorker.Delete(notification);
+            return Ok(result);
+        }
     }
 }

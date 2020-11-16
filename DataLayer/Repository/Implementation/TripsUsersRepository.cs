@@ -28,7 +28,7 @@ namespace DataLayer.Repository.Implementation
                 var tripUser = context.TripUsers.Find(obj.Id);
                 if (tripUser != null)
                 {
-                    context.Entry(tripUser).State = EntityState.Deleted;
+                    tripUser.IsDeleted = true;
                     context.SaveChanges();
                 }
                 return true;
@@ -53,7 +53,7 @@ namespace DataLayer.Repository.Implementation
             }
             using (TripPlanner context = new TripPlanner())
             {
-                var result = context.TripUsers.Where(x => x.TripId == tripId).ToList();
+                var result = context.TripUsers.Where(x => x.TripId == tripId && x.IsDeleted == false).ToList();
                 return result;
             }
         }
@@ -66,7 +66,7 @@ namespace DataLayer.Repository.Implementation
             }
             using (TripPlanner context = new TripPlanner())
             {
-                var result = context.TripUsers.Where(x => x.TripId == tripId).Include(x => x.User).ToList();
+                var result = context.TripUsers.Where(x => x.TripId == tripId && x.IsDeleted == false).Include(x => x.User).ToList();
                 return result;
             }
         }
@@ -80,7 +80,7 @@ namespace DataLayer.Repository.Implementation
 
             using (TripPlanner context = new TripPlanner())
             {
-                var tripUser = context.TripUsers.Where(x => x.UserId == userId && x.TripId == tripId).FirstOrDefault();
+                var tripUser = context.TripUsers.Where(x => x.UserId == userId && x.TripId == tripId && x.IsDeleted == false).FirstOrDefault();
                 if (tripUser != null)
                 {
                     return tripUser.IsGroupAdmin;
@@ -90,7 +90,7 @@ namespace DataLayer.Repository.Implementation
             }
         }
 
-        public List<TripUser> GetByUserId(int userId)
+        public List<TripUser> GetByUserId(int userId, bool includeDeleted = false)
         {
             if (userId < 0)
             {
@@ -98,7 +98,15 @@ namespace DataLayer.Repository.Implementation
             }
             using (TripPlanner context = new TripPlanner())
             {
-                var result = context.TripUsers.Where(x => x.UserId == userId && x.HasAcceptedInvitation == true).ToList();
+                var result = new List<TripUser>();
+                if (includeDeleted)
+                {
+                    result = context.TripUsers.Where(x => x.UserId == userId && x.HasAcceptedInvitation == true).ToList();
+                }
+                else
+                {
+                    result = context.TripUsers.Where(x => x.UserId == userId && x.HasAcceptedInvitation == true && x.IsDeleted == false).ToList();
+                }
                 return result;
             }
         }
@@ -122,6 +130,32 @@ namespace DataLayer.Repository.Implementation
             }
         }
 
+        public int CountAdmins(int tripId)
+        {
+            if (tripId < 0)
+            {
+                return 0;
+            }
+            using (TripPlanner context = new TripPlanner())
+            {
+                var result = context.TripUsers.Where(x => x.TripId == tripId && x.IsGroupAdmin && x.HasAcceptedInvitation && x.IsDeleted == false).Count();
+                return result;
+            }
+        }
+
+        public int CountTripUsers(int tripId)
+        {
+            if (tripId < 0)
+            {
+                return 0;
+            }
+            using (TripPlanner context = new TripPlanner())
+            {
+                var result = context.TripUsers.Where(x => x.TripId == tripId && x.HasAcceptedInvitation && x.IsDeleted == false).Count();
+                return result;
+            }
+        }
+
         public TripUser GetByUserIdAndTripId(int userId, int tripId)
         {
             if (userId < 0)
@@ -136,7 +170,7 @@ namespace DataLayer.Repository.Implementation
 
             using (TripPlanner context = new TripPlanner())
             {
-                var result = context.TripUsers.Where(x => x.UserId == userId && x.TripId == tripId).FirstOrDefault();
+                var result = context.TripUsers.Where(x => x.UserId == userId && x.TripId == tripId && x.IsDeleted == false).FirstOrDefault();
                 return result;
             }
         }

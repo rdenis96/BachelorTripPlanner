@@ -100,7 +100,7 @@ namespace BachelorTripPlanner.Workers
             return false;
         }
 
-        public bool RemoveUserFromTrip(int adminId, int userId, int tripId)
+        public bool RemoveUserFromTrip(int userId, int tripId)
         {
             var userInterest = _userInterestRepository.GetByUserIdAndTripId(userId, tripId);
             var isDeleted = _userInterestRepository.Delete(userInterest);
@@ -114,6 +114,36 @@ namespace BachelorTripPlanner.Workers
                 }
             }
             return false;
+        }
+
+        public void LeaveTrip(int userId, int tripId)
+        {
+            var tripUser = _tripsUsersRepository.GetByUserIdAndTripId(userId, tripId);
+            if (tripUser == null)
+            {
+                throw new Exception($"The user {userId} was not found for trip {tripId}");
+            }
+
+            var tripAdminsCount = _tripsUsersRepository.CountAdmins(tripId);
+            var tripUsersCount = _tripsUsersRepository.CountTripUsers(tripId);
+
+            var trip = _tripsRepository.GetById(tripId);
+            if (trip != null && trip.Type == TripType.Group && tripAdminsCount == 1 && tripUsersCount > 1)
+            {
+                throw new Exception("You can't leave the trip because there is no other admin!");
+            }
+
+            RemoveUserFromTrip(userId, tripId);
+            if (tripAdminsCount <= 1 && tripUsersCount <= 1)
+            {
+                _tripsRepository.Delete(trip);
+            }
+        }
+
+        public Trip Get(int tripId)
+        {
+            var result = _tripsRepository.GetById(tripId);
+            return result;
         }
 
         private UserInterest GenerateUserInterestForTrip(int userId, int tripId)

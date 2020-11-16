@@ -211,7 +211,7 @@ namespace BachelorTripPlanner.Controllers
                 return BadRequest("The account could not be retrieved!");
             }
 
-            var trips = _tripsUsersWorker.GetTripsForUser(userId);
+            var trips = _tripsUsersWorker.GetTripsForUser(userId, includeDeleted: true);
             return Ok(trips);
         }
 

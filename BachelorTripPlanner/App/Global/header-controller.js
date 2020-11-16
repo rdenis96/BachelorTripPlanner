@@ -52,6 +52,13 @@
                             toastr.warning(result.data);
                         });
                         break;
+                    case notificationTypes.TripKicked:
+                        $scope.deleteNotificationPromise = notificationsRepository.deleteNotification(notification).$promise;
+                        $scope.deleteNotificationPromise.then(function (result) {
+                            $scope.getNotifications();
+                        }).catch(function (result) {
+                            toastr.warning(result.data);
+                        });
                 }
             }
 

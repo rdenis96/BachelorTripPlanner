@@ -1,6 +1,7 @@
 ﻿using DataLayer.Context;
 using DataLayer.Enums;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,22 @@ namespace DataLayer.Repository.Implementation
 
         public bool Delete(Trip obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+                return false;
+            using (TripPlanner context = new TripPlanner())
+            {
+                var trip = context.Trips.Find(obj.Id);
+                if (trip != null)
+                {
+                    trip.IsDeleted = true;
+
+                    var pendingInvitedUsers = context.TripUsers.Where(x => x.TripId == trip.Id && x.HasAcceptedInvitation == false);
+                    pendingInvitedUsers.ForEachAsync(x => x.IsDeleted = true);
+
+                    context.SaveChanges();
+                }
+                return true;
+            }
         }
 
         public ICollection<Trip> GetAll()

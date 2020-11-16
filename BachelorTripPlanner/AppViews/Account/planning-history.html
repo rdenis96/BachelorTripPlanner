@@ -21,16 +21,17 @@
                         <i class="fa fa-fw fa-list" aria-hidden="true"></i> Trips list
                     </div>
                     <div class="panel-body">
-                        <ul ng-class="{'panel-body-overflow': trips.length > 10}" class="list-group" cg-busy="getUserTripsPromise" >
+                        <ul ng-class="{'panel-body-overflow': trips.length > 10}" class="list-group" cg-busy="getUserTripsPromise">
                             <li ng-if="containsSearchText(trip)" class="list-group-item" ng-repeat="trip in trips track by $index">
                                 <div class="checkbox">
-                                    <span class="tripLabel" ng-bind="trip.name" ng-show="trip.editMode === false || trip.editMode === undefined">
+                                    <span ng-click="redirectToTrip(trip)" class="tripLabel" ng-bind="trip.name" ng-show="trip.editMode === false || trip.editMode === undefined">
                                     </span>
                                     <input type="text" ng-show="trip.editMode" ng-model="trip.name" />
                                 </div>
                                 <div class="pull-right action-buttons">
-                                    <a href="#" ng-click="enableEdit(trip)"><i class="fa fa-fw " ng-class="trip.editMode ? 'fa-check' : 'fa-edit'" aria-hidden="true"></i></a>
-                                    <a href="http://www.jquery2dotnet.com" class="trash"><i class="fa fa-fw fa-trash" aria-hidden="true"></i></a>
+                                    <a href="#" ng-if="!trip.isDeleted" ng-click="enableEdit(trip)"><i class="fa fa-fw " ng-class="trip.editMode ? 'fa-check' : 'fa-edit'" aria-hidden="true"></i></a>
+                                    <a href="" ng-if="!trip.isDeleted" ng-click="leaveTrip(trip.id)" class="trash"><i class="fa fa-fw fa-trash" aria-hidden="true"></i></a>
+                                    <label ng-if="trip.isDeleted" class="trash">Deleted</label>
                                 </div>
                             </li>
                         </ul>

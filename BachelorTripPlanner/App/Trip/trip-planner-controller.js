@@ -6,6 +6,7 @@
             $scope.suggestedInterests = [];
 
             $scope.isAdmin = false;
+            $scope.isGroupTrip = false;
 
             $scope.messageText = "";
 
@@ -21,6 +22,15 @@
                     $scope.userInterest = result;
                     $scope.initInterestsForTrip();
                     $scope.initMessagesForTrip();
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.getTrip = function (tripId) {
+                $scope.getTripPromise = tripRepository.getTrip({ tripId: tripId }).$promise;
+                $scope.getTripPromise.then(function (result) {
+                    $scope.isGroupTrip = result.type == tripTypeEnum.Group;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -120,9 +130,19 @@
                 });
             };
 
+            $scope.leaveTrip = function () {
+                $scope.leaveTripPromise = tripRepository.leaveTrip({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
+                $scope.leaveTripPromise.then(function (result) {
+                    $window.location.href = '/';
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
                 $scope.tripId = $routeParams.id;
+                $scope.getTrip();
                 $scope.initInterests();
                 $scope.setAdmin();
             };
