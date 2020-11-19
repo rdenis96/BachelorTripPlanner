@@ -1,4 +1,4 @@
-﻿using DataLayer.Models;
+﻿using Domain.Notifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Definitions

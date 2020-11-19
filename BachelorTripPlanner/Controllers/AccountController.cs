@@ -1,28 +1,32 @@
 ﻿using BachelorTripPlanner.Models;
-using BachelorTripPlanner.Workers;
-using DataLayer.Enums;
-using DataLayer.Helpers;
-using DataLayer.Models;
+using BusinessLogic.Accounts;
+using BusinessLogic.Interests;
+using BusinessLogic.Trips;
+using DataLayer.CompositionRoot;
+using Domain.Common.Enums;
+using Domain.Interests;
+using Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BachelorTripPlanner.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private UserWorker _userWorker;
-        private UserInterestWorker _userInterestWorker;
-        private InterestsWorker _interestsWorker;
-        private TripsUsersWorker _tripsUsersWorker;
+        private readonly UserWorker _userWorker;
+        private readonly UserInterestWorker _userInterestWorker;
+        private readonly InterestsWorker _interestsWorker;
+        private readonly TripsUsersWorker _tripsUsersWorker;
 
-        public AccountController()
+        public AccountController(ICompositionRoot compositionRoot)
         {
-            _userWorker = new UserWorker();
-            _userInterestWorker = new UserInterestWorker();
-            _interestsWorker = new InterestsWorker();
-            _tripsUsersWorker = new TripsUsersWorker();
+            _userWorker = compositionRoot.GetImplementation<UserWorker>();
+            _userInterestWorker = compositionRoot.GetImplementation<UserInterestWorker>();
+            _interestsWorker = compositionRoot.GetImplementation<InterestsWorker>();
+            _tripsUsersWorker = compositionRoot.GetImplementation<TripsUsersWorker>();
         }
 
         [HttpGet("[action]")]

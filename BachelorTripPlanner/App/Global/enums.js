@@ -11,8 +11,8 @@ var tripMainPageTabsEnum = {
 };
 
 var tripTypeEnum = {
-    Single: 'Single',
-    Group: 'Group'
+    Single: 0,
+    Group: 1
 };
 
 var notificationTypes = {

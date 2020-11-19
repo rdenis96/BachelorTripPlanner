@@ -1,13 +1,15 @@
-﻿using DataLayer.Constants;
+﻿using CompositionRoot;
+using DataLayer.CompositionRoot;
 using DataLayer.Context;
+using Domain.Common.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using System.IO;
 
 namespace BachelorTripPlanner
@@ -24,6 +26,8 @@ namespace BachelorTripPlanner
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ICompositionRoot, CompositionRootBackend>();
+
             services.AddDbContext<TripPlanner>(options => options.UseSqlServer(GlobalConstants.SqlDatabaseConnection), ServiceLifetime.Singleton);
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -33,13 +37,16 @@ namespace BachelorTripPlanner
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.EnvironmentName == Environments.Development)
             {
                 app.UseDeveloperExceptionPage();
             }

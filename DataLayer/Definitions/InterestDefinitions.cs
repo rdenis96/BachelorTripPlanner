@@ -1,8 +1,5 @@
-﻿using DataLayer.Models;
+﻿using Domain.Interests;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataLayer.Definitions
 {

@@ -1,0 +1,9 @@
+﻿namespace DataLayer.CompositionRoot
+{
+    public interface ICompositionRoot
+    {
+        T GetImplementation<T>();
+
+        T GetImplementation<T>(string name);
+    }
+}

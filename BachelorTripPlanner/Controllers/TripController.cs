@@ -1,8 +1,14 @@
 ﻿using BachelorTripPlanner.Models;
-using BachelorTripPlanner.Workers;
-using DataLayer.Enums;
-using DataLayer.Helpers;
-using DataLayer.Models;
+using BusinessLogic.Accounts;
+using BusinessLogic.Interests;
+using BusinessLogic.Notifications;
+using BusinessLogic.Trips;
+using DataLayer.CompositionRoot;
+using Domain.Notifications;
+using Domain.Notifications.Enums;
+using Domain.Trips;
+using Domain.Trips.Enums;
+using Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -11,6 +17,7 @@ using System.Linq;
 
 namespace BachelorTripPlanner.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class TripController : Controller
     {
@@ -22,15 +29,15 @@ namespace BachelorTripPlanner.Controllers
         private readonly TripMessagesWorker _tripMessagesWorker;
         private readonly NotificationsWorker _notificationsWorker;
 
-        public TripController()
+        public TripController(ICompositionRoot compositionRoot)
         {
-            _tripsWorker = new TripsWorker();
-            _userWorker = new UserWorker();
-            _userInterestWorker = new UserInterestWorker();
-            _tripsUsersWorker = new TripsUsersWorker();
-            _interestsWorker = new InterestsWorker();
-            _tripMessagesWorker = new TripMessagesWorker();
-            _notificationsWorker = new NotificationsWorker();
+            _tripsWorker = compositionRoot.GetImplementation<TripsWorker>();
+            _userWorker = compositionRoot.GetImplementation<UserWorker>();
+            _userInterestWorker = compositionRoot.GetImplementation<UserInterestWorker>();
+            _tripsUsersWorker = compositionRoot.GetImplementation<TripsUsersWorker>();
+            _interestsWorker = compositionRoot.GetImplementation<InterestsWorker>();
+            _tripMessagesWorker = compositionRoot.GetImplementation<TripMessagesWorker>();
+            _notificationsWorker = compositionRoot.GetImplementation<NotificationsWorker>();
         }
 
         [HttpPost("[action]")]

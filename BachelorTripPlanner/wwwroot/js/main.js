@@ -71,8 +71,8 @@ var tripMainPageTabsEnum = {
 };
 
 var tripTypeEnum = {
-    Single: 'Single',
-    Group: 'Group'
+    Single: 0,
+    Group: 1
 };
 
 var notificationTypes = {
@@ -149,7 +149,9 @@ globalModule.directive('interestsSlider', function ($timeout, $window) {
                     interest.visible = false; // make every interest invisible
                 });
 
-                scope.interests[scope.currentIndex].visible = true; // make the current interest visible
+                if (scope.interests.length > 0) {
+                    scope.interests[scope.currentIndex].visible = true; // make the current interest visible
+                }
             });
 
             var timer;
@@ -987,11 +989,12 @@ globalModule.controller("TripCreateController",
 
                 var queryParam = {
                     tripName: $scope.tripName,
-                    tripType: tripType
+                    tripType: tripType == tripTypeEnum.Single ? 0 : 1
                 };
                 if (tripType == tripTypeEnum.Group) {
                     angular.extend(queryParam, { invitedPeople: $scope.invitedPeople });
                 }
+
                 var createTripPromise = tripCreateRepository.createTrip({ userId: $scope.userId }, queryParam).$promise;
                 createTripPromise.then(function (result) {
                     if (result != null) {
@@ -1167,8 +1170,8 @@ globalModule.controller("TripPlannerController",
 
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
-                $scope.tripId = $routeParams.id;
-                $scope.getTrip();
+                $scope.tripId = parseInt($routeParams.id);
+                $scope.getTrip($scope.tripId);
                 $scope.initInterests();
                 $scope.setAdmin();
             };

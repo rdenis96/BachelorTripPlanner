@@ -67,7 +67,9 @@
                     interest.visible = false; // make every interest invisible
                 });
 
-                scope.interests[scope.currentIndex].visible = true; // make the current interest visible
+                if (scope.interests.length > 0) {
+                    scope.interests[scope.currentIndex].visible = true; // make the current interest visible
+                }
             });
 
             var timer;

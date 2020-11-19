@@ -70,11 +70,12 @@
 
                 var queryParam = {
                     tripName: $scope.tripName,
-                    tripType: tripType
+                    tripType: tripType == tripTypeEnum.Single ? 0 : 1
                 };
                 if (tripType == tripTypeEnum.Group) {
                     angular.extend(queryParam, { invitedPeople: $scope.invitedPeople });
                 }
+
                 var createTripPromise = tripCreateRepository.createTrip({ userId: $scope.userId }, queryParam).$promise;
                 createTripPromise.then(function (result) {
                     if (result != null) {

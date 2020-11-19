@@ -1,25 +1,25 @@
-﻿using System;
+﻿using BachelorTripPlanner.Models;
+using BusinessLogic.Accounts;
+using BusinessLogic.Interests;
+using DataLayer.CompositionRoot;
+using Helpers;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BachelorTripPlanner.Models;
-using Microsoft.AspNetCore.Http.Extensions;
-using BachelorTripPlanner.Workers;
-using DataLayer.Helpers;
 
 namespace BachelorTripPlanner.Controllers
 {
     public class HomeController : Controller
     {
-        private UserWorker _userWorker;
-        private InterestsWorker _interestWorker;
+        private readonly UserWorker _userWorker;
+        private readonly InterestsWorker _interestWorker;
 
-        public HomeController()
+        public HomeController(ICompositionRoot compositionRoot)
         {
-            _userWorker = new UserWorker();
-            _interestWorker = new InterestsWorker();
+            _userWorker = compositionRoot.GetImplementation<UserWorker>();
+            _interestWorker = compositionRoot.GetImplementation<InterestsWorker>();
         }
 
         [HttpGet("{*url}")]

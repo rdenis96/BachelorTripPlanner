@@ -1,6 +1,9 @@
-﻿using DataLayer.Constants;
-using DataLayer.Definitions;
-using DataLayer.Models;
+﻿using DataLayer.Definitions;
+using Domain.Accounts;
+using Domain.Common.Constants;
+using Domain.Interests;
+using Domain.Notifications;
+using Domain.Trips;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Context

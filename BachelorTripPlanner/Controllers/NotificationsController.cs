@@ -1,18 +1,20 @@
 ﻿using BachelorTripPlanner.Models;
-using BachelorTripPlanner.Workers;
-using DataLayer.Models;
+using BusinessLogic.Notifications;
+using DataLayer.CompositionRoot;
+using Domain.Notifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BachelorTripPlanner.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class NotificationsController : Controller
     {
         private readonly NotificationsWorker _notificationsWorker;
 
-        public NotificationsController()
+        public NotificationsController(ICompositionRoot compositionRoot)
         {
-            _notificationsWorker = new NotificationsWorker();
+            _notificationsWorker = compositionRoot.GetImplementation<NotificationsWorker>();
         }
 
         [HttpGet("[action]")]

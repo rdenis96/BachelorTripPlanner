@@ -1,23 +1,26 @@
 ﻿using BachelorTripPlanner.Models;
-using BachelorTripPlanner.Workers;
-using DataLayer.Helpers;
-using DataLayer.Models;
+using BusinessLogic.Accounts;
+using BusinessLogic.Interests;
+using DataLayer.CompositionRoot;
+using Domain.Accounts;
+using Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BachelorTripPlanner.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class LandingPageController : Controller
     {
         private readonly UserWorker _userWorker;
         private readonly UserInterestWorker _userInterestWorker;
 
-        public LandingPageController()
+        public LandingPageController(ICompositionRoot compositionRoot)
         {
-            _userWorker = new UserWorker();
-            _userInterestWorker = new UserInterestWorker();
+            _userWorker = compositionRoot.GetImplementation<UserWorker>();
+            _userInterestWorker = compositionRoot.GetImplementation<UserInterestWorker>();
         }
 
         [HttpPost]

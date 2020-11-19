@@ -1,8 +1,5 @@
-﻿using DataLayer.Enums;
-using System;
+﻿using Domain.Trips.Enums;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BachelorTripPlanner.Models
 {

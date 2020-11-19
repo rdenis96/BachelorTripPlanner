@@ -1,4 +1,4 @@
-﻿using DataLayer.Models;
+﻿using Domain.Trips;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Definitions

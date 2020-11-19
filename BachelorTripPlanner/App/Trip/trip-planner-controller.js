@@ -141,8 +141,8 @@
 
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
-                $scope.tripId = $routeParams.id;
-                $scope.getTrip();
+                $scope.tripId = parseInt($routeParams.id);
+                $scope.getTrip($scope.tripId);
                 $scope.initInterests();
                 $scope.setAdmin();
             };

@@ -1,4 +1,4 @@
-﻿using DataLayer.Models;
+﻿using Domain.Interests;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Definitions
@@ -7,7 +7,6 @@ namespace DataLayer.Definitions
     {
         public static void Set(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<UserInterest>().HasKey(k => k.Id);
             modelBuilder.Entity<UserInterest>().Property(x => x.UserId).IsRequired();
             modelBuilder.Entity<UserInterest>().Property(x => x.TripId).IsRequired(false);

@@ -1,13 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.329
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BachelorTripPlanner", "BachelorTripPlanner\BachelorTripPlanner.csproj", "{8279CE43-30F5-485D-A518-AE3089BEF61D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{82A12A95-678C-455A-9341-6953F1C4B5C1}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DataLayer.Schema", "DataLayer.Schema\DataLayer.Schema.sqlproj", "{86848D63-C4DA-4082-A313-4AF723A9DEA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{21DC1B3E-58B2-4071-AC5E-EC566A08A541}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helper\Helpers.csproj", "{9F4F83D5-704A-4BF8-9544-6BA30865252F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{A952A7F4-AE63-4366-89DA-C7D557FE27A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompositionRoot", "CompositionRoot\CompositionRoot.csproj", "{B005F544-74CD-430E-AEA2-18C3C04A0E4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +37,22 @@ Global
 		{86848D63-C4DA-4082-A313-4AF723A9DEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86848D63-C4DA-4082-A313-4AF723A9DEA4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86848D63-C4DA-4082-A313-4AF723A9DEA4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{21DC1B3E-58B2-4071-AC5E-EC566A08A541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21DC1B3E-58B2-4071-AC5E-EC566A08A541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21DC1B3E-58B2-4071-AC5E-EC566A08A541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21DC1B3E-58B2-4071-AC5E-EC566A08A541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F4F83D5-704A-4BF8-9544-6BA30865252F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F4F83D5-704A-4BF8-9544-6BA30865252F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F4F83D5-704A-4BF8-9544-6BA30865252F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F4F83D5-704A-4BF8-9544-6BA30865252F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A952A7F4-AE63-4366-89DA-C7D557FE27A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A952A7F4-AE63-4366-89DA-C7D557FE27A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A952A7F4-AE63-4366-89DA-C7D557FE27A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A952A7F4-AE63-4366-89DA-C7D557FE27A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B005F544-74CD-430E-AEA2-18C3C04A0E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B005F544-74CD-430E-AEA2-18C3C04A0E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B005F544-74CD-430E-AEA2-18C3C04A0E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B005F544-74CD-430E-AEA2-18C3C04A0E4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
