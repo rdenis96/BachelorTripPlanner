@@ -150,8 +150,9 @@ namespace BachelorTripPlanner.Controllers
         [HttpGet("[action]")]
         public IActionResult IsUserAdmin(int userId, int tripId)
         {
-            var result = _tripsUsersWorker.IsUserAdmin(userId, tripId);
-            return Ok(result);
+            var isAdmin = _tripsUsersWorker.IsUserAdmin(userId, tripId);
+            return Ok(
+                new { isAdmin });
         }
 
         [HttpGet("[action]")]
