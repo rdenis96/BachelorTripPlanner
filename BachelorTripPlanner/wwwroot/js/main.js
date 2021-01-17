@@ -1233,7 +1233,7 @@ globalModule.controller("TripPlannerController",
             $scope.setAdmin = function () {
                 $scope.getUserAdmin = tripRepository.isUserAdmin({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
                 $scope.getUserAdmin.then(function (result) {
-                    $scope.isAdmin = result;
+                    $scope.isAdmin = result.isAdmin;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
