@@ -1,12 +1,16 @@
 ﻿using BachelorTripPlanner.Models;
 using BusinessLogic.Accounts;
 using BusinessLogic.Interests;
+using BusinessLogic.Notifications;
 using BusinessLogic.Trips;
 using DataLayer.CompositionRoot;
 using Domain.Common.Enums;
 using Domain.Interests;
+using Domain.Notifications;
+using Domain.Notifications.Enums;
 using Helpers;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,6 +24,8 @@ namespace BachelorTripPlanner.Controllers
         private readonly UserInterestWorker _userInterestWorker;
         private readonly InterestsWorker _interestsWorker;
         private readonly TripsUsersWorker _tripsUsersWorker;
+        private readonly FriendsWorker _friendsWorker;
+        private readonly NotificationsWorker _notificationsWorker;
 
         public AccountController(ICompositionRoot compositionRoot)
         {
@@ -27,6 +33,8 @@ namespace BachelorTripPlanner.Controllers
             _userInterestWorker = compositionRoot.GetImplementation<UserInterestWorker>();
             _interestsWorker = compositionRoot.GetImplementation<InterestsWorker>();
             _tripsUsersWorker = compositionRoot.GetImplementation<TripsUsersWorker>();
+            _friendsWorker = compositionRoot.GetImplementation<FriendsWorker>();
+            _notificationsWorker = compositionRoot.GetImplementation<NotificationsWorker>();
         }
 
         [HttpGet("[action]")]
@@ -217,6 +225,67 @@ namespace BachelorTripPlanner.Controllers
 
             var trips = _tripsUsersWorker.GetTripsForUser(userId, includeDeleted: true);
             return Ok(trips);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetFriends(int userId)
+        {
+            var user = _userWorker.GetById(userId);
+            if (user == null)
+            {
+                return BadRequest("The account could not be retrieved!");
+            }
+
+            var friends = _friendsWorker.GetByUserId(userId);
+            return Ok(friends);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult CreateFriend([FromBody] CreateFriendViewModel createFriendViewModel)
+        {
+            var user = _userWorker.GetById(createFriendViewModel.UserId);
+            if (user == null)
+            {
+                return BadRequest("The account could not be retrieved!");
+            }
+
+            var friendAccount = _userWorker.GetByEmail(createFriendViewModel.FriendEmail);
+            if (friendAccount == null)
+            {
+                return BadRequest("The friend account could not be found!");
+            }
+
+            var notificationExists = _notificationsWorker.GetByUserId(friendAccount.Id).Any(x => x.Type == NotificationType.FriendRequest && x.SenderId == user.Id);
+            if (notificationExists)
+            {
+                return BadRequest("Friend request was already sent!");
+            }
+
+            var notification = _notificationsWorker.Create(new Notification
+            {
+                SenderId = user.Id,
+                UserId = friendAccount.Id,
+                Type = NotificationType.FriendRequest,
+                Date = DateTime.Now
+            });
+
+            if (notification == null)
+            {
+                return BadRequest("The friend request couldn't be created. Please try again!");
+            }
+            return Ok();
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult RemoveFriend(int id)
+        {
+            var isDeleted = _friendsWorker.Remove(id);
+            if (isDeleted == false)
+            {
+                return BadRequest("The friend couldn't be deleted!");
+            }
+
+            return Ok();
         }
 
         private void ExcludeListFromList(ref List<string> sourceList, List<string> toExcludeList)

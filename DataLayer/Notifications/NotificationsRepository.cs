@@ -157,7 +157,7 @@ namespace DataLayer.Notifications
                               FROM Notifications N
                               JOIN Users U
                               ON U.Id = N.SenderId
-                              JOIN Trips T
+                              LEFT JOIN Trips T
                               ON T.Id = N.TripId
                               WHERE N.UserId = @userId
                               ORDER by N.Date DESC";

@@ -34,6 +34,36 @@
             </div>
             <div class="planning-history row">
                 <div class="col-md-3"></div>
+                <div class="col-md-6 form-group">
+                    <label class="control-label">&nbsp; OR &nbsp;</label>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="planning-history row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <label class="control-label">Select from dropdown a friend to invite</label>
+                    <ui-select name="friends"
+                                theme="bootstrap"
+                                cg-busy="getFriendsPromise"
+                                ng-model="friends.selected"
+                                search-enabled="true"
+                                on-select="onSelectedFriend($item)"
+                                reset-search-input="true">
+                        <ui-select-match placeholder="Select the friend to invite!">{{$select.selected.friendAccount.email}}</ui-select-match>
+                        <ui-select-choices repeat="friend as friend in friends"
+                                            refresh=""
+                                            class="col-md-6"
+                                            refresh-delay="0">
+                            <div ng-bind-html="friend.friendAccount.email | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="planning-history row"></div>
+            <div class="planning-history row">
+                <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <form class="form-horizontal" method="get" action="#">
                         <div class="panel panel-primary">

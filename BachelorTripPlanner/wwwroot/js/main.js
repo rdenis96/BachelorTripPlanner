@@ -39,6 +39,10 @@ globalModule.config([
                 templateUrl: 'AppViews/Trip/trip-planner.html',
                 controller: 'TripPlannerController'
             })
+            .when('/account/friends', {
+                templateUrl: 'AppViews/Account/friends.html',
+                controller: 'FriendsController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -301,7 +305,7 @@ globalModule.controller("HeaderController",
                     case notificationTypes.FriendRequest:
                         $scope.respondNotificationPromise = notificationsRepository.respondNotification(queryParam).$promise;
                         $scope.respondNotificationPromise.then(function (result) {
-                            $scope.getNotifications();
+                            $window.location.reload();
                         }).catch(function (result) {
                             toastr.warning(result.data);
                         });
@@ -309,7 +313,7 @@ globalModule.controller("HeaderController",
                     case notificationTypes.TripKicked:
                         $scope.deleteNotificationPromise = notificationsRepository.deleteNotification(notification).$promise;
                         $scope.deleteNotificationPromise.then(function (result) {
-                            $scope.getNotifications();
+                            $window.location.reload();
                         }).catch(function (result) {
                             toastr.warning(result.data);
                         });
@@ -609,6 +613,19 @@ globalModule.factory('accountRepository', [
                     method: 'GET',
                     url: 'api/account/getUserTrips',
                     isArray: true
+                },
+                getFriends: {
+                    method: 'GET',
+                    url: 'api/account/getFriends',
+                    isArray: true
+                },
+                removeFriend: {
+                    method: 'GET',
+                    url: 'api/account/removeFriend'
+                },
+                createFriend: {
+                    method: 'POST',
+                    url: 'api/account/createFriend'
                 }
             });
     }
@@ -917,11 +934,89 @@ globalModule.controller("PlanningHistoryController",
         }
 
     ]);
+globalModule.controller("FriendsController",
+    ['$scope', '$window', '$localStorage', '$uibModal', 'accountRepository', 'toastr',
+        function ($scope, $window, $localStorage, $uibModal, accountRepository, toastr) {
+            $scope.friends = {};
+
+            $scope.init = function () {
+                $scope.userId = $localStorage.TPUserId;
+                var getFriendsPromise = accountRepository.getFriends({ userId: $scope.userId }).$promise;
+                getFriendsPromise.then(function (result) {
+                    $scope.friends = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.containsSearchText = function (friend) {
+                if ($scope.searchText === null || $scope.searchText === undefined) {
+                    return true;
+                }
+                return friend.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) !== -1;
+            };
+
+            $scope.addFriend = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'AppViews/Account/friends-modal.html',
+                    controller: 'FriendsModalController',
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: 'lg',
+                    resolve: {
+                        data: function () {
+                            return {
+                                userId: $scope.userId
+                            };
+                        }
+                    }
+                }).closed.then(function () {
+                    $scope.init();
+                });
+            }
+
+            $scope.removeFriend = function (id) {
+                $scope.removeFriendPromise = accountRepository.removeFriend({ id: id }).$promise;
+                $scope.removeFriendPromise.then(function () {
+                    $scope.init();
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.init();
+        }
+
+    ]);
+globalModule.controller("FriendsModalController",
+    ['$scope', 'data', '$window', '$http', '$localStorage', '$uibModalInstance', 'accountRepository', 'toastr', '$routeParams', '$uibModal',
+        function ($scope, data, $window, $http, $localStorage, $uibModalInstance, accountRepository, toastr, $routeParams, $uibModal) {
+            $scope.userId = data.userId;
+
+            $scope.friendEmail = "";
+
+            $scope.submit = function () {
+                $scope.createFriendPromise = accountRepository.createFriend({ userId: $scope.userId, friendEmail: $scope.friendEmail }).$promise;
+                $scope.createFriendPromise.then(function () {
+                    toastr.success('Friend request was sent to' + $scope.friendEmail);
+                    $scope.friendEmail = "";
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            };
+
+            $scope.close = function () {
+                $uibModalInstance.close();
+            };
+        }
+
+    ]);
 globalModule.controller("TripCreateController",
-    ['$scope', '$window', '$http', '$location', '$localStorage', 'tripCreateRepository', 'toastr',
-        function ($scope, $window, $http, $location, $localStorage, tripCreateRepository, toastr) {
+    ['$scope', '$window', '$http', '$location', '$localStorage', 'tripCreateRepository', 'accountRepository', 'toastr',
+        function ($scope, $window, $http, $location, $localStorage, tripCreateRepository, accountRepository, toastr) {
             $scope.invitedPersonEmail = "";
             $scope.invitedPeople = [];
+            $scope.friends = [];
 
             $scope.tripMainPageTabsEnum = tripMainPageTabsEnum;
             $scope.tripTypeEnum = tripTypeEnum;
@@ -944,6 +1039,7 @@ globalModule.controller("TripCreateController",
                     }
                     case tripMainPageTabsEnum.GroupTrip: {
                         $scope.selectedTab = tripMainPageTabsEnum.GroupTrip;
+                        $scope.loadFriends();
                         break;
                     }
                 }
@@ -969,6 +1065,26 @@ globalModule.controller("TripCreateController",
                     toastr.error("The email is not valid!");
                 }
             };
+
+            $scope.loadFriends = function () {
+                $scope.getFriendsPromise = accountRepository.getFriends({ userId: $scope.userId }).$promise;
+                $scope.getFriendsPromise.then(function (result) {
+                    $scope.friends = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.onSelectedFriend = function (item) {
+                var index = $scope.invitedPeople.indexOf(item.friendAccount.email);
+                if (index === undefined || index < 0) {
+                    $scope.invitedPeople.push(item.friendAccount.email);
+                    $scope.$apply();
+                }
+                else {
+                    toastr.warning("The selected friend is already invited!");
+                }
+            }
 
             $scope.removeInvitedPerson = function (person) {
                 var index = $scope.invitedPeople.indexOf(person);

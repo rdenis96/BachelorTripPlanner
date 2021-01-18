@@ -1,4 +1,5 @@
-﻿using Domain.Notifications;
+﻿using BusinessLogic.Accounts;
+using Domain.Notifications;
 using Domain.Notifications.Enums;
 using Domain.Repository;
 using System.Collections.Generic;
@@ -9,11 +10,15 @@ namespace BusinessLogic.Notifications
     {
         private readonly INotificationsRepository _notificationsRepository;
         private readonly ITripsUsersRepository _tripsUsersRepository;
+        private readonly FriendsWorker _friendsWorker;
 
-        public NotificationsWorker(INotificationsRepository notificationsRepository, ITripsUsersRepository tripsUsersRepository)
+        public NotificationsWorker(INotificationsRepository notificationsRepository,
+                    ITripsUsersRepository tripsUsersRepository,
+                    FriendsWorker friendsWorker)
         {
             _notificationsRepository = notificationsRepository;
             _tripsUsersRepository = tripsUsersRepository;
+            _friendsWorker = friendsWorker;
         }
 
         public Notification Create(Notification obj)
@@ -41,6 +46,13 @@ namespace BusinessLogic.Notifications
                 case NotificationType.FriendRequest:
                     if (isAccepted)
                     {
+                        //Create friend for sender person
+                        var senderFriendship = _friendsWorker.Create(obj.SenderId.Value, obj.UserId);
+                        if (senderFriendship != null)
+                        {
+                            //Create friend for invited person
+                            _ = _friendsWorker.Create(obj.UserId, obj.SenderId.Value);
+                        }
                     }
                     break;
             }

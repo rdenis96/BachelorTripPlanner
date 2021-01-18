@@ -39,6 +39,10 @@ globalModule.config([
                 templateUrl: 'AppViews/Trip/trip-planner.html',
                 controller: 'TripPlannerController'
             })
+            .when('/account/friends', {
+                templateUrl: 'AppViews/Account/friends.html',
+                controller: 'FriendsController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

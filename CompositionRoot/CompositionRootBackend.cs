@@ -137,13 +137,23 @@ namespace CompositionRoot
 
             #endregion Trips
 
+            #region Friends
+
+            _kernel.Bind<IFriendsRepository>().To<FriendsRepository>();
+
+            _kernel.Bind<FriendsWorker>().To<FriendsWorker>()
+                .WithConstructorArgument(context => context.Kernel.Get<IFriendsRepository>());
+
+            #endregion Friends
+
             #region Notifications
 
             _kernel.Bind<INotificationsRepository>().To<NotificationsRepository>();
 
             _kernel.Bind<NotificationsWorker>().To<NotificationsWorker>()
                 .WithConstructorArgument(context => context.Kernel.Get<INotificationsRepository>())
-                .WithConstructorArgument(context => context.Kernel.Get<ITripsUsersRepository>());
+                .WithConstructorArgument(context => context.Kernel.Get<ITripsUsersRepository>())
+                .WithConstructorArgument(context => context.Kernel.Get<FriendsWorker>());
 
             #endregion Notifications
         }

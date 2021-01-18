@@ -47,7 +47,7 @@
                     case notificationTypes.FriendRequest:
                         $scope.respondNotificationPromise = notificationsRepository.respondNotification(queryParam).$promise;
                         $scope.respondNotificationPromise.then(function (result) {
-                            $scope.getNotifications();
+                            $window.location.reload();
                         }).catch(function (result) {
                             toastr.warning(result.data);
                         });
@@ -55,7 +55,7 @@
                     case notificationTypes.TripKicked:
                         $scope.deleteNotificationPromise = notificationsRepository.deleteNotification(notification).$promise;
                         $scope.deleteNotificationPromise.then(function (result) {
-                            $scope.getNotifications();
+                            $window.location.reload();
                         }).catch(function (result) {
                             toastr.warning(result.data);
                         });

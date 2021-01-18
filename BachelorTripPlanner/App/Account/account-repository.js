@@ -64,6 +64,19 @@
                     method: 'GET',
                     url: 'api/account/getUserTrips',
                     isArray: true
+                },
+                getFriends: {
+                    method: 'GET',
+                    url: 'api/account/getFriends',
+                    isArray: true
+                },
+                removeFriend: {
+                    method: 'GET',
+                    url: 'api/account/removeFriend'
+                },
+                createFriend: {
+                    method: 'POST',
+                    url: 'api/account/createFriend'
                 }
             });
     }

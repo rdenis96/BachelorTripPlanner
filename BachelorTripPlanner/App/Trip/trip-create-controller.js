@@ -1,8 +1,9 @@
 ﻿globalModule.controller("TripCreateController",
-    ['$scope', '$window', '$http', '$location', '$localStorage', 'tripCreateRepository', 'toastr',
-        function ($scope, $window, $http, $location, $localStorage, tripCreateRepository, toastr) {
+    ['$scope', '$window', '$http', '$location', '$localStorage', 'tripCreateRepository', 'accountRepository', 'toastr',
+        function ($scope, $window, $http, $location, $localStorage, tripCreateRepository, accountRepository, toastr) {
             $scope.invitedPersonEmail = "";
             $scope.invitedPeople = [];
+            $scope.friends = [];
 
             $scope.tripMainPageTabsEnum = tripMainPageTabsEnum;
             $scope.tripTypeEnum = tripTypeEnum;
@@ -25,6 +26,7 @@
                     }
                     case tripMainPageTabsEnum.GroupTrip: {
                         $scope.selectedTab = tripMainPageTabsEnum.GroupTrip;
+                        $scope.loadFriends();
                         break;
                     }
                 }
@@ -50,6 +52,26 @@
                     toastr.error("The email is not valid!");
                 }
             };
+
+            $scope.loadFriends = function () {
+                $scope.getFriendsPromise = accountRepository.getFriends({ userId: $scope.userId }).$promise;
+                $scope.getFriendsPromise.then(function (result) {
+                    $scope.friends = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.onSelectedFriend = function (item) {
+                var index = $scope.invitedPeople.indexOf(item.friendAccount.email);
+                if (index === undefined || index < 0) {
+                    $scope.invitedPeople.push(item.friendAccount.email);
+                    $scope.$apply();
+                }
+                else {
+                    toastr.warning("The selected friend is already invited!");
+                }
+            }
 
             $scope.removeInvitedPerson = function (person) {
                 var index = $scope.invitedPeople.indexOf(person);

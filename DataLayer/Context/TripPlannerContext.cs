@@ -25,6 +25,7 @@ namespace DataLayer.Context
         public DbSet<TripUser> TripUsers { get; set; }
         public DbSet<TripMessage> TripMessages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Friend> Friends { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,6 +41,7 @@ namespace DataLayer.Context
             TripUserDefinitions.Set(modelBuilder);
             TripMessageDefinitions.Set(modelBuilder);
             NotificationDefinitions.Set(modelBuilder);
+            FriendDefinitions.Set(modelBuilder);
         }
     }
 }

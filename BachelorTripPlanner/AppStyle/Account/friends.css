@@ -1,0 +1,8 @@
+﻿.addFriendButton {
+    background-color: var(--main-bg-color);
+    margin-top: -3px;
+}
+
+    .addFriendButton:hover {
+        background-color: var(--main-bg-color-hover);
+    }
