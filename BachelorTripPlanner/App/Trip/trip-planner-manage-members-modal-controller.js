@@ -1,6 +1,6 @@
 ﻿globalModule.controller("TripPlannerManageMembersModalController",
-    ['$scope', 'data', '$window', '$http', '$localStorage', '$uibModalInstance', 'tripRepository', 'toastr', '$routeParams', '$uibModal',
-        function ($scope, data, $window, $http, $localStorage, $uibModalInstance, tripRepository, toastr, $routeParams, $uibModal) {
+    ['$scope', 'data', '$window', '$http', '$localStorage', '$uibModalInstance', 'tripRepository', 'accountRepository', 'toastr', '$routeParams', '$uibModal',
+        function ($scope, data, $window, $http, $localStorage, $uibModalInstance, tripRepository, accountRepository, toastr, $routeParams, $uibModal) {
             $scope.userId = data.userId;
             $scope.tripId = data.tripId;
             $scope.isAdmin = data.isAdmin;
@@ -9,6 +9,7 @@
             $scope.canShowNewMemberFields = false;
 
             $scope.members = [];
+            $scope.friends = [];
 
             $scope.enableAddNewMember = function () {
                 if ($scope.canShowNewMemberFields) {
@@ -26,6 +27,20 @@
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
+            }
+
+            $scope.loadFriends = function () {
+                $scope.getFriendsPromise = accountRepository.getFriends({ userId: $scope.userId }).$promise;
+                $scope.getFriendsPromise.then(function (result) {
+                    $scope.friends = result;
+                }).catch(function (result) {
+                    toastr.warning(result.data);
+                });
+            }
+
+            $scope.onSelectedFriend = function (item) {
+                $scope.newMemberEmail = item.friendAccount.email;
+                $scope.$apply();
             }
 
             $scope.submit = function () {
@@ -63,6 +78,7 @@
                 $scope.getTripUsersPromise = tripRepository.getTripUsers({ tripId: $scope.tripId }).$promise;
                 $scope.getTripUsersPromise.then(function (result) {
                     $scope.members = result;
+                    $scope.loadFriends();
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });

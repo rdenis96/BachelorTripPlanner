@@ -43,16 +43,39 @@
     <div class="col-md-12" ng-if="isAdmin">
         <button class="btn btn-primary" ng-click="enableAddNewMember()">Add new member</button>
     </div>
-    <div class="row col-md-6 margin-top-10" ng-show="canShowNewMemberFields ">
-        <div class="col-md-10">
-            <input class="input-sm" type="email" ng-model="newMemberEmail" />
+    <div class="row col-md-12 margin-top-10" ng-show="canShowNewMemberFields ">
+        <div class="col-md-5"></div>
+        <div class="col-md-5">
+            <label class="control-label">Select from dropdown a friend to invite</label>
         </div>
-        <div>
+        <div class="col-md-4">
+            <input class="input-sm" type="email" placeholder="Enter person email" ng-model="newMemberEmail" />
+        </div>
+        <div class="col-md-1">
             <button type="button" class="btn btn-success" ng-click="addNewMember()" aria-label="Add">
                 <span aria-hidden="true">Add</span>
             </button>
         </div>
+        <div class="col-md-4">
+
+            <ui-select name="friends"
+                       theme="bootstrap"
+                       cg-busy="getFriendsPromise"
+                       ng-model="friends.selected"
+                       search-enabled="true"
+                       on-select="onSelectedFriend($item)"
+                       reset-search-input="true">
+                <ui-select-match placeholder="Select the friend to invite!">{{$select.selected.friendAccount.email}}</ui-select-match>
+                <ui-select-choices repeat="friend as friend in friends"
+                                   refresh=""
+                                   class="col-md-6"
+                                   refresh-delay="0">
+                    <div ng-bind-html="friend.friendAccount.email | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
     </div>
+    
 
     <div class="col-md-12">
         <table class="table table-striped custab">
