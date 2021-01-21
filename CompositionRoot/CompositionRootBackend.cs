@@ -20,25 +20,25 @@ namespace CompositionRoot
     public class CompositionRootBackend : ICompositionRoot
     {
         private StandardKernel _kernel;
-        private static volatile CompositionRootBackend instance;
-        private static object syncRoot = new object();
+        private static volatile CompositionRootBackend _instance;
+        private static object _syncRoot = new object();
 
         public static CompositionRootBackend Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    lock (syncRoot)
+                    lock (_syncRoot)
                     {
-                        if (instance == null)
+                        if (_instance == null)
                         {
-                            instance = new CompositionRootBackend();
+                            _instance = new CompositionRootBackend();
                         }
                     }
                 }
 
-                return instance;
+                return _instance;
             }
         }
 

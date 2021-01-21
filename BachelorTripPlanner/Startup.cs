@@ -1,16 +1,19 @@
-﻿using CompositionRoot;
+﻿using BachelorTripPlanner.Extensions;
+using CompositionRoot;
 using DataLayer.CompositionRoot;
 using DataLayer.Context;
 using Domain.Common.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Linq;
 
 namespace BachelorTripPlanner
 {
@@ -40,7 +43,18 @@ namespace BachelorTripPlanner
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
+            }).ConfigureApiBehaviorOptions(opt =>
+            {
+                opt.InvalidModelStateResponseFactory = context =>
+                {
+                    var modelState = context.ModelState.Values;
+                    var firstError = modelState.FirstOrDefault()?.Errors?.FirstOrDefault()?.ErrorMessage;
+
+                    return new BadRequestObjectResult(firstError);
+                };
             });
+
+            services.AddSwaggerConfigurations();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +63,13 @@ namespace BachelorTripPlanner
             if (env.EnvironmentName == Environments.Development)
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Multishare Backend API");
+                });
             }
             else
             {

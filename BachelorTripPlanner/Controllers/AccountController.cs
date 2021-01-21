@@ -1,4 +1,5 @@
-﻿using BachelorTripPlanner.Models;
+﻿using BachelorTripPlanner.Attributes;
+using BachelorTripPlanner.Models;
 using BusinessLogic.Accounts;
 using BusinessLogic.Interests;
 using BusinessLogic.Notifications;
@@ -38,19 +39,14 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUser([FromQuery] int userId)
+        public IActionResult GetUser([FromQuery][ValidateUser] int userId)
         {
             var user = _userWorker.GetById(userId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
-
             return Ok(user);
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAvailableCountries([FromQuery] int userId, [FromQuery] int? tripId = null)
+        public IActionResult GetAvailableCountries([FromQuery][ValidateUser] int userId, [FromQuery] int? tripId = null)
         {
             var userCountries = _userInterestWorker.GetByUserIdAndTripId(userId, tripId)?.Countries?.ConvertStringToList(',');
             if (userCountries == null)
@@ -63,7 +59,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAvailableCities([FromQuery] int userId, [FromQuery] List<string> availableCountries, [FromQuery] int? tripId = null)
+        public IActionResult GetAvailableCities([FromQuery][ValidateUser] int userId, [FromQuery] List<string> availableCountries, [FromQuery] int? tripId = null)
         {
             var userCities = _userInterestWorker.GetByUserIdAndTripId(userId, tripId)?.Cities?.ConvertStringToList(',');
             if (userCities == null)
@@ -76,7 +72,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAvailableWeather([FromQuery] int userId, [FromQuery] int? tripId = null)
+        public IActionResult GetAvailableWeather([FromQuery][ValidateUser] int userId, [FromQuery] int? tripId = null)
         {
             var userWeather = _userInterestWorker.GetByUserIdAndTripId(userId, tripId)?.Weather?.ConvertStringToList(',');
             if (userWeather == null)
@@ -90,7 +86,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAvailableTransport([FromQuery] int userId, [FromQuery] int? tripId = null)
+        public IActionResult GetAvailableTransport([FromQuery][ValidateUser] int userId, [FromQuery] int? tripId = null)
         {
             var userTransport = _userInterestWorker.GetByUserIdAndTripId(userId, tripId)?.Transports?.ConvertStringToList(',');
             if (userTransport == null)
@@ -104,7 +100,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAvailableTouristAttractions([FromQuery] int userId, [FromQuery] int? tripId = null)
+        public IActionResult GetAvailableTouristAttractions([FromQuery][ValidateUser] int userId, [FromQuery] int? tripId = null)
         {
             var userTouristAttractions = _userInterestWorker.GetByUserIdAndTripId(userId, tripId)?.TouristAttractions?.ConvertStringToList('#');
             if (userTouristAttractions == null)
@@ -118,7 +114,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUserInterest([FromQuery] int userId, [FromQuery] int? tripId = null)
+        public IActionResult GetUserInterest([FromQuery][ValidateUser] int userId, [FromQuery] int? tripId = null)
         {
             var userInterest = _userInterestWorker.GetByUserIdAndTripId(userId, tripId);
             if (userInterest == null)
@@ -137,7 +133,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUserCitiesByUserCountriesAndAvailableCities([FromQuery] int userId, [FromQuery] List<string> userCountries, [FromQuery] int? tripId = null)
+        public IActionResult GetUserCitiesByUserCountriesAndAvailableCities([FromQuery][ValidateUser] int userId, [FromQuery] List<string> userCountries, [FromQuery] int? tripId = null)
         {
             var userCities = _userInterestWorker.GetByUserIdAndTripId(userId, tripId).Cities.ConvertStringToList(',');
             var allCitiesByCountries = _interestsWorker.GetAllCitiesByCountries(userCountries);
@@ -154,13 +150,9 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult Update(int userId, [FromBody] UserLoginModel userLoginModel)
+        public IActionResult Update([ValidateUser] int userId, [FromBody] UserLoginModel userLoginModel)
         {
             var user = _userWorker.GetById(userId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
 
             user.Password = UserHelper.MD5Hash(userLoginModel.Password);
 
@@ -174,7 +166,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdateInterestByCountryAndCity(int userId, [FromBody] UserCountriesAndCitiesModel userCountriesAndCities)
+        public IActionResult UpdateInterestByCountryAndCity([ValidateUser] int userId, [FromBody] UserCountriesAndCitiesModel userCountriesAndCities)
         {
             UserInterest userInterest = _userInterestWorker.GetByUserIdAndTripId(userId, userCountriesAndCities.TripId);
             userInterest.Countries = userCountriesAndCities.Countries.ConvertListToString(',');
@@ -185,7 +177,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdateInterestByWeather(int userId, [FromBody] UserWeatherModel userWeather)
+        public IActionResult UpdateInterestByWeather([ValidateUser] int userId, [FromBody] UserWeatherModel userWeather)
         {
             UserInterest userInterest = _userInterestWorker.GetByUserIdAndTripId(userId, userWeather.TripId);
             userInterest.Weather = userWeather.Weather.ConvertListToString(',');
@@ -195,7 +187,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdateInterestByTransport(int userId, [FromBody] UserTransportModel userTransport)
+        public IActionResult UpdateInterestByTransport([ValidateUser] int userId, [FromBody] UserTransportModel userTransport)
         {
             UserInterest userInterest = _userInterestWorker.GetByUserIdAndTripId(userId, userTransport.TripId);
             userInterest.Transports = userTransport.Transport.ConvertListToString(',');
@@ -205,7 +197,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdateInterestByTouristAttractions(int userId, [FromBody] UserTouristAttractionsModel userTouristAttractions)
+        public IActionResult UpdateInterestByTouristAttractions([ValidateUser] int userId, [FromBody] UserTouristAttractionsModel userTouristAttractions)
         {
             UserInterest userInterest = _userInterestWorker.GetByUserIdAndTripId(userId, userTouristAttractions.TripId);
             userInterest.TouristAttractions = userTouristAttractions.TouristAttractions.ConvertListToString('#');
@@ -215,27 +207,15 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUserTrips(int userId)
+        public IActionResult GetUserTrips([ValidateUser] int userId)
         {
-            var user = _userWorker.GetById(userId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
-
             var trips = _tripsUsersWorker.GetTripsForUser(userId, includeDeleted: true);
             return Ok(trips);
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetFriends(int userId)
+        public IActionResult GetFriends([ValidateUser] int userId)
         {
-            var user = _userWorker.GetById(userId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
-
             var friends = _friendsWorker.GetByUserId(userId);
             return Ok(friends);
         }
@@ -243,19 +223,13 @@ namespace BachelorTripPlanner.Controllers
         [HttpPost("[action]")]
         public IActionResult CreateFriend([FromBody] CreateFriendViewModel createFriendViewModel)
         {
-            var user = _userWorker.GetById(createFriendViewModel.UserId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
-
             var friendAccount = _userWorker.GetByEmail(createFriendViewModel.FriendEmail);
             if (friendAccount == null)
             {
                 return BadRequest("The friend account could not be found!");
             }
 
-            var notificationExists = _notificationsWorker.GetByUserId(friendAccount.Id).Any(x => x.Type == NotificationType.FriendRequest && x.SenderId == user.Id);
+            var notificationExists = _notificationsWorker.GetByUserId(friendAccount.Id).Any(x => x.Type == NotificationType.FriendRequest && x.SenderId == createFriendViewModel.UserId);
             if (notificationExists)
             {
                 return BadRequest("Friend request was already sent!");
@@ -263,7 +237,7 @@ namespace BachelorTripPlanner.Controllers
 
             var notification = _notificationsWorker.Create(new Notification
             {
-                SenderId = user.Id,
+                SenderId = createFriendViewModel.UserId,
                 UserId = friendAccount.Id,
                 Type = NotificationType.FriendRequest,
                 Date = DateTime.Now

@@ -1,4 +1,5 @@
-﻿using BachelorTripPlanner.Models;
+﻿using BachelorTripPlanner.Attributes;
+using BachelorTripPlanner.Models;
 using BusinessLogic.Accounts;
 using BusinessLogic.Interests;
 using DataLayer.CompositionRoot;
@@ -35,13 +36,8 @@ namespace BachelorTripPlanner.Controllers
 
         [HttpGet]
         [Route("api/home/[action]")]
-        public IActionResult GetSuggestedInterests(int userId)
+        public IActionResult GetSuggestedInterests([ValidateUser] int userId)
         {
-            var user = _userWorker.GetById(userId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
             var randomInterests = _interestWorker.GetSuggestedInterests(userId);
 
             var result = new List<InterestsModel>();

@@ -1,4 +1,5 @@
-﻿using BachelorTripPlanner.Models;
+﻿using BachelorTripPlanner.Attributes;
+using BachelorTripPlanner.Models;
 using BusinessLogic.Accounts;
 using BusinessLogic.Interests;
 using BusinessLogic.Notifications;
@@ -41,7 +42,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult CreateTrip(int userId, [FromBody] TripCreateModel tripCreate)
+        public IActionResult CreateTrip([ValidateUser] int userId, [FromBody] TripCreateModel tripCreate)
         {
             Trip trip;
             switch (tripCreate.TripType)
@@ -59,14 +60,8 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUserHeaderTrips(int userId)
+        public IActionResult GetUserHeaderTrips([ValidateUser] int userId)
         {
-            var user = _userWorker.GetById(userId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
-
             var trips = _tripsUsersWorker.GetTripsForUser(userId, TripType.Group);
             List<HeaderUserTrips> userTrips = new List<HeaderUserTrips>();
             foreach (var trip in trips)
@@ -84,14 +79,9 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUserInterestForTrip(int userId, int tripId)
-        {
-            var user = _userWorker.GetById(userId);
-            if (user == null)
-            {
-                return BadRequest("The account could not be retrieved!");
-            }
 
+        public IActionResult GetUserInterestForTrip([ValidateUser] int userId, int tripId)
+        {
             var userInterest = _userInterestWorker.GetByUserIdAndTripId(userId, tripId);
             if (userInterest == null)
             {
@@ -148,7 +138,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult IsUserAdmin(int userId, int tripId)
+        public IActionResult IsUserAdmin([ValidateUser] int userId, int tripId)
         {
             var isAdmin = _tripsUsersWorker.IsUserAdmin(userId, tripId);
             return Ok(
@@ -170,14 +160,14 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult AddNewTripMember(int adminId, int tripId, string newMemberEmail)
+        public IActionResult AddNewTripMember([ValidateUser] int adminId, int tripId, string newMemberEmail)
         {
             var result = _tripsWorker.AddNewTripMember(adminId, tripId, newMemberEmail);
             return Ok(result);
         }
 
         [HttpGet("[action]")]
-        public IActionResult RemoveUserFromTrip(int adminId, int userId, int tripId)
+        public IActionResult RemoveUserFromTrip([ValidateUser] int adminId, [ValidateUser] int userId, int tripId)
         {
             var result = _tripsWorker.RemoveUserFromTrip(userId, tripId);
             if (result)
@@ -195,14 +185,14 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult ResetUserInterests(int userId, int tripid)
+        public IActionResult ResetUserInterests([ValidateUser] int userId, int tripid)
         {
             var result = _tripsWorker.ResetUserInterests(userId, tripid);
             return Ok(result);
         }
 
         [HttpGet("[action]")]
-        public IActionResult LeaveTrip(int userId, int tripid)
+        public IActionResult LeaveTrip([ValidateUser] int userId, int tripid)
         {
             try
             {

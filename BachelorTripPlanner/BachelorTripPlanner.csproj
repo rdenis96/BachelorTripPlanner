@@ -123,9 +123,12 @@
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.1.430" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Middlewares\" />
     <Folder Include="Scripts\Angular\" />
     <Folder Include="Scripts\Vendors\jQuery\" />
   </ItemGroup>
