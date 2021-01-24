@@ -23,7 +23,7 @@ namespace Domain.Repository
 
         List<Interest> GetSuggestedInterests(int userId);
 
-        List<Interest> GetSuggestedInterestsByTrip(int tripId);
+        List<Interest> GetSuggestedInterestsByTrip(int tripId, int suggestedInterestsLevel = 0, bool isLoadMoreLevelPressed = false);
 
         List<Interest> GetRandomInterests();
     }

@@ -5,7 +5,6 @@
 }
 
     .panel-trip-planner .panel-trip-planner-header {
-        
     }
 
     .panel-trip-planner .panel-trip-planner-body {
@@ -13,20 +12,25 @@
         width: 100%;
     }
 
-    .panel-trip-planner .panel-trip-planner-height-auto{
+    .panel-trip-planner .panel-trip-planner-height-auto {
         height: auto;
     }
+
 .panel-trip-extended {
     height: 870px;
 }
 
-.box-trip-planner{
-    width: 40% !important;
-}
-.panel-trip-margin-left-15{
-    margin-left: 15px;
+.panel-trip-load-more {
+    height: auto;
 }
 
+.box-trip-planner {
+    width: 40% !important;
+}
+
+.panel-trip-margin-left-15 {
+    margin-left: 15px;
+}
 
 .panel-trip-chat {
     list-style: none;
@@ -48,15 +52,14 @@
             margin-right: 60px;
         }
 
-
         .panel-trip-chat li .chat-body p {
             margin: 0;
             color: #777777;
         }
 
-    .panel .slidedown .glyphicon, .chat .glyphicon {
-        margin-right: 5px;
-    }
+.panel .slidedown .glyphicon, .chat .glyphicon {
+    margin-right: 5px;
+}
 
 .body-panel {
     overflow-y: scroll;
@@ -106,3 +109,12 @@
         box-shadow: 3px 3px 0px transparent;
         transition: 0.5s;
     }
+
+.load-more {
+    width: 100%;
+}
+
+.load-more-message {
+    width: 100%;
+    font-size: 20px;
+}

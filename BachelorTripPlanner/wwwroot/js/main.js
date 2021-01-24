@@ -1192,6 +1192,7 @@ globalModule.controller("TripPlannerController",
 
             $scope.isAdmin = false;
             $scope.isGroupTrip = false;
+            $scope.canLoadMore = true;
 
             $scope.messageText = "";
 
@@ -1205,12 +1206,16 @@ globalModule.controller("TripPlannerController",
                 $scope.getUserInterestPromise = tripRepository.getUserInterestForTrip({ userId: $scope.userId, tripId: $scope.tripId }).$promise;
                 $scope.getUserInterestPromise.then(function (result) {
                     $scope.userInterest = result;
-                    $scope.initInterestsForTrip();
+                    $scope.initInterestsForTrip(false);
                     $scope.initMessagesForTrip();
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
             };
+
+            $scope.loadMore = function () {
+                $scope.initInterestsForTrip(true);
+            }
 
             $scope.getTrip = function (tripId) {
                 $scope.getTripPromise = tripRepository.getTrip({ tripId: tripId }).$promise;
@@ -1332,12 +1337,13 @@ globalModule.controller("TripPlannerController",
                 $scope.setAdmin();
             };
 
-            $scope.initInterestsForTrip = function () {
-                $scope.getInterestsForTripPromise = tripRepository.getInterestsForTrip({ tripId: $scope.tripId }).$promise;
+            $scope.initInterestsForTrip = function (isLoadMoreLevelPressed = false) {
+                $scope.getInterestsForTripPromise = tripRepository.getInterestsForTrip({ tripId: $scope.tripId, isLoadMoreLevelPressed: isLoadMoreLevelPressed }).$promise;
                 $scope.getInterestsForTripPromise.then(function (result) {
                     $scope.suggestedInterests = result;
                     $scope.suggestedInterestsLoaded = true;
                 }).catch(function (result) {
+                    $scope.canLoadMore = false;
                     toastr.warning(result.data);
                 });;
             }

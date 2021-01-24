@@ -73,9 +73,9 @@ namespace BusinessLogic.Interests
             return result;
         }
 
-        public List<Interest> GetSuggestedInterestsByTrip(int tripId)
+        public List<Interest> GetSuggestedInterestsByTrip(int tripId, int suggestedInterestsLevel = 0, bool isLoadMoreLevelPressed = false)
         {
-            var result = _interestsRepository.GetSuggestedInterestsByTrip(tripId);
+            var result = _interestsRepository.GetSuggestedInterestsByTrip(tripId, suggestedInterestsLevel, isLoadMoreLevelPressed);
             return result;
         }
 

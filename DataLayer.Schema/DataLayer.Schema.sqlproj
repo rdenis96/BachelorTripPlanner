@@ -70,5 +70,6 @@
     <Build Include="dbo\Tables\TripMessages_1.sql" />
     <Build Include="dbo\Tables\Notifications_1.sql" />
     <Build Include="dbo\Tables\Friends.sql" />
+    <Build Include="dbo\Tables\SimilarInterests.sql" />
   </ItemGroup>
 </Project>

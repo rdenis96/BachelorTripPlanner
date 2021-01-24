@@ -2,6 +2,7 @@
 using Domain.Interests;
 using Domain.Repository;
 using Helpers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -233,12 +234,12 @@ namespace DataLayer.Interests
                 List<Interest> interestsByWeather = context.Interests.AsEnumerable().Where(x => userInterestsConverted.Weather.Any(val => x.Weather.Contains(val))).ToList();
                 List<Interest> interestsByTouristAttractions = context.Interests.AsEnumerable().Where(x => userInterestsConverted.TouristAttractions.Any(val => x.TouristAttractions.Contains(val))).ToList();
                 List<Interest> interestsByTransports = context.Interests.AsEnumerable().Where(x => userInterestsConverted.Transports.Any(val => x.Transport.Contains(val))).ToList();
-                var interestsUnion = interestsByCountries.Union(interestsByCities).Union(interestsByWeather).Union(interestsByTouristAttractions).Union(interestsByTransports).ToList().Shuffle().Take(20).ToList();
+                var interestsUnion = interestsByCountries.Union(interestsByCities).Union(interestsByWeather).Union(interestsByTouristAttractions).Union(interestsByTransports).Shuffle().Take(20).ToList();
                 return interestsUnion;
             }
         }
 
-        public List<Interest> GetSuggestedInterestsByTrip(int tripId)
+        public List<Interest> GetSuggestedInterestsByTrip(int tripId, int suggestedInterestsLevel = 0, bool isLoadMoreLevelPressed = false)
         {
             using (TripPlanner context = new TripPlanner())
             {
@@ -262,13 +263,41 @@ namespace DataLayer.Interests
                     userInterestsConverted.Transports.AddRange(userInterests.Transports.ConvertStringToList(','));
                 }
 
-                List<Interest> interestsByCountries = context.Interests.AsEnumerable().Where(x => userInterestsConverted.Countries.Contains(x.Country)).ToList();
-                List<Interest> interestsByCities = context.Interests.AsEnumerable().Where(x => userInterestsConverted.Cities.Contains(x.City)).ToList();
-                List<Interest> interestsByWeather = context.Interests.AsEnumerable().Where(x => userInterestsConverted.Weather.Any(val => x.Weather.Contains(val))).ToList();
-                List<Interest> interestsByTouristAttractions = context.Interests.AsEnumerable().Where(x => userInterestsConverted.TouristAttractions.Any(val => x.TouristAttractions.Contains(val))).ToList();
-                List<Interest> interestsByTransports = context.Interests.AsEnumerable().Where(x => userInterestsConverted.Transports.Any(val => x.Transport.Contains(val))).ToList();
-                var interestsUnion = interestsByCountries.Union(interestsByCities).Union(interestsByWeather).Union(interestsByTouristAttractions).Union(interestsByTransports).ToList().Shuffle().ToList();
-                return interestsUnion;
+                var interests = context.Interests.Include(x => x.SimilarInterests).AsEnumerable();
+                List<Interest> interestsByCountries = interests.Where(x => userInterestsConverted.Countries.Contains(x.Country)).ToList();
+                List<Interest> interestsByCities = interests.Where(x => userInterestsConverted.Cities.Contains(x.City)).ToList();
+                List<Interest> interestsByWeather = interests.Where(x => userInterestsConverted.Weather.Any(val => x.Weather.Contains(val))).ToList();
+                List<Interest> interestsByTouristAttractions = interests.Where(x => userInterestsConverted.TouristAttractions.Any(val => x.TouristAttractions.Contains(val))).ToList();
+                List<Interest> interestsByTransports = interests.Where(x => userInterestsConverted.Transports.Any(val => x.Transport.Contains(val))).ToList();
+
+                var interestsUnion = interestsByCountries.Union(interestsByCities)
+                                                         .Union(interestsByWeather)
+                                                         .Union(interestsByTouristAttractions)
+                                                         .Union(interestsByTransports);
+                var currentLevel = 0;
+                while (currentLevel < suggestedInterestsLevel)
+                {
+                    var similarInterests = interestsUnion.SelectMany(x => x.SimilarInterests).Select(x => x.SimInterest).Intersect(interests);
+
+                    var interestsUnionCountBefore = interestsUnion.Count();
+                    interestsUnion = interestsUnion.Union(similarInterests);
+
+                    if (interestsUnionCountBefore == interestsUnion.Count())
+                    {
+                        if (isLoadMoreLevelPressed)
+                        {
+                            throw new Exception("No more interests could be found!");
+                        }
+
+                        break;
+                    }
+
+                    interests = interests.Except(interestsUnion);
+                    currentLevel++;
+                }
+
+                var finalInterests = interestsUnion.Shuffle();
+                return finalInterests;
             }
         }
 
@@ -276,7 +305,7 @@ namespace DataLayer.Interests
         {
             using (TripPlanner context = new TripPlanner())
             {
-                var result = context.Interests.ToList().Shuffle().Take(20).ToList();
+                var result = context.Interests.Shuffle().Take(20).ToList();
                 return result;
             }
         }

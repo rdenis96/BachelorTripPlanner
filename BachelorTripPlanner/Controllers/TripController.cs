@@ -101,26 +101,50 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetSuggestedInterests(int tripId)
+        public IActionResult GetSuggestedInterests(int tripId, bool isLoadMoreLevelPressed = false)
         {
-            var tripInterests = _interestsWorker.GetSuggestedInterestsByTrip(tripId);
-
-            var result = new List<InterestsModel>();
-            foreach (var interest in tripInterests)
+            try
             {
-                result.Add(new InterestsModel
+                var trip = _tripsWorker.Get(tripId);
+                if (trip == null)
                 {
-                    Country = interest.Country,
-                    City = interest.City,
-                    Weather = interest.Weather.ConvertStringToList(','),
-                    TouristAttractions = interest.TouristAttractions.ConvertStringToList('#').Where(x => string.IsNullOrWhiteSpace(x) == false).ToList(),
-                    Transports = interest.Transport.ConvertStringToList(','),
-                    LinkImage = interest.LinkImage,
-                    LinkWikipediaCity = interest.LinkWikipediaCity
-                });
-            }
+                    return BadRequest("Trip was not found!");
+                }
 
-            return Ok(result);
+                if (isLoadMoreLevelPressed)
+                {
+                    trip.SuggestedInterestsLevel++;
+                }
+
+                var suggestedInterestsLevel = trip?.SuggestedInterestsLevel;
+                var tripInterests = _interestsWorker.GetSuggestedInterestsByTrip(tripId, suggestedInterestsLevel.GetValueOrDefault(), isLoadMoreLevelPressed);
+
+                if (isLoadMoreLevelPressed)
+                {
+                    trip = _tripsWorker.Update(trip);
+                }
+
+                var result = new List<InterestsModel>();
+                foreach (var interest in tripInterests)
+                {
+                    result.Add(new InterestsModel
+                    {
+                        Country = interest.Country,
+                        City = interest.City,
+                        Weather = interest.Weather.ConvertStringToList(','),
+                        TouristAttractions = interest.TouristAttractions.ConvertStringToList('#').Where(x => string.IsNullOrWhiteSpace(x) == false).ToList(),
+                        Transports = interest.Transport.ConvertStringToList(','),
+                        LinkImage = interest.LinkImage,
+                        LinkWikipediaCity = interest.LinkWikipediaCity
+                    });
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("[action]")]

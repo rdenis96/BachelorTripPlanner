@@ -3,9 +3,17 @@
         <div class="col-md-1"></div>
         <div class="col-md-10 panel-trip-planner panel-trip-planner-height-auto" cg-busy="getInterestsForTripPromise">
             <div class="row home-section home-section-header panel-trip-planner-header">
-                <h4> Suggested interests </h4>
+                <h4>Suggested interests</h4>
             </div>
             <interests-slider ng-if="suggestedInterestsLoaded" interests="suggestedInterests" />
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="row align-center" ng-show="isAdmin">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 panel-trip-planner panel-trip-load-more">
+            <button ng-show="canLoadMore" ng-click="loadMore()" class="btn btn-primary load-more load-more-width pull-left">Load More Suggestions</button>
+            <span ng-show="!canLoadMore" class="label label-warning load-more-message load-more-width pull-left">No more suggestions found!</span>
         </div>
         <div class="col-md-1"></div>
     </div>

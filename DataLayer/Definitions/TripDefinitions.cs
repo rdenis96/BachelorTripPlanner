@@ -11,6 +11,7 @@ namespace DataLayer.Definitions
             modelBuilder.Entity<Trip>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Trip>().Property(x => x.Type).IsRequired();
             modelBuilder.Entity<Trip>().Property(x => x.IsDeleted).IsRequired();
+            modelBuilder.Entity<Trip>().Property(x => x.SuggestedInterestsLevel).IsRequired();
         }
     }
 }

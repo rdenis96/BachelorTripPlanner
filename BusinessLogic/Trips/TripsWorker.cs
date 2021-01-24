@@ -87,6 +87,12 @@ namespace BusinessLogic.Trips
             return tripUsers;
         }
 
+        public Trip Update(Trip trip)
+        {
+            var result = _tripsRepository.Update(trip);
+            return result;
+        }
+
         public bool ResetUserInterests(int userId, int tripId)
         {
             var userInterests = _userInterestRepository.GetByUserIdAndTripId(userId, tripId);

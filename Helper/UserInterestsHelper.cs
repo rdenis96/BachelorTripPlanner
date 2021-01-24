@@ -22,20 +22,28 @@ namespace Helpers
             return str.Split(separator).ToList();
         }
 
-        public static List<T> Shuffle<T>(this List<T> list)
+        public static List<T> Shuffle<T>(this IEnumerable<T> list)
         {
-            Random random = new Random();
-            int n = list.Count;
+            if (list == null)
+            {
+                return new List<T>();
+            }
 
-            for (int i = list.Count - 1; i > 1; i--)
+            var castedList = list.ToList();
+
+            Random random = new Random();
+            int n = castedList.Count;
+
+            for (int i = n - 1; i > 1; i--)
             {
                 int rnd = random.Next(i + 1);
 
-                T value = list[rnd];
-                list[rnd] = list[i];
-                list[i] = value;
+                T value = castedList[rnd];
+                castedList[rnd] = castedList[i];
+                castedList[i] = value;
             }
-            return list;
+
+            return castedList;
         }
     }
 }

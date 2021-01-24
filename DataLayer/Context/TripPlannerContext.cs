@@ -26,6 +26,7 @@ namespace DataLayer.Context
         public DbSet<TripMessage> TripMessages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Friend> Friends { get; set; }
+        public DbSet<SimilarInterest> SimilarInterests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

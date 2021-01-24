@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using System;
+using System.Collections.Generic;
 
 namespace Domain.Interests
 {
@@ -13,6 +14,8 @@ namespace Domain.Interests
         public string Transport { get; set; }
         public string LinkImage { get; set; }
         public string LinkWikipediaCity { get; set; }
+
+        public virtual ICollection<SimilarInterest> SimilarInterests { get; set; }
 
         public override bool Equals(object obj)
         {

@@ -7,8 +7,12 @@ namespace Domain.Trips
     public class Trip : BaseEntity, IEquatable<Trip>
     {
         public string Name { get; set; }
+
         public TripType Type { get; set; }
+
         public bool IsDeleted { get; set; }
+
+        public int SuggestedInterestsLevel { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -22,12 +26,13 @@ namespace Domain.Trips
                    Id == other.Id &&
                    Name == other.Name &&
                    Type == other.Type &&
-                   IsDeleted == other.IsDeleted;
+                   IsDeleted == other.IsDeleted &&
+                   SuggestedInterestsLevel == other.SuggestedInterestsLevel;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), Id, Name, Type, IsDeleted);
+            return HashCode.Combine(base.GetHashCode(), Id, Name, Type, IsDeleted, SuggestedInterestsLevel);
         }
     }
 }
