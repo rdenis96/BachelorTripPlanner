@@ -4,8 +4,9 @@ var globalModule = angular.module('globalModule', [
 ]);
 
 globalModule.config([
-    '$routeProvider', '$locationProvider', 'toastrConfig',
-    function ($routeProvider, $locationProvider, toastrConfig) {
+    '$routeProvider', '$httpProvider', '$locationProvider', 'toastrConfig',
+    function ($routeProvider, $httpProvider, $locationProvider, toastrConfig) {
+        $httpProvider.interceptors.push('authInterceptor');
         $routeProvider
             .when('/', {
                 templateUrl: 'AppViews/Home/home.html',
@@ -62,6 +63,16 @@ globalModule.config([
 
         $locationProvider.html5Mode(true);
     }]);
+var httpStatusCodeEnum = {
+    OK: 200,
+    NotModified: 304,
+    BadRequest: 400,
+    Unauthorized: 401,
+    Forbidden: 403,
+    NotFound: 404,
+    InternalServerError: 500,
+};
+
 var landingPageTabsEnum = {
     Welcome: 'Welcome',
     Register: 'Register',
@@ -175,6 +186,40 @@ globalModule.directive('interestsSlider', function ($timeout, $window) {
         templateUrl: 'AppViews/Home/home-suggested-interests-slidetemplate.html'
     };
 });
+globalModule.factory('authInterceptor', [
+    '$rootScope', '$q', '$location', '$window', '$timeout', '$localStorage',
+    function ($rootScope, $q, $location, $window, $timeout, $localStorage) {
+        return {
+            request: function (config) {
+                if ($localStorage.AccessToken !== undefined && $localStorage.TPUserId !== undefined) {
+                    config.headers.Authorization = "Bearer " + $localStorage.AccessToken;
+                }
+
+                return config || $q.when(config);
+            },
+            response: function (response) {
+                if (response) {
+                    if (response.config.url.toLowerCase() === "api/landingpage/login") {
+                        $localStorage.AccessToken = response.data.token;
+                        $localStorage.TPUserId = response.data.userId;
+                    }
+                }
+
+                return response;
+            },
+            responseError: function (response) {
+                if (response) {
+                    //unauthorized || forbidden - session expired
+                    if (response.status === httpStatusCodeEnum.Unauthorized || response.status === httpStatusCodeEnum.Forbidden) {
+                        $window.location.href = '/welcome';
+                    }
+                }
+
+                return $q.reject(response);
+            }
+        }
+    }
+]);
 globalModule.factory('homeRepository', [
     '$resource',
     function ($resource) {
@@ -261,17 +306,12 @@ globalModule.controller("HeaderController",
         function ($scope, $window, $localStorage, $uibModal, homeRepository, tripRepository, notificationsRepository, toastr) {
             $scope.notificationTypes = notificationTypes;
 
-            $scope.isLogged = $localStorage.TPUserId !== null && $localStorage.TPUserId !== undefined;
+            $scope.isLogged = ($localStorage.TPUserId !== null && $localStorage.TPUserId !== undefined) && ($localStorage.AccessToken !== null && $localStorage.AccessToken !== undefined);
             $scope.init = function () {
                 if ($scope.isLogged === true) {
                     $scope.userId = $localStorage.TPUserId;
                     $scope.getUserGroupTrips();
                     $scope.getNotifications();
-                }
-                else {
-                    if ($window.location.href.indexOf('/welcome') == -1) {
-                        $window.location.href = '/welcome';
-                    }
                 }
             };
 
@@ -290,7 +330,8 @@ globalModule.controller("HeaderController",
             };
 
             $scope.logout = function () {
-                $localStorage.TPUserId = null;
+                $localStorage.TPUserId = undefined;
+                $localStorage.AccessToken = undefined;
                 $window.location.href = '/welcome';
             };
 
@@ -395,7 +436,6 @@ globalModule.controller("LandingPageController",
 
                 var loginUserPromise = landingPageRepository.login(loginParamModel).$promise;
                 loginUserPromise.then(function (result) {
-                    $localStorage.TPUserId = result.userId;
                     $window.location.href = '/home';
                     toastr.success(result.message);
                 }).catch(function (result) {

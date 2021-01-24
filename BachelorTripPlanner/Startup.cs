@@ -3,6 +3,8 @@ using CompositionRoot;
 using DataLayer.CompositionRoot;
 using DataLayer.Context;
 using Domain.Common.Constants;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +31,7 @@ namespace BachelorTripPlanner
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCustomAuthentication();
             services.AddSingleton<ICompositionRoot, CompositionRootBackend>();
 
             services.AddDbContext<TripPlanner>(options => options.UseSqlServer(GlobalConstants.SqlDatabaseConnection), ServiceLifetime.Singleton);
@@ -38,6 +41,14 @@ namespace BachelorTripPlanner
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                                                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                                                .RequireAuthenticatedUser()
+                                                .Build();
             });
 
             services.AddMvc(options =>
@@ -91,6 +102,9 @@ namespace BachelorTripPlanner
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
                 RequestPath = "/Images"
             });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMvc(routes =>
             {

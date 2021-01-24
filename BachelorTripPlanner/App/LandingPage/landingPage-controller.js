@@ -53,7 +53,6 @@
 
                 var loginUserPromise = landingPageRepository.login(loginParamModel).$promise;
                 loginUserPromise.then(function (result) {
-                    $localStorage.TPUserId = result.userId;
                     $window.location.href = '/home';
                     toastr.success(result.message);
                 }).catch(function (result) {

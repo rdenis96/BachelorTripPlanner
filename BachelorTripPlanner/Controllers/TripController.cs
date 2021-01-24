@@ -10,6 +10,7 @@ using Domain.Notifications.Enums;
 using Domain.Trips;
 using Domain.Trips.Enums;
 using Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -19,6 +20,7 @@ using System.Linq;
 namespace BachelorTripPlanner.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class TripController : Controller
     {

@@ -2,11 +2,13 @@
 using BusinessLogic.Notifications;
 using DataLayer.CompositionRoot;
 using Domain.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BachelorTripPlanner.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class NotificationsController : Controller
     {

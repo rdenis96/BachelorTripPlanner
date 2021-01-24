@@ -1,4 +1,14 @@
-﻿var landingPageTabsEnum = {
+﻿var httpStatusCodeEnum = {
+    OK: 200,
+    NotModified: 304,
+    BadRequest: 400,
+    Unauthorized: 401,
+    Forbidden: 403,
+    NotFound: 404,
+    InternalServerError: 500,
+};
+
+var landingPageTabsEnum = {
     Welcome: 'Welcome',
     Register: 'Register',
     Login: 'Login'

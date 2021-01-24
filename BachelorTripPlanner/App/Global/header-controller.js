@@ -3,17 +3,12 @@
         function ($scope, $window, $localStorage, $uibModal, homeRepository, tripRepository, notificationsRepository, toastr) {
             $scope.notificationTypes = notificationTypes;
 
-            $scope.isLogged = $localStorage.TPUserId !== null && $localStorage.TPUserId !== undefined;
+            $scope.isLogged = ($localStorage.TPUserId !== null && $localStorage.TPUserId !== undefined) && ($localStorage.AccessToken !== null && $localStorage.AccessToken !== undefined);
             $scope.init = function () {
                 if ($scope.isLogged === true) {
                     $scope.userId = $localStorage.TPUserId;
                     $scope.getUserGroupTrips();
                     $scope.getNotifications();
-                }
-                else {
-                    if ($window.location.href.indexOf('/welcome') == -1) {
-                        $window.location.href = '/welcome';
-                    }
                 }
             };
 
@@ -32,7 +27,8 @@
             };
 
             $scope.logout = function () {
-                $localStorage.TPUserId = null;
+                $localStorage.TPUserId = undefined;
+                $localStorage.AccessToken = undefined;
                 $window.location.href = '/welcome';
             };
 

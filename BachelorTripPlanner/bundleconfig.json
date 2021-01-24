@@ -53,6 +53,7 @@
       "App/Global/modules.js",
       "App/Global/enums.js",
       "App/Global/directives.js",
+      "App/Factories/auth-interceptor-factory.js",
       "App/Home/home-repository.js",
       "App/Home/home-controller.js",
       "App/Global/notifications-repository.js",

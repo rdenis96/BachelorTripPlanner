@@ -4,8 +4,9 @@
 ]);
 
 globalModule.config([
-    '$routeProvider', '$locationProvider', 'toastrConfig',
-    function ($routeProvider, $locationProvider, toastrConfig) {
+    '$routeProvider', '$httpProvider', '$locationProvider', 'toastrConfig',
+    function ($routeProvider, $httpProvider, $locationProvider, toastrConfig) {
+        $httpProvider.interceptors.push('authInterceptor');
         $routeProvider
             .when('/', {
                 templateUrl: 'AppViews/Home/home.html',

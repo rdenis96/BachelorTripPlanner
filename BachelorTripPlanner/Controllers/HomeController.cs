@@ -4,6 +4,7 @@ using BusinessLogic.Accounts;
 using BusinessLogic.Interests;
 using DataLayer.CompositionRoot;
 using Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/home/[action]")]
         public IActionResult GetSuggestedInterests([ValidateUser] int userId)
         {
@@ -59,6 +61,7 @@ namespace BachelorTripPlanner.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/home/[action]")]
         public IActionResult GetRandomInterests()
         {

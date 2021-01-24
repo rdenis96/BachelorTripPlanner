@@ -10,6 +10,7 @@ using Domain.Interests;
 using Domain.Notifications;
 using Domain.Notifications.Enums;
 using Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ using System.Linq;
 namespace BachelorTripPlanner.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
