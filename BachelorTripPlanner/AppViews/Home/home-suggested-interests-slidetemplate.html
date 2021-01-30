@@ -15,9 +15,17 @@
             </h5>
         </div>
         <div class="col-md-8">
-            <b>Weather</b><br /> <span ng-repeat="weather in interest.weather track by $index">{{weather}}, </span>
+            <b>Weather</b><br />
+            <span ng-repeat="weather in interest.weather track by $index">
+                <img width="25" height="25" src={{getWeatherIcon(weather)}} uib-tooltip="{{weather}}" />
+            </span>
             <br /><br />
-            <b>Tourist Attractions</b><br /> <!--<span ng-repeat="attraction in interest.touristAttractions track by $index">{{attraction}}, </span>-->
+            <b>Transport:</b><br />
+            <span ng-repeat="transport in interest.transports track by $index">
+                <img width="25" height="25" src={{getTransportIcon(transport)}} uib-tooltip="{{transport}}" />
+            </span>
+            <br /><br />
+            <b>Tourist Attractions</b><br />
             <table class="table table-bordered">
                 <tbody>
                     <tr ng-repeat="touristAttraction in interest.touristAttractions track by $index" ng-if="(($index % 3 !=0) && ($index % 2 != 0)) || ($index == 0)">
@@ -33,10 +41,6 @@
                     </tr>
                 </tbody>
             </table>
-            <b>Transport:</b><br />
-            <span ng-repeat="transport in interest.transports track by $index">
-                <img width="25" height="25" src={{getTransportIcon(transport)}} uib-tooltip="{{transport}}" />
-            </span>
         </div>
     </div>
 </div>
