@@ -12,7 +12,7 @@
     <div class="row align-center" ng-show="isAdmin">
         <div class="col-md-1"></div>
         <div class="col-md-10 panel-trip-planner panel-trip-load-more">
-            <button ng-show="canLoadMore" ng-click="loadMore()" class="btn btn-primary load-more load-more-width pull-left">Load More Suggestions</button>
+            <button ng-show="canLoadMore" ng-click="loadMore()" class="btn btn-primary general-buttons load-more load-more-width pull-left">Load More Suggestions</button>
             <span ng-show="!canLoadMore" class="label label-warning load-more-message load-more-width pull-left">No more suggestions found!</span>
         </div>
         <div class="col-md-1"></div>
@@ -27,7 +27,7 @@
                 <div class="inner" cg-busy="getUserInterestPromise">
                     <div class="thumbnails">
                         <div class="box box-trip-planner" ng-click="openCountryAndCityModal()">
-                            <a href="#" class="image fit"><img src="../../Images/Account/pic01.jpg" alt="" /></a>
+                            <a href="#" class="image fit"><img src="../../Images/Account/pic-country-city.png" alt="" /></a>
                             <div class="inner">
                                 <h3>Countries and Cities</h3>
                                 <p>Start your trip by selecting which country or which city would you like to visit.</p>
@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="box box-trip-planner" ng-click="openWeatherModal()">
-                            <a href="#" class="image fit"><img src="../../Images/Account/pic02.jpg" alt="" /></a>
+                            <a href="#" class="image fit"><img src="../../Images/Account/pic-weather.png" alt="" /></a>
                             <div class="inner">
                                 <h3>Weather</h3>
                                 <p>How would you like the perfect location for your trip to be, maybe a sunny place or maybe a rainy one? Choose your type of weathers to match! </p>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="thumbnails">
                         <div class="box box-trip-planner" ng-click="openTouristAttractionsModal()">
-                            <a href="#" class="image fit"><img src="../../Images/Account/pic03.jpg" alt="" /></a>
+                            <a href="#" class="image fit"><img src="../../Images/Account/pic-tourist-attractions.png" alt="" /></a>
                             <div class="inner">
                                 <h3>Tourist Attractions</h3>
                                 <p>When you go to a location, your main objective is to see as much as possible from tourist attractions. Well then make it easier for you and choose what to visit. </p>
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="box box-trip-planner" ng-click="openTransportsModal()">
-                            <a href="#" class="image fit"><img src="../../Images/Account/pic04.jpg" alt="" /></a>
+                            <a href="#" class="image fit"><img src="../../Images/Account/pic-transports.jpg" alt="" /></a>
                             <div class="inner">
                                 <h3>Transports</h3>
                                 <p>Going in a trip is hard when you don't have a vehicle to travel, especially when you are already at your destination, and that's why you can select before that which transports are your best fit. </p>
@@ -108,11 +108,11 @@
                             <ul class="panel-trip-chat" ng-repeat="message in messages">
                                 <li ng-class="message.isSender ? 'right clearfix ' : 'left clearfix'">
                                     <span ng-class="message.isSender ? 'chat-img pull-right' : 'chat-img pull-left'">
-                                        <img src="http://placehold.it/50/55C1E7/fff&text={{getFirstLetterFromEmail(message.senderEmail)}}" alt="User Avatar" class="img-circle" />
+                                        <img  src="http://placehold.it/50/55C1E7/fff&text={{getFirstLetterFromEmail(message.senderEmail)}}" alt="User Avatar" class="img-circle" />
                                     </span>
                                     <div class="chat-body clearfix">
                                         <div class="header">
-                                            <strong class="primary-font">{{message.senderEmail}}</strong> <small class="pull-right text-muted">
+                                            <strong class="primary-font">{{message.senderEmail}}</strong> <small class="pull-right">
                                                 <span class="glyphicon glyphicon-time"></span>{{message.date}}
                                             </small>
                                         </div>

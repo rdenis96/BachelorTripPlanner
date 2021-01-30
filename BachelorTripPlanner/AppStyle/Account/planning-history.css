@@ -1,18 +1,9 @@
-﻿:root {
-    --main-bg-color: #fcf3e7;
-    --main-bg-color-hover: #e1d3c1;
-}
-
-.planning-history-bg {
-    background-image: url(../../Images/Account/planning-history-bg.jpg);
-    background-size: cover;
-    background-position: center;
+﻿.planning-history-bg {
     height: 100%;
     max-height: 100%;
     font-family: Lato;
     font-size: 16px;
     color: black;
-
 }
 
 .planning-history h2 {
@@ -66,7 +57,7 @@
     border-color: var(--main-bg-color);
 }
 .panel-primary > .panel-heading {
-    color: black;
+    color: white;
     background-color: var(--main-bg-color);
     border-color: var(--main-bg-color);
     

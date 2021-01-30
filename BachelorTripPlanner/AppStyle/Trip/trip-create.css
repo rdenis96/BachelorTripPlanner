@@ -27,12 +27,6 @@
     border-color: var(--main-bg-color);
 }
 
-    .panel-primary > .panel-heading {
-        color: black;
-        background-color: var(--main-bg-color);
-        border-color: var(--main-bg-color);
-    }
-
 .panel-body {
     padding: 0px;
 }
@@ -71,4 +65,9 @@
 
 .tripLabel {
     cursor: pointer;
+}
+
+.trip-create-label-font{
+    font-weight: bold;
+    font-size: 20px;
 }

@@ -300,6 +300,7 @@ input[type="radio"] {
     background: var(--main-bg-color);
     text-align: center;
     cursor: pointer;
+    color: white;
 }
 
     .box:hover {

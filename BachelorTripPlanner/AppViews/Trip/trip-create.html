@@ -3,7 +3,7 @@
         <h2>Start planning by selecting if you go alone or with a group</h2>
         <div class="col-md-4"></div>
         <div class="row col-md-4">
-            <label>Trip Name</label>
+            <label class="trip-create-label-font">Trip Name</label>
             <input type="text" class="col-md-4 btn btn-sm" placeholder="Type in the trip name!" ng-model="tripName" />
         </div>
         <div class="col-md-4"></div>
@@ -18,7 +18,7 @@
             <div class="planning-history row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6 form-group">
-                    <label>Trip Name</label><br />
+                    <label class="trip-create-label-font">Trip Name</label><br />
                     <input type="text" class="search" placeholder="Type in the trip name!" ng-model="tripName" />
                 </div>
                 <div class="col-md-3"></div>
@@ -26,7 +26,7 @@
             <div class="planning-history row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6 form-group">
-                    <label class="control-label">Email of the person to invite</label><br />
+                    <label class="control-label trip-create-label-font">Email of the person to invite</label><br />
                     <input type="email" class="search form-control" placeholder="Type in the person's email!" ng-model="invitedPersonEmail" />
                     <input ng-disabled="invitedPersonEmail.length < 1" class="btn btn-success" type="button" value="Add" ng-click="addInvitedPerson()" />
                 </div>
@@ -35,14 +35,14 @@
             <div class="planning-history row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6 form-group">
-                    <label class="control-label">&nbsp; OR &nbsp;</label>
+                    <label class="control-label trip-create-label-font">&nbsp; OR &nbsp;</label>
                 </div>
                 <div class="col-md-3"></div>
             </div>
             <div class="planning-history row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <label class="control-label">Select from dropdown a friend to invite</label>
+                    <label class="control-label trip-create-label-font">Select from dropdown a friend to invite</label>
                     <ui-select name="friends"
                                 theme="bootstrap"
                                 cg-busy="getFriendsPromise"

@@ -8,6 +8,11 @@
     InternalServerError: 500,
 };
 
+var homeTabs = {
+    SuggestedInterests: 'SuggestedInterests',
+    RandomInterests: 'RandomInterests'
+};
+
 var landingPageTabsEnum = {
     Welcome: 'Welcome',
     Register: 'Register',

@@ -1,15 +1,19 @@
 ﻿:root {
-    --main-bg-color: #fcf3e7;
-    --main-bg-color-hover: #e1d3c1;
+    --main-bg-color: #35495e;
+    --main-bg-color-hover: white;
 }
 
 html {
     height: 100%;
-    background-color: var(--main-bg-color);
+    /*background-color: var(--main-bg-color);*/
 }
 
 body {
     font-family: 'Lato', sans-serif;
+}
+
+.main-bg-color-background{
+    background-color: var(--main-bg-color) !important;
 }
 
 /*NAVBAR START*/
@@ -21,11 +25,11 @@ nav.navbar-findcond {
 }
 
     nav.navbar-findcond a {
-        color: black;
+        color: white;
     }
 
     nav.navbar-findcond ul.navbar-nav a {
-        color: black;
+        color: white;
         border-style: solid;
         border-width: 0 0 2px 0;
         border-color: #fff;
@@ -37,6 +41,7 @@ nav.navbar-findcond {
         nav.navbar-findcond ul.navbar-nav a:focus,
         nav.navbar-findcond ul.navbar-nav a:active {
             background: var(--main-bg-color-hover);
+            color: black;
             border-radius: 5px !important;
         }
 
@@ -89,6 +94,12 @@ nav.navbar-findcond {
             background: rgba(255, 0, 0, 0.8);
             color: #fff;
         }
+
+.createTripButton {
+    color: var(--main-bg-color) !important;
+    background-color: white !important;
+    font-weight: bold;
+}
 
 /*NAVBAR END*/
 
@@ -234,6 +245,12 @@ footer {
     padding-top: -25%;
 }
 
+.general-buttons{
+    background-color: var(--main-bg-color);
+    color: white;
+    font-weight: bold;
+}
+
 .image-sidebar-1 {
     background-image: url(https://www.libertytravel.com/sites/default/files/styles/full_size/public/family-a.jpg?itok=903cfdUn);
     background-size: cover;
@@ -250,7 +267,7 @@ footer {
 
 .home-section {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background: rgba(192,192,192,0.5);
+    background: #e7eaf6;
     border: 1px solid rgba(192,192,192,1);
     border-radius: 5px;
 }
@@ -265,7 +282,7 @@ footer {
 }
 
 .home-bg {
-    background-image: url(../../Images/Common/home-main-bg.jpg);
+    /*background-color: var(--main-bg-color);*/
     background-size: cover;
     background-position: center;
     height: 100%;
@@ -291,9 +308,6 @@ footer {
     }
 
 .trip-planner-bg {
-    background-image: url(../../Images/Common/trip-create-bg.jpg);
-    background-size: cover;
-    background-position: center;
     height: 100%;
     max-height: 100%;
     font-family: Lato;
@@ -532,6 +546,9 @@ footer {
 
 .slider {
     position: relative;
+}
+
+.slider img {
     cursor: pointer;
 }
 

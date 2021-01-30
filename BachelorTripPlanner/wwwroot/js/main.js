@@ -73,6 +73,11 @@ var httpStatusCodeEnum = {
     InternalServerError: 500,
 };
 
+var homeTabs = {
+    SuggestedInterests: 'SuggestedInterests',
+    RandomInterests: 'RandomInterests'
+};
+
 var landingPageTabsEnum = {
     Welcome: 'Welcome',
     Register: 'Register',
@@ -242,16 +247,23 @@ globalModule.factory('homeRepository', [
 globalModule.controller("HomeController",
     ['$scope', '$window', '$localStorage', 'homeRepository', 'toastr',
         function ($scope, $window, $localStorage, homeRepository, toastr) {
+            $scope.homeTabs = homeTabs;
+
             $scope.userId = undefined;
             $scope.suggestedInterests = [];
             $scope.suggestedInterestsLoaded = false;
             $scope.randomInterests = [];
             $scope.randomInterestsLoaded = false;
+            $scope.selectedTab = homeTabs.SuggestedInterests;
 
             $scope.init = function () {
                 $scope.userId = $localStorage.TPUserId;
                 $scope.initSuggestedInterests();
             };
+
+            $scope.setTab = function (tab) {
+                $scope.selectedTab = tab;
+            }
 
             $scope.initSuggestedInterests = function () {
                 var getSuggestedInterestsPromise = homeRepository.getSuggestedInterests({ userId: $scope.userId }).$promise;

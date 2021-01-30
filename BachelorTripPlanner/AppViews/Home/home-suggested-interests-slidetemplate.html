@@ -1,8 +1,12 @@
-﻿<div class="slider">
-    <div class="row home-section padding-top-10 slide" ng-repeat="interest in interests" ng-if="interest.visible" ng-show="interest.visible" >
+﻿<div class="slider align-center">
+    <div class="row home-section padding-top-10 slide" ng-repeat="interest in interests" ng-if="interest.visible" ng-show="interest.visible">
         <div class="col-md-4 home-section-first-column">
             <div class="row">
-                <img src="{{interest.linkImage}}" class="col-md-12" ng-click="openWikipediaTab(interest.linkWikipediaCity)"/>
+                <div class="col-md-12">
+                    <button class="btn btn-primary general-buttons" ng-click="openWikipediaTab(interest.linkWikipediaCity)">Wikipedia</button>
+                    <div class="col-md-12 margin-top-10"></div>
+                </div>
+                <img src="{{interest.linkImage}}" class="col-md-12" />
             </div>
             <h5 class="border-top padding-top-10">
                 <b>Country: </b>{{interest.country}}
@@ -11,13 +15,27 @@
             </h5>
         </div>
         <div class="col-md-8">
-            <b>Weather:</b> <span ng-repeat="weather in interest.weather track by $index">{{weather}}, </span>
-            <br />
-            <b>Tourist Attractions:</b> <span ng-repeat="attraction in interest.touristAttractions track by $index">{{attraction}}, </span>
-            <br />
-            <b>Transport:</b> 
+            <b>Weather</b><br /> <span ng-repeat="weather in interest.weather track by $index">{{weather}}, </span>
+            <br /><br />
+            <b>Tourist Attractions</b><br /> <!--<span ng-repeat="attraction in interest.touristAttractions track by $index">{{attraction}}, </span>-->
+            <table class="table table-bordered">
+                <tbody>
+                    <tr ng-repeat="touristAttraction in interest.touristAttractions track by $index" ng-if="(($index % 3 !=0) && ($index % 2 != 0)) || ($index == 0)">
+                        <td>
+                            {{interest.touristAttractions[$index]}}
+                        </td>
+                        <td>
+                            {{interest.touristAttractions[$index + 1]}}
+                        </td>
+                        <td>
+                            {{interest.touristAttractions[$index + 2]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <b>Transport:</b><br />
             <span ng-repeat="transport in interest.transports track by $index">
-                <img width="25" height="25" src={{getTransportIcon(transport)}} uib-tooltip="{{transport}}"/>
+                <img width="25" height="25" src={{getTransportIcon(transport)}} uib-tooltip="{{transport}}" />
             </span>
         </div>
     </div>
