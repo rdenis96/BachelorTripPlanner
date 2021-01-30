@@ -185,6 +185,13 @@ namespace BachelorTripPlanner.Controllers
             return Ok(result);
         }
 
+        [HttpPut("[action]")]
+        public IActionResult UpdateTripName([FromBody] UpdateTripNameModel trip)
+        {
+            var result = _tripsWorker.UpdateTripName(trip.TripId, trip.TripName);
+            return Ok(result);
+        }
+
         [HttpGet("[action]")]
         public IActionResult AddNewTripMember([ValidateUser] int adminId, int tripId, string newMemberEmail)
         {

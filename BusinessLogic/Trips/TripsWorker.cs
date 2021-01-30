@@ -128,6 +128,20 @@ namespace BusinessLogic.Trips
             return false;
         }
 
+        public Trip UpdateTripName(int tripId, string tripName)
+        {
+            var trip = _tripsRepository.GetById(tripId);
+            if (trip == null)
+            {
+                throw new Exception("The trip was not found!");
+            }
+
+            trip.Name = tripName;
+            trip = _tripsRepository.Update(trip);
+
+            return trip;
+        }
+
         public void LeaveTrip(int userId, int tripId)
         {
             var tripUser = _tripsUsersRepository.GetByUserIdAndTripId(userId, tripId);

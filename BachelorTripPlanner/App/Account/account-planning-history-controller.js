@@ -9,7 +9,6 @@
                 var getUserTripsPromise = accountRepository.getUserTrips({ userId: $scope.userId }).$promise;
                 getUserTripsPromise.then(function (result) {
                     $scope.trips = result;
-
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -28,11 +27,16 @@
                 }
                 else {
                     trip.editMode = !trip.editMode;
-                    //save changes
+                    var updateTripPromise = tripRepository.updateTripName({ tripId: trip.id, tripName: trip.name }).$promise;
+                    updateTripPromise.then(function (result) {
+                        toastr.success("Trip name was updated!");
+                    }).catch(function (result) {
+                        toastr.warning(result.data);
+                    });
                 }
             }
 
-            $scope.redirectToTrip = function (trip) { 
+            $scope.redirectToTrip = function (trip) {
                 if (trip.isDeleted === false) {
                     $window.location.href = '/trip/tripPlanner/' + trip.id;
                 }

@@ -60,6 +60,10 @@
                 getTrip: {
                     method: 'GET',
                     url: 'api/trip/getTrip'
+                },
+                updateTripName: {
+                    method: 'PUT',
+                    url: 'api/trip/updateTripName'
                 }
             });
     }
