@@ -33,7 +33,7 @@ namespace DataLayer.Trips
                     trip.IsDeleted = true;
 
                     var pendingInvitedUsers = context.TripUsers.Where(x => x.TripId == trip.Id && x.HasAcceptedInvitation == false);
-                    pendingInvitedUsers.ForEachAsync(x => x.IsDeleted = true);
+                    pendingInvitedUsers.ForEachAsync(x => x.IsDeleted = true).Wait();
 
                     context.SaveChanges();
                 }

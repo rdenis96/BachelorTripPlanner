@@ -56,7 +56,7 @@
                 $scope.getAvailableWeatherPromise = accountRepository.getAvailableWeather(queryParam).$promise;
                 $scope.getAvailableWeatherPromise.then(function (result) {
                     $scope.weatherList = result;
-                    $scope.userWeather = $scope.extractListFromString($scope.userInterest.weather);
+                    $scope.userWeather = $scope.userInterest.weather;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -73,7 +73,7 @@
                 $scope.getAvailableTransportPromise = accountRepository.getAvailableTransport(queryParam).$promise;
                 $scope.getAvailableTransportPromise.then(function (result) {
                     $scope.transportList = result;
-                    $scope.userTransport = $scope.extractListFromString($scope.userInterest.transports);
+                    $scope.userTransport = $scope.userInterest.transports;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });

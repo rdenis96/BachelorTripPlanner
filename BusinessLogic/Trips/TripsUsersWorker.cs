@@ -26,6 +26,7 @@ namespace BusinessLogic.Trips
                 var trip = _tripsRepository.GetById(tripUser.TripId.GetValueOrDefault());
                 if (trip != null)
                 {
+                    trip.IsDeleted = tripUser.IsDeleted;
                     trips.Add(trip);
                 }
             }

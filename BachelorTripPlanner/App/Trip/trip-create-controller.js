@@ -92,7 +92,7 @@
 
                 var queryParam = {
                     tripName: $scope.tripName,
-                    tripType: tripType == tripTypeEnum.Single ? 0 : 1
+                    tripType: tripType
                 };
                 if (tripType == tripTypeEnum.Group) {
                     angular.extend(queryParam, { invitedPeople: $scope.invitedPeople });

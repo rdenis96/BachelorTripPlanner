@@ -11,12 +11,12 @@ namespace Helpers
             if (list == null)
                 return string.Empty;
 
-            return string.Join(separator, list.ToArray());
+            return string.Join(separator, list);
         }
 
         public static List<string> ConvertStringToList(this string str, char separator)
         {
-            if (str == null || str == string.Empty)
+            if (string.IsNullOrWhiteSpace(str))
                 return new List<string>();
 
             return str.Split(separator).ToList();

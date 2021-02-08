@@ -837,7 +837,7 @@ globalModule.controller("AccountInterestsController",
                 $scope.getAvailableWeatherPromise = accountRepository.getAvailableWeather(queryParam).$promise;
                 $scope.getAvailableWeatherPromise.then(function (result) {
                     $scope.weatherList = result;
-                    $scope.userWeather = $scope.extractListFromString($scope.userInterest.weather);
+                    $scope.userWeather = $scope.userInterest.weather;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -854,7 +854,7 @@ globalModule.controller("AccountInterestsController",
                 $scope.getAvailableTransportPromise = accountRepository.getAvailableTransport(queryParam).$promise;
                 $scope.getAvailableTransportPromise.then(function (result) {
                     $scope.transportList = result;
-                    $scope.userTransport = $scope.extractListFromString($scope.userInterest.transports);
+                    $scope.userTransport = $scope.userInterest.transports;
                 }).catch(function (result) {
                     toastr.warning(result.data);
                 });
@@ -1257,7 +1257,7 @@ globalModule.controller("TripCreateController",
 
                 var queryParam = {
                     tripName: $scope.tripName,
-                    tripType: tripType == tripTypeEnum.Single ? 0 : 1
+                    tripType: tripType
                 };
                 if (tripType == tripTypeEnum.Group) {
                     angular.extend(queryParam, { invitedPeople: $scope.invitedPeople });

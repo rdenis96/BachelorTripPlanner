@@ -19,14 +19,14 @@
     </div>
     <div class="row align-center">
         <div class="col-md-1"></div>
-        <div ng-class="isGroupTrip ? 'col-md-4' : 'col-md-10'" class="panel-trip-planner panel-trip-extended" id="slideshow">
+        <div ng-class="isGroupTrip ? 'col-md-4 panel-trip-extended' : 'col-md-10 panel-trip-extended-single'" class="panel-trip-planner" id="slideshow">
             <div class="row home-section home-section-header panel-trip-planner-header">
                 <h4> Select your trip interests </h4>
             </div>
             <div style="padding-top:1%" class="row">
                 <div class="inner" cg-busy="getUserInterestPromise">
                     <div class="thumbnails">
-                        <div class="box box-trip-planner" ng-click="openCountryAndCityModal()">
+                        <div ng-class="isGroupTrip ? 'box box-trip-planner' : 'box'" ng-click="openCountryAndCityModal()">
                             <a href="#" class="image fit"><img src="../../Images/Account/pic-country-city.png" alt="" /></a>
                             <div class="inner">
                                 <h3>Countries and Cities</h3>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-                        <div class="box box-trip-planner" ng-click="openWeatherModal()">
+                        <div ng-class="isGroupTrip ? 'box box-trip-planner' : 'box'" ng-click="openWeatherModal()">
                             <a href="#" class="image fit"><img src="../../Images/Account/pic-weather.png" alt="" /></a>
                             <div class="inner">
                                 <h3>Weather</h3>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="thumbnails">
-                        <div class="box box-trip-planner" ng-click="openTouristAttractionsModal()">
+                        <div ng-class="isGroupTrip ? 'box box-trip-planner' : 'box'" ng-click="openTouristAttractionsModal()">
                             <a href="#" class="image fit"><img src="../../Images/Account/pic-tourist-attractions.png" alt="" /></a>
                             <div class="inner">
                                 <h3>Tourist Attractions</h3>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <div class="box box-trip-planner" ng-click="openTransportsModal()">
+                        <div ng-class="isGroupTrip ? 'box box-trip-planner' : 'box'" ng-click="openTransportsModal()">
                             <a href="#" class="image fit"><img src="../../Images/Account/pic-transports.jpg" alt="" /></a>
                             <div class="inner">
                                 <h3>Transports</h3>

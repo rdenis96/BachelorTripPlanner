@@ -1,5 +1,5 @@
 ﻿.panel-trip-planner {
-    height: 700px;
+    height: 850px;
     border: 1px solid var(--main-bg-color);
     background-color: var(--main-bg-color-hover);
 }
@@ -18,6 +18,10 @@
 
 .panel-trip-extended {
     height: 870px;
+}
+
+.panel-trip-extended-single{
+    height: 1000px;
 }
 
 .panel-trip-load-more {

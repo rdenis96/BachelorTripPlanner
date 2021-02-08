@@ -93,9 +93,9 @@ namespace BachelorTripPlanner.Controllers
             {
                 countries = userInterest.Countries.ConvertStringToList(','),
                 cities = userInterest.Cities.ConvertStringToList(','),
-                weather = userInterest.Weather,
+                weather = userInterest.Weather.ConvertStringToList(','),
                 touristAttractions = userInterest.TouristAttractions.ConvertStringToList('#'),
-                transports = userInterest.Transports
+                transports = userInterest.Transports.ConvertStringToList(',')
             };
             return Ok(userInterestView);
         }
