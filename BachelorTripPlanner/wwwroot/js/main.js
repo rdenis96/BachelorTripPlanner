@@ -1150,7 +1150,7 @@ globalModule.controller("FriendsModalController",
             $scope.submit = function () {
                 $scope.createFriendPromise = accountRepository.createFriend({ userId: $scope.userId, friendEmail: $scope.friendEmail }).$promise;
                 $scope.createFriendPromise.then(function () {
-                    toastr.success('Friend request was sent to' + $scope.friendEmail);
+                    toastr.success('Friend request was sent to ' + $scope.friendEmail);
                     $scope.friendEmail = "";
                 }).catch(function (result) {
                     toastr.warning(result.data);
